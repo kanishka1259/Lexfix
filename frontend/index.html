@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LexFix Demo</title>
+</head>
+<body>
+    <h2>Login</h2>
+
+    <input id="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="login()">Login</button>
+
+    <p id="loginStatus"></p>
+
+    <hr>
+
+    <h2>Analyze Text</h2>
+
+    <input id="text" placeholder="Enter text">
+    <button onclick="analyze()">Analyze</button>
+
+    <p id="result"></p>
+
+<script>
+let token = "";
+
+function login() {
+    fetch("http://127.0.0.1:5000/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            email: document.getElementById("email").value,
+            password: document.getElementById("password").value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        token = data.token;
+        document.getElementById("loginStatus").innerText = "Login successful";
+    });
+}
+
+function analyze() {
+    fetch("http://127.0.0.1:5000/analyze", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({
+            text: document.getElementById("text").value
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        document.getElementById("result").innerText = "Sentiment: " + data.sentiment;
+    });
+}
+</script>
+</body>
+</html>
