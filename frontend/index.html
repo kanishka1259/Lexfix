@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>LexFix | Login</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>LexFix</h1>
+    <p class="subtitle">Learning Support Platform</p>
+
+    <!-- Role Selector -->
+    <div class="roles">
+        <button class="active" onclick="setRole('student', this)">Student</button>
+        <button onclick="setRole('parent', this)">Parent</button>
+        <button onclick="setRole('teacher', this)">Teacher</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="active" onclick="showLogin(this)">Login</button>
+        <button onclick="showRegister(this)">Register</button>
+    </div>
+
+    <!-- Login Box -->
+    <div id="loginBox">
+        <input id="loginEmail" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="loginMsg"></p>
+    </div>
+
+    <!-- Register Box -->
+    <div id="registerBox" style="display:none;">
+        <input id="regEmail" placeholder="Email">
+        <input id="regPassword" type="password" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <p id="registerMsg"></p>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
