@@ -1,61 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>LexFix Demo</title>
+    <title>LexFix | Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h2>Login</h2>
 
-    <input id="email" placeholder="Email">
-    <input id="password" type="password" placeholder="Password">
-    <button onclick="login()">Login</button>
+<div class="container">
+    <h1>LexFix</h1>
+    <p class="subtitle">Learning Support Platform</p>
 
-    <p id="loginStatus"></p>
+    <!-- Role Selector -->
+    <div class="roles">
+        <button class="active" onclick="setRole('student', this)">Student</button>
+        <button onclick="setRole('parent', this)">Parent</button>
+        <button onclick="setRole('teacher', this)">Teacher</button>
+    </div>
 
-    <hr>
+    <!-- Tabs -->
+    <div class="tabs">
+        <button class="active" onclick="showLogin(this)">Login</button>
+        <button onclick="showRegister(this)">Register</button>
+    </div>
 
-    <h2>Analyze Text</h2>
+    <!-- Login Box -->
+    <div id="loginBox">
+        <input id="loginEmail" placeholder="Email">
+        <input id="loginPassword" type="password" placeholder="Password">
+        <button onclick="login()">Login</button>
+        <p id="loginMsg"></p>
+    </div>
 
-    <input id="text" placeholder="Enter text">
-    <button onclick="analyze()">Analyze</button>
+    <!-- Register Box -->
+    <div id="registerBox" style="display:none;">
+        <input id="regEmail" placeholder="Email">
+        <input id="regPassword" type="password" placeholder="Password">
+        <button onclick="register()">Register</button>
+        <p id="registerMsg"></p>
+    </div>
+</div>
 
-    <p id="result"></p>
-
-<script>
-let token = "";
-
-function login() {
-    fetch("http://127.0.0.1:5000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            email: document.getElementById("email").value,
-            password: document.getElementById("password").value
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        token = data.token;
-        document.getElementById("loginStatus").innerText = "Login successful";
-    });
-}
-
-function analyze() {
-    fetch("http://127.0.0.1:5000/analyze", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + token
-        },
-        body: JSON.stringify({
-            text: document.getElementById("text").value
-        })
-    })
-    .then(res => res.json())
-    .then(data => {
-        document.getElementById("result").innerText = "Sentiment: " + data.sentiment;
-    });
-}
-</script>
+<script src="script.js"></script>
 </body>
 </html>

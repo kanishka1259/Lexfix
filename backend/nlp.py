@@ -4,9 +4,9 @@ from sklearn.naive_bayes import MultinomialNB
 texts = [
     "this lesson is good",
     "very helpful",
-    "i love this",
+    "i love learning",
     "this is bad",
-    "boring content",
+    "boring topic",
     "i hate this"
 ]
 
@@ -26,5 +26,4 @@ model = MultinomialNB()
 model.fit(X, labels)
 
 def analyze_text(text):
-    vector = vectorizer.transform([text])
-    return model.predict(vector)[0]
+    return model.predict(vectorizer.transform([text]))[0]

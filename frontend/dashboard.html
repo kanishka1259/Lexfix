@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LexFix Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+    <h1>Dashboard</h1>
+    <p id="roleLabel"></p>
+
+    <!-- TEACHER PANEL -->
+    <div id="teacherPanel" class="panel">
+        <h2>Assign Task</h2>
+        <input id="taskTitle" placeholder="Task Title">
+        <input id="taskDesc" placeholder="Task Description">
+        <input id="studentEmail" placeholder="Student Email">
+        <button onclick="assignTask()">Assign</button>
+        <p id="teacherMsg"></p>
+    </div>
+
+    <!-- STUDENT PANEL -->
+    <div id="studentPanel" class="panel">
+        <h2>My Tasks</h2>
+        <button onclick="loadTasks()">Load Tasks</button>
+        <ul id="taskList"></ul>
+    </div>
+
+    <!-- PARENT PANEL -->
+    <div id="parentPanel" class="panel">
+        <h2>Child Performance</h2>
+        <input id="childEmail" placeholder="Child Email">
+        <button onclick="loadPerformance()">View</button>
+        <ul id="parentTasks"></ul>
+    </div>
+
+    <button onclick="logout()">Logout</button>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
