@@ -1,0 +1,63 @@
+.dashboard-container {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding-bottom: 40px;
+}
+
+.dashboard-header {
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 24px 0;
+    margin-bottom: 40px;
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-content h1 {
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin: 0;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: #718096;
+    margin-top: 4px;
+}
+
+.logout-btn {
+    padding: 8px 16px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    border-radius: 8px;
+    color: #4a5568;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: #edf2f7;
+    color: #2d3748;
+}
+
+.modules-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 24px;
+}
+
+@media (max-width: 640px) {
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+}

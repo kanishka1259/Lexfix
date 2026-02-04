@@ -1,0 +1,12 @@
+{
+  "name": "lexfix-root",
+  "version": "1.0.0",
+  "description": "Root script to run all Lexfix services",
+  "scripts": {
+    "dev": "concurrently \"npm start --prefix backend\" \"npm run dev --prefix frontend\" \"npm run dev --prefix adhd_learning_lexfix/backend\" \"npm run dev --prefix adhd_learning_lexfix/frontend\"",
+    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend && npm install --prefix adhd_learning_lexfix/backend && npm install --prefix adhd_learning_lexfix/frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
