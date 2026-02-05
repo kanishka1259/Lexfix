@@ -1,4 +1,4 @@
-/* Dashboards Common Styles moved from ADHD module */
+/* Dashboards Common Styles */
 .dashboard-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
@@ -347,4 +347,120 @@
         flex: 1;
         min-width: 300px;
     }
+}
+
+/* Student Dashboard Styles: Long List Layout */
+
+.dashboard-grid.single-column {
+    grid-template-columns: 1fr;
+    max-width: 1000px;
+}
+
+.tasks-grid {
+    display: flex;
+    /* Flex column for vertical stacked long layout */
+    flex-direction: column;
+    gap: 20px;
+    max-width: 100%;
+}
+
+.task-card {
+    background: white;
+    padding: 24px 32px;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: row;
+    /* Horizontal alignment */
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    width: 100%;
+}
+
+.task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+    border-color: var(--color-primary);
+}
+
+.task-icon {
+    font-size: 2rem;
+    background: #FAF5F4;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.task-content {
+    flex: 1;
+}
+
+.task-content h3 {
+    color: var(--color-secondary);
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.task-meta {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    font-size: 0.85rem;
+    margin-bottom: 6px;
+}
+
+.task-date {
+    color: var(--color-text-muted);
+}
+
+.task-desc {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.start-btn {
+    width: auto;
+    min-width: 140px;
+    padding: 14px 24px;
+    background-color: var(--color-primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-weight: 600;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.start-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+}
+
+.start-btn:disabled {
+    background-color: #E2E8F0;
+    color: #A0AEC0;
+    cursor: not-allowed;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--color-text-muted);
 }

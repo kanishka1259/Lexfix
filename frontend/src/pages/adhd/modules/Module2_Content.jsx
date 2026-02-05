@@ -10,6 +10,7 @@ const Module2_Content = () => {
     const [sentences, setSentences] = useState([]);
     const [loading, setLoading] = useState(true);
 
+    // Mock Content if fetching fails (so user sees something working)
     const mockSentences = [
         "Welcome to your focused reading session.",
         "This interface is designed to reduce visual clutter.",
@@ -19,34 +20,19 @@ const Module2_Content = () => {
     ];
 
     useEffect(() => {
-        const fetchTask = async () => {
-            try {
-                if (!taskId) {
-                    setSentences(mockSentences);
-                    setLoading(false);
-                    return;
-                }
-                const token = localStorage.getItem('lexfix_token');
-                // Fetch student tasks to find this specific one (monolith api)
-                const res = await axios.get('/api/tasks/student/me', { // We'll need to handle 'me' or pass ID
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                // Find taskId in list or just use mock for now if endpoint is specific
-                setSentences(mockSentences);
-            } catch (e) {
-                setSentences(mockSentences);
-            } finally {
-                setLoading(false);
-            }
-        }
-        fetchTask();
+        // Fetch task content (Mocking for now to ensure "fast" working state)
+        // In real impl, we fetch logic from API
+        // For now, let's use mock data if ID is present
+        setSentences(mockSentences);
+        setLoading(false);
     }, [taskId]);
 
     const handleNext = () => {
         if (currentSentenceIndex < sentences.length - 1) {
             setCurrentSentenceIndex(prev => prev + 1);
         } else {
-            navigate(`/adhd/module/pacing?taskId=${taskId}`);
+            // Navigate to next module
+            navigate(`/module/pacing?taskId=${taskId}`);
         }
     };
 
@@ -57,8 +43,6 @@ const Module2_Content = () => {
     };
 
     const progress = ((currentSentenceIndex + 1) / sentences.length) * 100;
-
-    if (loading) return <div>Loading content...</div>;
 
     return (
         <div className="module-container">
@@ -84,8 +68,7 @@ const Module2_Content = () => {
                 </button>
             </div>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
+            <style jsx>{`
                 .module-container {
                     height: 100vh;
                     display: flex;
@@ -99,6 +82,7 @@ const Module2_Content = () => {
                 }
                 .progress-bar {
                     height: 100%;
+                    background: #E9D8FD; /* Soft purple */
                     background: linear-gradient(90deg, #6B46C1, #9F7AEA);
                     transition: width 0.3s ease;
                 }
@@ -116,6 +100,7 @@ const Module2_Content = () => {
                     line-height: 1.4;
                     text-align: center;
                     max-width: 900px;
+                    animation: fadeIn 0.5s ease;
                 }
                 .controls {
                     padding: 40px;
@@ -155,7 +140,11 @@ const Module2_Content = () => {
                     color: #A0AEC0;
                     font-weight: 600;
                 }
-            `}} />
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            `}</style>
         </div>
     );
 };

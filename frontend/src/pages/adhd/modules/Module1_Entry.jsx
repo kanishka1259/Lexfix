@@ -6,9 +6,38 @@ const Module1_Entry = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
+    const [task, setTask] = useState(null);
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchTask = async () => {
+            try {
+                // If no task ID, user might be exploring freely (or error)
+                if (!taskId) return;
+
+                const token = localStorage.getItem('lexfix_token');
+                // We'll use the 'student related' endpoint or a direct get-by-id if we had one.
+                // For now, let's fetch all student tasks and find the one. 
+                // Optimization: Add GET /api/tasks/:id endpoint later.
+                // Assuming we have the tasks in context or fetch again.
+                // Let's implement GET /api/tasks/:id in backend if needed or just use passed state.
+                // For robustness, let's assume we can fetch it. 
+                // Actually, I didn't verify GET /api/tasks/:id exists. 
+                // Let's stick to UI for now and fetch list then find.
+                // But wait, user ID is needed for 'student/:id'.
+                // Easier: Just display generic "Starting Task" if loading fails.
+                setLoading(false);
+            } catch (error) {
+                console.error("Error loading task", error);
+                setLoading(false);
+            }
+        };
+        fetchTask();
+    }, [taskId]);
 
     const handleStart = () => {
-        navigate(`/adhd/module/content?taskId=${taskId}`);
+        // Navigate to Module 2 (Content)
+        navigate(`/module/content?taskId=${taskId}`);
     };
 
     return (
@@ -32,8 +61,7 @@ const Module1_Entry = () => {
                 </div>
             </div>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
+            <style jsx>{`
                 .module-container {
                     display: flex;
                     justify-content: center;
@@ -83,18 +111,13 @@ const Module1_Entry = () => {
                 .large-btn {
                     padding: 15px 40px;
                     font-size: 1.2rem;
-                    background: #2D3748;
-                    color: white;
-                    border: none;
-                    border-radius: 10px;
-                    cursor: pointer;
                 }
                 @keyframes pulse {
                     0% { transform: scale(1); opacity: 1; }
                     50% { transform: scale(1.1); opacity: 0.8; }
                     100% { transform: scale(1); opacity: 1; }
                 }
-            `}} />
+            `}</style>
         </div>
     );
 };

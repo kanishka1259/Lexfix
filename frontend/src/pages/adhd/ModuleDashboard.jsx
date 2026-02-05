@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '../../context/AppContext';
 import TeacherDashboard from './dashboards/TeacherDashboard';
 import StudentDashboard from './dashboards/StudentDashboard';
 import ParentDashboard from './dashboards/ParentDashboard';
@@ -9,8 +9,15 @@ import './dashboards/Dashboards.css';
 
 const ModuleDashboard = () => {
     const navigate = useNavigate();
-    const { user, loading, logout } = useAuth();
-    const [error, setError] = useState('');
+    const { user, logout } = useAppContext();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // user is loaded from AppContext
+        if (user !== undefined) {
+            setLoading(false);
+        }
+    }, [user]);
 
     const modules = [
         { id: 1, title: "1. Session Entry", route: "/adhd/module/entry" },
@@ -26,22 +33,26 @@ const ModuleDashboard = () => {
 
     if (loading) return <div className="loading-screen">Loading ADHD Hub...</div>;
 
-    if (error) return (
-        <div className="error-screen">
-            <h3>{error}</h3>
-            <button onClick={() => navigate('/')} className="primary-btn">Back to Home</button>
-        </div>
-    );
+    if (!user) {
+        return (
+            <div className="error-screen">
+                <h3>Please log in to access the ADHD Hub.</h3>
+                <button onClick={() => navigate('/')} className="primary-btn">Go to Login</button>
+            </div>
+        );
+    }
 
     const renderDashboard = () => {
-        if (!user) return null;
-        const role = user.role.toLowerCase();
+        // Robust role detection
+        const role = user.role ? user.role.toLowerCase() : (user.userType ? user.userType.toLowerCase() : 'student');
+        console.log("ModuleDashboard Detected Role:", role);
 
         switch (role) {
             case 'teacher': return <TeacherDashboard user={user} />;
             case 'parent': return <ParentDashboard user={user} />;
             case 'student': return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
-            default: return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
+            default:
+                return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
         }
     };
 
@@ -51,11 +62,11 @@ const ModuleDashboard = () => {
                 <div className="header-content">
                     <div>
                         <h1>ADHD Learning Hub</h1>
-                        <p className="subtitle">Welcome back, {user?.name}</p>
+                        <p className="subtitle">Welcome back, {user?.name || user?.username}</p>
                     </div>
                     <div className="header-actions">
-                        <span className="role-badge">{user?.role} Mode</span>
-                        <button onClick={() => navigate('/hub')} className="logout-btn">
+                        <span className="role-badge">{(user?.role || user?.userType || 'Student')} Mode</span>
+                        <button onClick={() => navigate('/dashboard')} className="logout-btn">
                             Exit Module
                         </button>
                     </div>

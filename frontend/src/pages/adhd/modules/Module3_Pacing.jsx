@@ -5,23 +5,25 @@ const Module3_Pacing = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
-    const [timeLeft, setTimeLeft] = useState(60);
+    const [timeLeft, setTimeLeft] = useState(60); // 1 minute break/pacing logic
     const [isActive, setIsActive] = useState(true);
 
     useEffect(() => {
         let interval = null;
         if (isActive && timeLeft > 0) {
             interval = setInterval(() => {
-                setTimeLeft(prev => prev - 1);
+                setTimeLeft(timeLeft => timeLeft - 1);
             }, 1000);
         } else if (timeLeft === 0) {
             clearInterval(interval);
+            // Timer finished
         }
         return () => clearInterval(interval);
     }, [isActive, timeLeft]);
 
     const handleContinue = () => {
-        navigate(`/adhd/module/progress?taskId=${taskId}`);
+        // Go to Progress module
+        navigate(`/module/progress?taskId=${taskId}`);
     };
 
     const formatTime = (seconds) => {
@@ -51,8 +53,7 @@ const Module3_Pacing = () => {
                 </div>
             </div>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
+            <style jsx>{`
                 .module-container {
                     display: flex;
                     justify-content: center;
@@ -68,6 +69,7 @@ const Module3_Pacing = () => {
                     box-shadow: 0 10px 30px rgba(0,0,0,0.1);
                     width: 90%;
                     max-width: 500px;
+                    animation: float 3s ease-in-out infinite;
                 }
                 .icon {
                     font-size: 4rem;
@@ -103,7 +105,12 @@ const Module3_Pacing = () => {
                     font-weight: 600;
                     cursor: pointer;
                 }
-            `}} />
+                @keyframes float {
+                    0% { transform: translateY(0px); }
+                    50% { transform: translateY(-10px); }
+                    100% { transform: translateY(0px); }
+                }
+            `}</style>
         </div>
     );
 };

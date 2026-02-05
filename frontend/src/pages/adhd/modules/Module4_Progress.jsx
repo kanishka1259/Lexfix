@@ -1,18 +1,27 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import axios from 'axios';
 
 const Module4_Progress = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
-    const [stats] = useState({
+    const [stats, setStats] = useState({
         focusScore: 85,
         readingSpeed: 'Normal',
         assertions: ['Good Focus', 'Steady Pace']
     });
 
-    const handleFinish = () => {
-        navigate(`/adhd/module/completion?taskId=${taskId}`);
+    const handleFinish = async () => {
+        try {
+            // Here we would confirm task completion with backend
+            // const token = localStorage.getItem('lexfix_token');
+            // await axios.post('/api/progress/update', ...);
+
+            navigate(`/module/completion?taskId=${taskId}`);
+        } catch (error) {
+            console.error("Error saving progress", error);
+        }
     };
 
     return (
@@ -45,8 +54,7 @@ const Module4_Progress = () => {
                 </button>
             </div>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
+            <style jsx>{`
                 .module-container {
                     display: flex;
                     justify-content: center;
@@ -95,7 +103,7 @@ const Module4_Progress = () => {
                     cursor: pointer;
                 }
                 .primary-btn:hover { background: #2F855A; }
-            `}} />
+            `}</style>
         </div>
     );
 };

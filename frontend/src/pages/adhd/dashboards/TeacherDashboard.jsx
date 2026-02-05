@@ -10,19 +10,24 @@ const TeacherDashboard = ({ user }) => {
     const [loading, setLoading] = useState(true);
     const [recentTasks, setRecentTasks] = useState([]);
 
+    // Fetch students on component mount
     useEffect(() => {
         const fetchStudents = async () => {
             try {
                 const token = localStorage.getItem('lexfix_token');
+                console.log("Token available:", !!token); // Debug
+
                 if (!token) {
                     setMessage("Authentication token missing. Please login again.");
                     setLoading(false);
                     return;
                 }
 
-                const response = await axios.get('/api/auth/students', {
+                console.log("Fetching students from http://localhost:5000/api/auth/students");
+                const response = await axios.get('http://localhost:5000/api/auth/students', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
+                console.log("Students fetched:", response.data);
 
                 if (response.data.success) {
                     setStudents(response.data.data);
@@ -31,29 +36,15 @@ const TeacherDashboard = ({ user }) => {
                 }
             } catch (error) {
                 console.error("Failed to fetch students:", error);
-                setMessage(`Error loading student list: ${error.response?.data?.message || error.message}`);
+                const errorMsg = error.response?.data?.message || error.message;
+                setMessage(`Error loading student list: ${errorMsg}`);
             } finally {
                 setLoading(false);
             }
         };
 
-        const fetchRecentTasks = async () => {
-            try {
-                const token = localStorage.getItem('lexfix_token');
-                const response = await axios.get(`/api/tasks/teacher/${user.id || user._id}`, {
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                if (response.data.success) {
-                    setRecentTasks(response.data.data);
-                }
-            } catch (e) {
-                console.error("Error fetching tasks", e);
-            }
-        }
-
         fetchStudents();
-        fetchRecentTasks();
-    }, [user.id, user._id]);
+    }, []);
 
     const handleCheckboxChange = (studentId) => {
         setSelectedStudents(prev => {
@@ -77,11 +68,14 @@ const TeacherDashboard = ({ user }) => {
         try {
             const token = localStorage.getItem('lexfix_token');
 
+            // Loop through selected students and create tasks for each
+            // Note: In production, backend should handle bulk assignment
             const assignmentPromises = selectedStudents.map(studentId =>
-                axios.post('/api/tasks/create', {
+                axios.post('http://localhost:5001/api/tasks/create', {
                     title: taskTitle,
-                    content: taskContent.split('.').filter(s => s.trim().length > 0),
-                    studentId: studentId
+                    content: taskContent.split('.').filter(s => s.trim().length > 0), // Split into sentences
+                    studentId: studentId, // Send ID instead of email
+                    assignedBy: user._id
                 }, {
                     headers: { Authorization: `Bearer ${token}` }
                 })
@@ -93,13 +87,6 @@ const TeacherDashboard = ({ user }) => {
             setTaskTitle('');
             setTaskContent('');
             setSelectedStudents([]);
-
-            // Refresh recent tasks
-            const response = await axios.get(`/api/tasks/teacher/${user.id || user._id}`, {
-                headers: { Authorization: `Bearer ${token}` }
-            });
-            if (response.data.success) setRecentTasks(response.data.data);
-
         } catch (error) {
             console.error("Assignment error:", error);
             setMessage('Failed to assign task. ' + (error.response?.data?.message || 'Server error'));
@@ -114,6 +101,7 @@ const TeacherDashboard = ({ user }) => {
             </div>
 
             <div className="dashboard-grid">
+                {/* Left Column: Create Task */}
                 <div className="task-creation-card">
                     <div className="card-header">
                         <div className="icon-wrapper">📝</div>
@@ -190,6 +178,7 @@ const TeacherDashboard = ({ user }) => {
                     </form>
                 </div>
 
+                {/* Right Column: Recent Activity & Quick Stats */}
                 <div className="dashboard-sidebar">
                     <div className="sidebar-card stats-summary">
                         <h3>Classroom Overview</h3>
@@ -224,6 +213,7 @@ const TeacherDashboard = ({ user }) => {
                                 <p className="text-muted" style={{ fontSize: '0.9rem', color: '#888' }}>No tasks assigned yet.</p>
                             )}
                         </div>
+                        {recentTasks.length > 0 && <button className="view-all-btn">View All History</button>}
                     </div>
                 </div>
             </div>
