@@ -7,7 +7,7 @@ import Task from "../models/Task.js";
 export const startSession = async (req, res) => {
     try {
         const { taskId } = req.body;
-        const userId = req.user.id || req.user._id;
+        const userId = req.user._id || req.user.id;
 
         // Find the task
         const task = await Task.findById(taskId);
@@ -183,7 +183,7 @@ export const getProgress = async (req, res) => {
 // @access  Private
 export const getActiveSession = async (req, res) => {
     try {
-        const userId = req.user.id || req.user._id;
+        const userId = req.user._id || req.user.id;
 
         const session = await ADHDSession.findOne({
             userId,

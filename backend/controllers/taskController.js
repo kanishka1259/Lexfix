@@ -12,19 +12,25 @@ export const createTask = async (req, res) => {
             return res.status(403).json({ message: "Only teachers can create tasks" });
         }
 
-        const { title, content, studentId } = req.body;
+        let { title, content, studentId } = req.body;
+        const attachmentUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
         if (!title || !content || !studentId) {
             return res.status(400).json({ message: "Please provide title, content and student ID" });
         }
 
+        // Multer might parse 'content' as a single string if only one item is sent
+        const contentArray = Array.isArray(content) ? content : [content];
+
+        // Handle one-to-one assignment
         const newTask = await Task.create({
             title,
             description: "Teacher Assigned Task",
-            content: content,
+            content: contentArray,
             moduleType: 'Module2_ContentPresentation',
             assignedTo: [studentId],
-            createdBy: user.id || user._id,
+            createdBy: user._id || user.id,
+            attachmentUrl: attachmentUrl,
             status: 'Published',
             difficulty: 'Medium',
             estimatedTime: 15
@@ -45,16 +51,26 @@ export const getTasksByStudent = async (req, res) => {
         const studentId = req.params.studentId;
         const user = req.user;
         const role = user.role.toLowerCase();
-        const userId = (user.id || user._id).toString();
+        const userId = (user._id || user.id).toString();
 
+        // Student can only view their own tasks
         if (role === 'student' && userId !== studentId) {
             return res.status(403).json({ message: "Not authorized to view other students' tasks" });
         }
 
+        // Parent can only view their children's tasks
         if (role === 'parent') {
-            // Relation check can be added here if children array is populated in req.user
+            const isChild = user.children && user.children.some(child => {
+                const childId = (child._id || child).toString();
+                return childId === studentId;
+            });
+
+            if (!isChild && userId !== studentId) {
+                return res.status(403).json({ message: "Not authorized to view this student's tasks" });
+            }
         }
 
+        // Find tasks where the student ID is in the assignedTo array
         const tasks = await Task.find({ assignedTo: studentId }).sort({ createdAt: -1 });
 
         res.status(200).json({
@@ -68,11 +84,15 @@ export const getTasksByStudent = async (req, res) => {
     }
 };
 
+// @desc    Get tasks created by a teacher
+// @route   GET /api/tasks/teacher/:teacherId
+// @access  Private
 export const getTasksByTeacher = async (req, res) => {
     try {
+        // Fetch last 5 tasks created by this teacher
         const tasks = await Task.find({ createdBy: req.params.teacherId })
             .sort({ createdAt: -1 })
-            .limit(10);
+            .limit(5);
 
         res.status(200).json({
             success: true,

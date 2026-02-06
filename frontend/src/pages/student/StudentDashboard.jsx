@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 
 const StudentDashboard = () => {
     const { disability } = useParams();
-    const { logout } = useAuth();
+    const { logout } = useAppContext();
     const navigate = useNavigate();
 
     useEffect(() => {

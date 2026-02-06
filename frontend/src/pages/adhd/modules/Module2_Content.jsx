@@ -6,156 +6,124 @@ const Module2_Content = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
-    const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [sentences, setSentences] = useState([]);
     const [loading, setLoading] = useState(true);
 
     const mockSentences = [
         "Welcome to your focused reading session.",
-        "This interface is designed to reduce visual clutter.",
-        "You will read one sentence at a time.",
-        "Take a deep breath and focus on the words.",
-        "You are doing great, keep going!"
+        "We view one sentence at a time in a large, readable format.",
+        "I see the active sentence clearly highlighted.",
+        "I move through the lesson in a linear flow without skipping.",
+        "This helps avoid information overload and keeps me focused."
     ];
 
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                if (!taskId) {
-                    setSentences(mockSentences);
-                    setLoading(false);
-                    return;
-                }
                 const token = localStorage.getItem('lexfix_token');
-                // Fetch student tasks to find this specific one (monolith api)
-                const res = await axios.get('/api/tasks/student/me', { // We'll need to handle 'me' or pass ID
-                    headers: { Authorization: `Bearer ${token}` }
-                });
-                // Find taskId in list or just use mock for now if endpoint is specific
-                setSentences(mockSentences);
-            } catch (e) {
+                if (taskId) {
+                    const response = await axios.get(`http://localhost:5001/api/tasks/detail/${taskId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    if (response.data.success && response.data.data.content) {
+                        setSentences(response.data.data.content);
+                    } else {
+                        setSentences(mockSentences);
+                    }
+                } else {
+                    setSentences(mockSentences);
+                }
+            } catch (error) {
+                console.error("Error loading sentences:", error);
                 setSentences(mockSentences);
             } finally {
                 setLoading(false);
             }
-        }
+        };
         fetchTask();
     }, [taskId]);
 
     const handleNext = () => {
-        if (currentSentenceIndex < sentences.length - 1) {
-            setCurrentSentenceIndex(prev => prev + 1);
+        if (currentIndex < sentences.length - 1) {
+            setCurrentIndex(prev => prev + 1);
         } else {
             navigate(`/adhd/module/pacing?taskId=${taskId}`);
         }
     };
 
-    const handlePrev = () => {
-        if (currentSentenceIndex > 0) {
-            setCurrentSentenceIndex(prev => prev - 1);
-        }
-    };
+    const progress = ((currentIndex + 1) / sentences.length) * 100;
 
-    const progress = ((currentSentenceIndex + 1) / sentences.length) * 100;
-
-    if (loading) return <div>Loading content...</div>;
+    if (loading) return <div className="loading">Preparing sentences...</div>;
 
     return (
-        <div className="module-container">
-            <div className="progress-bar-container">
-                <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+        <div className="module-container font-dyslexic study-2">
+            <div className="top-progress">
+                <div className="fill" style={{ width: `${progress}%` }}></div>
             </div>
 
-            <div className="content-area">
-                <div className="sentence-display">
-                    {sentences[currentSentenceIndex]}
+            <main className="focus-viewer">
+                <div className="sentence-card animate-pop">
+                    <p className="active-sentence text-shadow">{sentences[currentIndex]}</p>
                 </div>
-            </div>
+            </main>
 
-            <div className="controls">
-                <button className="nav-btn prev" onClick={handlePrev} disabled={currentSentenceIndex === 0}>
-                    ← Previous
+            <footer className="footer-nav">
+                <div className="counter">Step {currentIndex + 1} of {sentences.length}</div>
+                <button className="primary-btn next-action" onClick={handleNext}>
+                    {currentIndex === sentences.length - 1 ? 'Start Timer Study →' : 'Next Sentence →'}
                 </button>
-                <div className="counter">
-                    {currentSentenceIndex + 1} / {sentences.length}
-                </div>
-                <button className="nav-btn next" onClick={handleNext}>
-                    {currentSentenceIndex === sentences.length - 1 ? 'Finish Section' : 'Next Sentence →'}
-                </button>
-            </div>
+            </footer>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                .module-container {
+            <style jsx>{`
+                .study-2 {
                     height: 100vh;
+                    background: #FAF7F2;
                     display: flex;
                     flex-direction: column;
-                    background: #FAF5F4;
                 }
-                .progress-bar-container {
-                    height: 8px;
-                    background: #E2E8F0;
-                    width: 100%;
-                }
-                .progress-bar {
-                    height: 100%;
-                    background: linear-gradient(90deg, #6B46C1, #9F7AEA);
-                    transition: width 0.3s ease;
-                }
-                .content-area {
+                .top-progress { height: 10px; background: #E2E8F0; width: 100%; }
+                .fill { height: 100%; background: #F59E0B; transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+                
+                .focus-viewer {
                     flex: 1;
                     display: flex;
                     justify-content: center;
                     align-items: center;
-                    padding: 40px;
+                    padding: 2rem;
                 }
-                .sentence-display {
-                    font-size: 2.5rem;
-                    font-weight: 500;
-                    color: #2D3748;
-                    line-height: 1.4;
-                    text-align: center;
-                    max-width: 900px;
-                }
-                .controls {
-                    padding: 40px;
+                .sentence-card {
                     background: white;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+                    padding: 5rem;
+                    border-radius: 3rem;
+                    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.05);
+                    max-width: 1000px;
+                    width: 100%;
+                    text-align: center;
+                    border: 1px solid #FEF3C7;
                 }
-                .nav-btn {
-                    padding: 15px 30px;
-                    border: none;
-                    background: #EDF2F7;
-                    color: #4A5568;
-                    font-size: 1.1rem;
-                    border-radius: 10px;
-                    cursor: pointer;
-                    transition: all 0.2s;
-                }
-                .nav-btn:hover:not(:disabled) {
-                    background: #E2E8F0;
-                    transform: translateY(-2px);
-                }
-                .nav-btn.next {
-                    background: #2D3748;
-                    color: white;
-                }
-                .nav-btn.next:hover {
-                    background: #1A202C;
-                }
-                .nav-btn:disabled {
-                    opacity: 0.5;
-                    cursor: not-allowed;
-                }
-                .counter {
-                    font-size: 1.2rem;
-                    color: #A0AEC0;
+                .active-sentence {
+                    font-size: 3.5rem;
+                    line-height: 1.3;
+                    color: #1A202C;
                     font-weight: 600;
                 }
-            `}} />
+                .footer-nav {
+                    padding: 4rem;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    background: rgba(255,255,255,0.5);
+                }
+                .counter { margin-bottom: 1.5rem; color: #718096; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; }
+                .next-action { padding: 1.5rem 4rem; font-size: 1.4rem; border-radius: 1rem; }
+                
+                @keyframes pop {
+                    from { opacity: 0; transform: scale(0.95) translateY(20px); }
+                    to { opacity: 1; transform: scale(1) translateY(0); }
+                }
+                .animate-pop { animation: pop 0.6s ease-out; }
+            `}</style>
         </div>
     );
 };

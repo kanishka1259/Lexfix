@@ -1,0 +1,102 @@
+/* pages/teacher/TeacherHub.css */
+.teacher-hub {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+}
+
+.hub-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 50px;
+}
+
+.hub-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.hub-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.disabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.disability-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 3px solid transparent;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.disability-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+    font-size: 4rem;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    transition: transform 0.3s ease;
+}
+
+.disability-card:hover .card-icon {
+    transform: rotate(10deg) scale(1.1);
+}
+
+.disability-card h3 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    color: #2d3748;
+}
+
+.disability-card p {
+    color: #718096;
+    margin-bottom: 20px;
+    font-size: 0.95rem;
+}
+
+.manage-btn {
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.manage-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+    .hub-header h1 {
+        font-size: 2rem;
+    }
+
+    .disabilities-grid {
+        grid-template-columns: 1fr;
+    }
+}

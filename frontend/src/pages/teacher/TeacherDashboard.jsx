@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 import '../Hub.css';
 
 const TeacherDashboard = () => {
     const navigate = useNavigate();
-    const { token, logout } = useAuth();
+    const { logout } = useAppContext();
 
     const handleEpicClick = (epic) => {
         if (epic.id === 'adhd') {

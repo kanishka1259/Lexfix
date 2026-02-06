@@ -76,10 +76,20 @@ const Hub = () => {
 
     return (
         <div className="hub-container">
-            <header className="hub-header">
+            <header className="hub-navbar">
+                <div className="navbar-content">
+                    <img src="/LexFix-Logo.png" alt="LexFix Logo" className="logo" onClick={() => navigate('/dashboard')} />
+                    <button className="logout-btn" onClick={() => {
+                        localStorage.removeItem('lexfix_token');
+                        navigate('/');
+                    }}>Sign Out</button>
+                </div>
+            </header>
+
+            <div className="hub-hero">
                 <h1>Welcome to LexFix</h1>
                 <p>Select your personalized learning path</p>
-            </header>
+            </div>
 
             <div className="epics-grid">
                 {epics.map(epic => (

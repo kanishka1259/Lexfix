@@ -1,3 +1,4 @@
+// models/Task.js
 import mongoose from "mongoose";
 
 const taskSchema = new mongoose.Schema({
@@ -41,6 +42,10 @@ const taskSchema = new mongoose.Schema({
         type: String,
         enum: ['Draft', 'Published'],
         default: 'Draft'
+    },
+    attachmentUrl: {
+        type: String,
+        default: null
     }
 }, {
     timestamps: true

@@ -1,0 +1,169 @@
+/* pages/student/LineByLineReader.css */
+.line-reader {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.reader-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.reader-header h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+.progress-bar {
+    width: 100%;
+    max-width: 600px;
+    height: 12px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 20px;
+    margin: 0 auto 15px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #48bb78, #38a169);
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.progress-text {
+    font-size: 1.1rem;
+    opacity: 0.9;
+}
+
+.reader-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    max-width: 900px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.sentence-display {
+    background: white;
+    border-radius: 20px;
+    padding: 60px 40px;
+    margin-bottom: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.current-sentence {
+    font-size: 2rem;
+    line-height: 1.8;
+    color: #2d3748;
+    text-align: center;
+    font-weight: 500;
+}
+
+.reader-controls {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.control-btn {
+    padding: 18px 40px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.listen-btn {
+    background: linear-gradient(135deg, #4299e1, #3182ce);
+    color: white;
+}
+
+.listen-btn:hover:not(:disabled) {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(66, 153, 225, 0.4);
+}
+
+.listen-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.next-btn {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+}
+
+.next-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(72, 187, 120, 0.4);
+}
+
+.break-btn {
+    background: linear-gradient(135deg, #f6ad55, #ed8936);
+    color: white;
+}
+
+.break-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px rgba(246, 173, 85, 0.4);
+}
+
+.stats {
+    text-align: center;
+    color: white;
+    font-size: 1.1rem;
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+}
+
+.stats span {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 10px 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+}
+
+.loading-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    color: white;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+@media (max-width: 768px) {
+    .current-sentence {
+        font-size: 1.5rem;
+    }
+
+    .reader-controls {
+        flex-direction: column;
+    }
+
+    .control-btn {
+        width: 100%;
+    }
+
+    .stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

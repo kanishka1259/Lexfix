@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 import TeacherDashboard from './dashboards/TeacherDashboard';
 import StudentDashboard from './dashboards/StudentDashboard';
 import ParentDashboard from './dashboards/ParentDashboard';
@@ -9,15 +9,22 @@ import './dashboards/Dashboards.css';
 
 const ModuleDashboard = () => {
     const navigate = useNavigate();
-    const { user, loading, logout } = useAuth();
-    const [error, setError] = useState('');
+    const { user, logout } = useAppContext();
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        // user is loaded from AppContext
+        if (user !== undefined) {
+            setLoading(false);
+        }
+    }, [user]);
 
     const modules = [
-        { id: 1, title: "1. Session Entry", route: "/adhd/module/entry" },
-        { id: 2, title: "2. Content Presentation", route: "/adhd/module/content" },
-        { id: 3, title: "3. Timer & Pacing", route: "/adhd/module/pacing" },
-        { id: 4, title: "4. Progress Tracking", route: "/adhd/module/progress" },
-        { id: 5, title: "5. Completion Review", route: "/adhd/module/completion" }
+        { id: 1, title: "Study 1: Session Entry & Setup", route: "/adhd/module/entry" },
+        { id: 2, title: "Study 2: Single-Task Content Presentation", route: "/adhd/module/content" },
+        { id: 3, title: "Study 3: Timer & Pacing", route: "/adhd/module/pacing" },
+        { id: 4, title: "Study 4: Progress Tracking & Feedback", route: "/adhd/module/progress" },
+        { id: 5, title: "Study 5: Lesson Completion & Review", route: "/adhd/module/completion" }
     ];
 
     const handleModuleClick = (route) => {
@@ -26,22 +33,26 @@ const ModuleDashboard = () => {
 
     if (loading) return <div className="loading-screen">Loading ADHD Hub...</div>;
 
-    if (error) return (
-        <div className="error-screen">
-            <h3>{error}</h3>
-            <button onClick={() => navigate('/')} className="primary-btn">Back to Home</button>
-        </div>
-    );
+    if (!user) {
+        return (
+            <div className="error-screen">
+                <h3>Please log in to access the ADHD Hub.</h3>
+                <button onClick={() => navigate('/')} className="primary-btn">Go to Login</button>
+            </div>
+        );
+    }
 
     const renderDashboard = () => {
-        if (!user) return null;
-        const role = user.role.toLowerCase();
+        // Robust role detection
+        const role = user.role ? user.role.toLowerCase() : (user.userType ? user.userType.toLowerCase() : 'student');
+        console.log("ModuleDashboard Detected Role:", role);
 
         switch (role) {
             case 'teacher': return <TeacherDashboard user={user} />;
             case 'parent': return <ParentDashboard user={user} />;
             case 'student': return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
-            default: return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
+            default:
+                return <StudentDashboard user={user} modules={modules} handleModuleClick={handleModuleClick} />;
         }
     };
 
@@ -49,13 +60,16 @@ const ModuleDashboard = () => {
         <div className="dashboard-container">
             <header className="dashboard-header">
                 <div className="header-content">
-                    <div>
-                        <h1>ADHD Learning Hub</h1>
-                        <p className="subtitle">Welcome back, {user?.name}</p>
+                    <div className="navbar-brand">
+                        <img src="/LexFix-Logo.png" alt="LexFix Logo" className="logo" onClick={() => navigate('/dashboard')} />
                     </div>
-                    <div className="header-actions">
-                        <span className="role-badge">{user?.role} Mode</span>
-                        <button onClick={() => navigate('/hub')} className="logout-btn">
+
+                    <div className="navbar-actions">
+                        <div className="user-context">
+                            <span className="welcome-text">Welcome back, <strong>{user?.name || user?.username}</strong></span>
+                            <span className="role-badge">{(user?.role || user?.userType || 'Student')} Mode</span>
+                        </div>
+                        <button onClick={() => navigate('/dashboard')} className="exit-btn">
                             Exit Module
                         </button>
                     </div>

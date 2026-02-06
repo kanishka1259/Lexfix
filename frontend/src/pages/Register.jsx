@@ -1,240 +1,194 @@
+// pages/Register.jsx
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './Register.css';
+import '../styles/auth.css';
 
-const Register = () => {
-    const navigate = useNavigate();
-    const { register } = useAuth();
-
-    // Step 1: Role Selection, Step 2: Details
-    const [step, setStep] = useState(1);
-
+export default function Register() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        role: '',
+        role: 'student',
         parentEmail: '',
-        childEmail: '',
-        disability: ''
+        disability: 'adhd'
     });
     const [error, setError] = useState('');
-    const [loading, setLoading] = useState(false);
-
-    const handleRoleSelect = (role) => {
-        setFormData({ ...formData, role });
-        setStep(2);
-    };
+    const [isLoading, setIsLoading] = useState(false);
+    const { register } = useAuth();
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
-        setError('');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
         setError('');
+        setIsLoading(true);
 
-        if (formData.password !== formData.confirmPassword) {
-            setError('Passwords do not match');
-            setLoading(false);
-            return;
+        const result = await register(formData);
+
+        if (!result.success) {
+            setError(result.error);
+            setIsLoading(false);
         }
-
-        if (formData.role === 'student' && !formData.disability) {
-            setError('Please select a learning issue');
-            setLoading(false);
-            return;
-        }
-
-        const { confirmPassword, ...registerData } = formData;
-        const result = await register(registerData);
-
-        if (result.success) {
-            // After registration, navigate to login so they can auto-redirect
-            navigate('/');
-        } else {
-            setError(result.message);
-        }
-
-        setLoading(false);
     };
 
     return (
-        <div className="register-container">
-            <div className={`register-card ${step === 1 ? 'wide-card' : ''}`}>
-                <div className="register-header">
-                    <h1>Create Your Account</h1>
-                    <p>Join Lexfix's inclusive learning community</p>
+        <div className="auth-container">
+            <div className="auth-card">
+                <div className="auth-header">
+                    <h1>🎓 Create Account</h1>
+                    <p>Join our learning community</p>
                 </div>
 
-                {step === 1 ? (
-                    <div className="role-selection-step">
-                        <img
-                            src="/assets/roles.png"
-                            alt="Learning Community"
-                            className="roles-banner"
-                        />
-                        <h2 className="step-title">I am a...</h2>
-                        <div className="role-cards">
-                            <button
-                                className="role-card"
-                                onClick={() => handleRoleSelect('student')}
-                            >
-                                <div className="role-icon">🎓</div>
-                                <h3>Student</h3>
-                                <p>I want to learn with focus.</p>
-                            </button>
-                            <button
-                                className="role-card"
-                                onClick={() => handleRoleSelect('teacher')}
-                            >
-                                <div className="role-icon">👩‍🏫</div>
-                                <h3>Teacher</h3>
-                                <p>I want to track student progress.</p>
-                            </button>
-                            <button
-                                className="role-card"
-                                onClick={() => handleRoleSelect('parent')}
-                            >
-                                <div className="role-icon">👨‍👩‍👧‍👦</div>
-                                <h3>Parent</h3>
-                                <p>I want to support my child.</p>
-                            </button>
-                        </div>
-                        <div className="register-footer">
-                            <p>Already have an account? <Link to="/">Sign in here</Link></p>
+                {error && <div className="error-message">{error}</div>}
+
+                <form onSubmit={handleSubmit} className="auth-form">
+                    <div className="form-group">
+                        <label>I am a...</label>
+                        <div className="role-selector">
+                            <div className="role-option">
+                                <input
+                                    type="radio"
+                                    id="student"
+                                    name="role"
+                                    value="student"
+                                    checked={formData.role === 'student'}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="student" className="role-label">
+                                    <span className="role-icon">👨‍🎓</span>
+                                    <span className="role-name">Student</span>
+                                </label>
+                            </div>
+
+                            <div className="role-option">
+                                <input
+                                    type="radio"
+                                    id="teacher"
+                                    name="role"
+                                    value="teacher"
+                                    checked={formData.role === 'teacher'}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="teacher" className="role-label">
+                                    <span className="role-icon">👨‍🏫</span>
+                                    <span className="role-name">Teacher</span>
+                                </label>
+                            </div>
+
+                            <div className="role-option">
+                                <input
+                                    type="radio"
+                                    id="parent"
+                                    name="role"
+                                    value="parent"
+                                    checked={formData.role === 'parent'}
+                                    onChange={handleChange}
+                                />
+                                <label htmlFor="parent" className="role-label">
+                                    <span className="role-icon">👨‍👩‍👧</span>
+                                    <span className="role-name">Parent</span>
+                                </label>
+                            </div>
                         </div>
                     </div>
-                ) : (
-                    <form onSubmit={handleSubmit} className="register-form">
-                        <button
-                            type="button"
-                            className="back-btn"
-                            onClick={() => setStep(1)}
-                        >
-                            ← Back to Role Selection
-                        </button>
 
-                        <div className="selected-role-badge">
-                            Signing up as: <strong>{formData.role}</strong>
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="name">Full Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="form-input"
+                            placeholder="Enter your full name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                        {error && (
-                            <div className="error-message">
-                                <span>⚠️</span> {error}
-                            </div>
-                        )}
+                    <div className="form-group">
+                        <label htmlFor="email">Email Address</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            className="form-input"
+                            placeholder="Enter your email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
 
-                        <div className="form-group">
-                            <label htmlFor="name">Full Name</label>
-                            <input
-                                type="text"
-                                id="name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                placeholder="Enter your full name"
-                                required
-                            />
-                        </div>
+                    <div className="form-group">
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            className="form-input"
+                            placeholder="Create a password (min 6 characters)"
+                            value={formData.password}
+                            onChange={handleChange}
+                            required
+                            minLength={6}
+                        />
+                    </div>
 
-                        <div className="form-group">
-                            <label htmlFor="email">Email Address</label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                placeholder="Enter your email"
-                                required
-                            />
-                        </div>
-
-                        <div className="form-row">
+                    {formData.role === 'student' && (
+                        <>
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
-                                <input
-                                    type="password"
-                                    id="password"
-                                    name="password"
-                                    value={formData.password}
-                                    onChange={handleChange}
-                                    placeholder="Min. 6 characters"
-                                    required
-                                    minLength={6}
-                                />
-                            </div>
-
-                            <div className="form-group">
-                                <label htmlFor="confirmPassword">Confirm Password</label>
-                                <input
-                                    type="password"
-                                    id="confirmPassword"
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
-                                    onChange={handleChange}
-                                    placeholder="Re-enter password"
-                                    required
-                                    minLength={6}
-                                />
-                            </div>
-                        </div>
-
-                        {formData.role === 'student' && (
-                            <div className="form-group">
-                                <label htmlFor="disability">Learning Issue</label>
+                                <label htmlFor="disability">Learning Disability</label>
                                 <select
                                     id="disability"
                                     name="disability"
+                                    className="form-input"
                                     value={formData.disability}
                                     onChange={handleChange}
                                     required
                                 >
-                                    <option value="" disabled>Select your learning path</option>
                                     <option value="adhd">ADHD</option>
                                     <option value="autism">Autism</option>
                                     <option value="dyslexia">Dyslexia</option>
-                                    <option value="dysgraphia">Dysgraphia</option>
                                     <option value="dyscalculia">Dyscalculia</option>
+                                    <option value="dysgraphia">Dysgraphia</option>
                                 </select>
                             </div>
-                        )}
 
-                        {formData.role === 'parent' && (
                             <div className="form-group">
-                                <label htmlFor="childEmail">Child's Email (Optional)</label>
+                                <label htmlFor="parentEmail">Parent's Email (Optional)</label>
                                 <input
                                     type="email"
-                                    id="childEmail"
-                                    name="childEmail"
-                                    value={formData.childEmail}
+                                    id="parentEmail"
+                                    name="parentEmail"
+                                    className="form-input"
+                                    placeholder="Enter parent's email for monitoring"
+                                    value={formData.parentEmail}
                                     onChange={handleChange}
-                                    placeholder="Enter your child's email to link progress"
                                 />
-                                <small>You can also link them later in settings.</small>
                             </div>
-                        )}
+                        </>
+                    )}
 
-                        <button
-                            type="submit"
-                            className="register-button"
-                            disabled={loading}
-                        >
-                            {loading ? 'Creating Account...' : 'Complete Registration'}
-                        </button>
-                    </form>
-                )}
+                    <button
+                        type="submit"
+                        className={`auth-btn btn-primary ${isLoading ? 'loading' : ''}`}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <span className="spinner"></span> : 'Create Account'}
+                    </button>
+                </form>
+
+                <div className="auth-footer">
+                    Already have an account? <Link to="/login" className="auth-link">Sign In</Link>
+                </div>
             </div>
         </div>
     );
-};
-
-export default Register;
+}

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 import axios from 'axios';
 
 const ParentDashboard = () => {
-    const { user, logout } = useAuth();
+    const { user, logout } = useAppContext();
     const navigate = useNavigate();
     const [children, setChildren] = useState([]);
     const [loading, setLoading] = useState(true);

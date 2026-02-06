@@ -1,75 +1,49 @@
+// pages/Login.jsx
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import './Login.css';
+import '../styles/auth.css';
 
-const Login = () => {
-    const navigate = useNavigate();
-    const { login, isAuthenticated } = useAuth();
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
+export default function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-
-    const [loading, setLoading] = useState(false);
-
-    // Auto-redirect removed as per user request
-
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-        setError('');
-    };
+    const [isLoading, setIsLoading] = useState(false);
+    const { login } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
+        setIsLoading(true);
 
-        const result = await login(formData);
-        if (!result.success) return setError(result.message);
+        const result = await login(email, password);
 
-        const user = result.data;
-        const role = user.role.toLowerCase();
-
-        if (role === "student") {
-            navigate(`/student/${user.disability}`);
-        } else if (role === "teacher") {
-            navigate("/teacher");
-        } else if (role === "parent") {
-            navigate("/parent");
-        } else {
-            navigate("/hub"); // Fallback
+        if (!result.success) {
+            setError(result.error);
+            setIsLoading(false);
         }
     };
 
-
-
     return (
-        <div className="login-container">
-            <div className="login-card">
-                <div className="login-header">
-                    <h1>Welcome Back</h1>
-                    <p>Sign in to continue your learning journey</p>
+        <div className="auth-container">
+            <div className="auth-card">
+                <div className="auth-header">
+                    <h1>🧠 Welcome Back</h1>
+                    <p>Sign in to continue learning</p>
                 </div>
 
-                <form onSubmit={handleSubmit} className="login-form">
-                    {error && (
-                        <div className="error-message">
-                            <span>⚠️</span> {error}
-                        </div>
-                    )}
+                {error && <div className="error-message">{error}</div>}
 
+                <form onSubmit={handleSubmit} className="auth-form">
                     <div className="form-group">
                         <label htmlFor="email">Email Address</label>
                         <input
                             type="email"
                             id="email"
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
+                            className="form-input"
                             placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                         />
                     </div>
@@ -79,31 +53,27 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
+                            className="form-input"
                             placeholder="Enter your password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                             required
                         />
                     </div>
 
-                    <div className="form-actions">
-                        <button
-                            type="submit"
-                            className="login-button"
-                            disabled={loading}
-                        >
-                            {loading ? 'Signing in...' : 'Sign In'}
-                        </button>
-                    </div>
+                    <button
+                        type="submit"
+                        className={`auth-btn btn-primary ${isLoading ? 'loading' : ''}`}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <span className="spinner"></span> : 'Sign In'}
+                    </button>
                 </form>
 
-                <div className="login-footer">
-                    <p>New here? <Link to="/register">Create an account</Link></p>
+                <div className="auth-footer">
+                    Don't have an account? <Link to="/register" className="auth-link">Sign Up</Link>
                 </div>
             </div>
         </div>
     );
-};
-
-export default Login;
+}

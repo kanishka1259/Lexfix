@@ -1,4 +1,4 @@
-.app {
-    min-height: 100vh;
-    background-color: var(--color-bg-alt);
+.app-container {
+    max-width: 100%;
+    margin: 0 auto;
 }

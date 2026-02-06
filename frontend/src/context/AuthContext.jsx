@@ -1,5 +1,6 @@
-import { createContext, useState, useContext, useEffect } from 'react';
-import axios from 'axios';
+// context/AuthContext.jsx
+import { createContext, useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const AuthContext = createContext();
 
@@ -13,91 +14,116 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
-    const [token, setToken] = useState(localStorage.getItem('lexfix_token'));
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    const API_URL = '/api/auth';
-
-    // Load user on mount if token exists
     useEffect(() => {
-        if (token) {
-            loadUser();
-        } else {
-            setLoading(false);
-        }
-    }, [token]);
+        // Check if user is logged in
+        const token = localStorage.getItem('token');
+        const userData = localStorage.getItem('user');
 
-    const loadUser = async () => {
+        if (token && userData) {
+            setUser(JSON.parse(userData));
+        }
+        setLoading(false);
+    }, []);
+
+    const login = async (email, password) => {
         try {
-            const response = await axios.get(`${API_URL}/me`, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+            const response = await fetch('http://localhost:5001/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, password })
             });
-            setUser(response.data.data);
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Login failed');
+            }
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data));
+            setUser(data);
+
+            // Navigate based on role
+            switch (data.role) {
+                case 'teacher':
+                    navigate('/teacher-hub');
+                    break;
+                case 'parent':
+                    navigate('/parent-dashboard');
+                    break;
+                case 'student':
+                    navigate('/student-dashboard');
+                    break;
+                default:
+                    navigate('/');
+            }
+
+            return { success: true };
         } catch (error) {
-            console.error('Failed to load user:', error);
-            logout();
-        } finally {
-            setLoading(false);
+            return { success: false, error: error.message };
         }
     };
 
     const register = async (userData) => {
         try {
-            const response = await axios.post(`${API_URL}/register`, userData);
-            const { token: newToken, ...userInfo } = response.data.data;
+            const response = await fetch('http://localhost:5001/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(userData)
+            });
 
-            localStorage.setItem('lexfix_token', newToken);
-            setToken(newToken);
-            setUser(userInfo);
+            const data = await response.json();
 
-            return { success: true, data: response.data.data };
+            if (!response.ok) {
+                throw new Error(data.message || 'Registration failed');
+            }
+
+            localStorage.setItem('token', data.token);
+            localStorage.setItem('user', JSON.stringify(data));
+            setUser(data);
+
+            // Navigate based on role
+            switch (data.role) {
+                case 'teacher':
+                    navigate('/teacher-hub');
+                    break;
+                case 'parent':
+                    navigate('/parent-dashboard');
+                    break;
+                case 'student':
+                    navigate('/student-dashboard');
+                    break;
+                default:
+                    navigate('/');
+            }
+
+            return { success: true };
         } catch (error) {
-            return {
-                success: false,
-                message: error.response?.data?.message || 'Registration failed'
-            };
-        }
-    };
-
-    const login = async (credentials) => {
-        try {
-            const response = await axios.post(`${API_URL}/login`, credentials);
-            const { token: newToken, ...userInfo } = response.data.data;
-
-            localStorage.setItem('lexfix_token', newToken);
-            setToken(newToken);
-            setUser(userInfo);
-
-            return { success: true, data: response.data.data };
-        } catch (error) {
-            return {
-                success: false,
-                message: error.response?.data?.message || 'Login failed'
-            };
+            return { success: false, error: error.message };
         }
     };
 
     const logout = () => {
-        localStorage.removeItem('lexfix_token');
-        setToken(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setUser(null);
+        navigate('/login');
     };
 
     const value = {
         user,
-        token,
         loading,
-        register,
         login,
-        logout,
-        isAuthenticated: !!user
+        register,
+        logout
     };
 
     return (
         <AuthContext.Provider value={value}>
-            {children}
+            {!loading && children}
         </AuthContext.Provider>
     );
 };

@@ -1,109 +1,105 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 const Module3_Pacing = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
-    const [timeLeft, setTimeLeft] = useState(60);
+
+    const [timer, setTimer] = useState(0);
     const [isActive, setIsActive] = useState(true);
+    const [showBreak, setShowBreak] = useState(false);
+    const timerRef = useRef(null);
 
     useEffect(() => {
-        let interval = null;
-        if (isActive && timeLeft > 0) {
-            interval = setInterval(() => {
-                setTimeLeft(prev => prev - 1);
+        if (isActive && !showBreak) {
+            timerRef.current = setInterval(() => {
+                setTimer(prev => prev + 1);
             }, 1000);
-        } else if (timeLeft === 0) {
-            clearInterval(interval);
+        } else {
+            clearInterval(timerRef.current);
         }
-        return () => clearInterval(interval);
-    }, [isActive, timeLeft]);
+        return () => clearInterval(timerRef.current);
+    }, [isActive, showBreak]);
 
-    const handleContinue = () => {
-        navigate(`/adhd/module/progress?taskId=${taskId}`);
+    // Break reminder every 45 seconds for study purposes
+    useEffect(() => {
+        if (timer > 0 && timer % 45 === 0) {
+            setShowBreak(true);
+        }
+    }, [timer]);
+
+    const handleResume = () => {
+        setShowBreak(false);
     };
 
-    const formatTime = (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+    const handleComplete = () => {
+        navigate(`/adhd/module/progress?taskId=${taskId}&time=${timer}`);
     };
+
+    const formatTime = (s) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
     return (
-        <div className="module-container">
-            <div className="timer-card">
-                <div className="icon">⏱️</div>
-                <h2>Pacing Checkpoint</h2>
-                <p>Take a moment to process what you just read. Deep breath.</p>
-
-                <div className="time-display">
-                    {formatTime(timeLeft)}
+        <div className="module-container font-dyslexic study-3">
+            <header className="fixed-timer">
+                <div className="timer-pill">
+                    <span className="dot"></span>
+                    <span className="time">{formatTime(timer)}</span>
                 </div>
+            </header>
 
-                <div className="controls">
-                    <button className="secondary-btn" onClick={() => setIsActive(!isActive)}>
-                        {isActive ? 'Pause Timer' : 'Resume Timer'}
-                    </button>
-                    <button className="primary-btn" onClick={handleContinue}>
-                        Continue Learning
-                    </button>
-                </div>
-            </div>
+            <main className="pacing-center">
+                {showBreak ? (
+                    <div className="break-overlay animate-pop">
+                        <div className="icon">🧘</div>
+                        <h2>Time for a Focus Reset</h2>
+                        <p>Look away from the screen for 10 seconds. Breathe in... Breathe out...</p>
+                        <button className="primary-btn" onClick={handleResume}>I'm back and focused</button>
+                    </div>
+                ) : (
+                    <div className="pacing-status animate-in">
+                        <div className="pulse-ring"></div>
+                        <h3>Pacing is Active</h3>
+                        <p>We are tracking your time per sentence to help identify where you need more support.</p>
+                        <div className="metrics-row">
+                            <div className="mini-stat">
+                                <strong>4.8s</strong>
+                                <span>Recent Pace</span>
+                            </div>
+                            <div className="mini-stat">
+                                <strong>Good</strong>
+                                <span>Stability</span>
+                            </div>
+                        </div>
+                        <button className="secondary-btn" onClick={handleComplete}>See My Focus Results →</button>
+                    </div>
+                )}
+            </main>
 
-            <style dangerouslySetInnerHTML={{
-                __html: `
-                .module-container {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    height: 100vh;
-                    background: #EBF8FF;
-                }
-                .timer-card {
-                    background: white;
-                    padding: 50px;
-                    border-radius: 20px;
-                    text-align: center;
-                    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-                    width: 90%;
-                    max-width: 500px;
-                }
-                .icon {
-                    font-size: 4rem;
-                    margin-bottom: 20px;
-                }
-                .time-display {
-                    font-size: 5rem;
-                    font-weight: 700;
-                    color: #3182CE;
-                    margin: 20px 0;
-                    font-variant-numeric: tabular-nums;
-                }
-                .controls {
-                    display: flex;
-                    gap: 15px;
-                    justify-content: center;
-                }
-                .primary-btn {
-                    padding: 12px 24px;
-                    background: #3182CE;
-                    color: white;
-                    border: none;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    cursor: pointer;
-                }
-                .secondary-btn {
-                    padding: 12px 24px;
-                    background: #E2E8F0;
-                    color: #2D3748;
-                    border: none;
-                    border-radius: 8px;
-                    font-weight: 600;
-                    cursor: pointer;
-                }
-            `}} />
+            <style jsx>{`
+                .study-3 { height: 100vh; background: #FAF7F2; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+                .fixed-timer { position: fixed; top: 2rem; }
+                .timer-pill { background: white; padding: 0.8rem 2rem; border-radius: 3rem; display: flex; align-items: center; gap: 1rem; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+                .dot { width: 10px; height: 10px; background: #F59E0B; border-radius: 50%; animation: pulse 1s infinite; }
+                .time { font-size: 2rem; font-weight: 800; color: #1A202C; font-variant-numeric: tabular-nums; }
+                
+                .break-overlay, .pacing-status { background: white; padding: 4rem; border-radius: 2.5rem; text-align: center; max-width: 600px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.05); }
+                .icon { font-size: 4rem; margin-bottom: 2rem; }
+                h2, h3 { font-size: 2.5rem; color: #1A202C; margin-bottom: 1rem; }
+                
+                .pulse-ring { width: 60px; height: 60px; border: 4px solid #FBCFE8; border-radius: 50%; margin: 0 auto 2rem; position: relative; }
+                .pulse-ring::after { content: ''; position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 4px solid #F59E0B; border-radius: 50%; animation: ringScale 2s infinite; }
+                
+                .metrics-row { display: flex; justify-content: center; gap: 3rem; margin: 3rem 0; }
+                .mini-stat { display: flex; flex-direction: column; }
+                .mini-stat strong { font-size: 1.5rem; color: #1A202C; }
+                .mini-stat span { color: #718096; font-size: 0.8rem; text-transform: uppercase; font-weight: 700; }
+                
+                .secondary-btn { margin-top: 2rem; background: none; border: none; color: #F59E0B; font-weight: 800; font-size: 1.2rem; cursor: pointer; }
+                
+                @keyframes ringScale { 0% { transform: scale(1); opacity: 1; } 100% { transform: scale(1.5); opacity: 0; } }
+                @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+            `}</style>
         </div>
     );
 };

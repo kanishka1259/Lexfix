@@ -1,126 +1,52 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+// App.jsx
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
 
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Hub from "./pages/Hub";
+// Auth pages
+import Login from './pages/Login';
+import Register from './pages/Register';
 
-// role-based pages (adjust paths if names differ)
-import TeacherDashboard from "./pages/teacher/TeacherDashboard";
-import StudentDashboard from "./pages/student/StudentDashboard";
-import ParentDashboard from "./pages/parent/ParentDashboard";
+// Teacher pages
+import TeacherHub from './pages/teacher/TeacherHub';
+import DisabilityManagement from './pages/teacher/DisabilityManagement';
 
-// ADHD Module Pages
-import ModuleDashboard from "./pages/adhd/ModuleDashboard";
-import Module1_Entry from "./pages/adhd/modules/Module1_Entry";
-import Module2_Content from "./pages/adhd/modules/Module2_Content";
-import Module3_Pacing from "./pages/adhd/modules/Module3_Pacing";
-import Module4_Progress from "./pages/adhd/modules/Module4_Progress";
-import Module5_Completion from "./pages/adhd/modules/Module5_Completion";
+// Student pages
+import StudentTaskList from './pages/student/StudentTaskList';
+import LineByLineReader from './pages/student/LineByLineReader';
 
-import ProtectedRoute from "./components/ProtectedRoute";
+// Parent pages  
+import ParentDashboardMain from './pages/parent/ParentDashboardMain';
 
-import "./App.css";
+// Components
+import PrivateRoute from './components/PrivateRoute';
+
+import './App.css';
 
 function App() {
     return (
         <Router>
-            <div className="app">
+            <AuthProvider>
                 <Routes>
-                    {/* PUBLIC ROUTES */}
-                    <Route path="/" element={<Login />} />
+                    {/* Public routes */}
+                    <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
 
-                    {/* OPTIONAL HUB (keep only if you really need it) */}
-                    <Route
-                        path="/hub"
-                        element={
-                            <ProtectedRoute>
-                                <Hub />
-                            </ProtectedRoute>
-                        }
-                    />
+                    {/* Teacher routes */}
+                    <Route path="/teacher-hub" element={<PrivateRoute><TeacherHub /></PrivateRoute>} />
+                    <Route path="/teacher/disability/:disabilityId" element={<PrivateRoute><DisabilityManagement /></PrivateRoute>} />
 
-                    {/* ADHD MODULE ROUTES */}
-                    <Route
-                        path="/adhd"
-                        element={
-                            <ProtectedRoute>
-                                <ModuleDashboard />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/adhd/module/entry"
-                        element={
-                            <ProtectedRoute>
-                                <Module1_Entry />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/adhd/module/content"
-                        element={
-                            <ProtectedRoute>
-                                <Module2_Content />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/adhd/module/pacing"
-                        element={
-                            <ProtectedRoute>
-                                <Module3_Pacing />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/adhd/module/progress"
-                        element={
-                            <ProtectedRoute>
-                                <Module4_Progress />
-                            </ProtectedRoute>
-                        }
-                    />
-                    <Route
-                        path="/adhd/module/completion"
-                        element={
-                            <ProtectedRoute>
-                                <Module5_Completion />
-                            </ProtectedRoute>
-                        }
-                    />
+                    {/* Student routes */}
+                    <Route path="/student-dashboard" element={<PrivateRoute><StudentTaskList /></PrivateRoute>} />
+                    <Route path="/student/read/:assignmentId" element={<PrivateRoute><LineByLineReader /></PrivateRoute>} />
 
-                    {/* TEACHER */}
-                    <Route
-                        path="/teacher"
-                        element={
-                            <ProtectedRoute role="teacher">
-                                <TeacherDashboard />
-                            </ProtectedRoute>
-                        }
-                    />
+                    {/* Parent routes */}
+                    <Route path="/parent-dashboard" element={<PrivateRoute><ParentDashboardMain /></PrivateRoute>} />
 
-                    {/* STUDENT (auto-redirect lands here) */}
-                    <Route
-                        path="/student/:disability"
-                        element={
-                            <ProtectedRoute role="student">
-                                <StudentDashboard />
-                            </ProtectedRoute>
-                        }
-                    />
-
-                    {/* PARENT */}
-                    <Route
-                        path="/parent"
-                        element={
-                            <ProtectedRoute role="parent">
-                                <ParentDashboard />
-                            </ProtectedRoute>
-                        }
-                    />
+                    {/* Default redirect */}
+                    <Route path="/" element={<Navigate to="/login" replace />} />
+                    <Route path="*" element={<Navigate to="/login" replace />} />
                 </Routes>
-            </div>
+            </AuthProvider>
         </Router>
     );
 }

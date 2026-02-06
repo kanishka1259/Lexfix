@@ -13,10 +13,11 @@ const StudentDashboard = ({ user }) => {
                 const token = localStorage.getItem('lexfix_token');
                 if (!token) return;
 
-                const response = await axios.get(`/api/tasks/student/${user.id || user._id}`, {
+                const response = await axios.get(`http://localhost:5001/api/tasks/student/${user._id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
+                // If API returns successfully
                 if (response.data.success) {
                     setTasks(response.data.data);
                 }
@@ -27,13 +28,14 @@ const StudentDashboard = ({ user }) => {
             }
         };
 
-        if (user?.id || user?._id) {
+        if (user?._id) {
             fetchTasks();
         }
     }, [user]);
 
     const handleStartTask = (taskId) => {
-        navigate(`/adhd/module/entry?taskId=${taskId}`);
+        // Navigate to the first module with the task ID
+        navigate(`/module/entry?taskId=${taskId}`);
     };
 
     return (
@@ -58,12 +60,24 @@ const StudentDashboard = ({ user }) => {
                                             {task.status}
                                         </span>
                                         <span className="task-date">
-                                            Created: {new Date(task.createdAt).toLocaleDateString()}
+                                            Due: {new Date(task.dueDate).toLocaleDateString()}
                                         </span>
                                     </div>
                                     <p className="task-desc">
                                         {task.content.length} sentences to master.
                                     </p>
+                                    {task.attachmentUrl && (
+                                        <div className="task-attachment">
+                                            <a
+                                                href={`http://localhost:5001${task.attachmentUrl}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="attachment-link"
+                                            >
+                                                📎 View Attached Resource
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                                 <button
                                     className="start-btn"
