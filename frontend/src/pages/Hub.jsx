@@ -1,11 +1,12 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { useAppContext } from '../context/AppContext';
 import { LayoutDashboard, Brain, BookOpen, Activity, Users, LogOut, GraduationCap, ArrowRight } from 'lucide-react';
 
 const Hub = () => {
     const navigate = useNavigate();
-    const { user, logout } = useAuth();
+    const { user, logout } = useAppContext();
     const token = localStorage.getItem('token');
 
     const handleModuleClick = (moduleName) => {

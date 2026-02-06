@@ -29,8 +29,8 @@ export const register = async (req, res) => {
         }
 
         // student MUST have disability
-        if (normalizedRole === "student" && !disability) {
-            return res.status(400).json({ message: "Disability is required for students" });
+        if (normalizedRole === "student" && (!disability || disability.length === 0)) {
+            return res.status(400).json({ message: "At least one disability is required for students" });
         }
 
         const userExists = await User.findOne({ email });
@@ -52,12 +52,20 @@ export const register = async (req, res) => {
             }
         }
 
+        // Ensure disability is stored as an array
+        let disabilityArray = undefined;
+        if (normalizedRole === "student") {
+            disabilityArray = Array.isArray(disability) ? disability : [disability];
+            // lowercase all
+            disabilityArray = disabilityArray.map(d => d.toLowerCase());
+        }
+
         const user = await User.create({
             name,
             email,
             password,
             role: normalizedRole,
-            disability: normalizedRole === "student" ? disability.toLowerCase() : undefined,
+            disability: disabilityArray,
             parentId
         });
 
@@ -187,4 +195,22 @@ export const protect = async (req, res, next) => {
     }
 
     return res.status(401).json({ message: "No token provided" });
+};
+
+/* =========================
+   ROLE AUTHORIZATION
+========================= */
+export const authorize = (...roles) => {
+    return (req, res, next) => {
+        // normalize roles array to lowercase
+        const lowerRoles = roles.map(r => r.toLowerCase());
+        const userRole = req.user?.role?.toLowerCase();
+
+        if (!req.user || !lowerRoles.includes(userRole)) {
+            return res.status(403).json({
+                message: `Role ${req.user?.role || 'unknown'} is not authorized to access this resource`
+            });
+        }
+        next();
+    };
 };

@@ -10,17 +10,48 @@ const StudentDashboard = ({ user }) => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
-                if (!token) return;
+                const token = localStorage.getItem('token');
+                const studentId = user?.id || user?._id;
 
-                const response = await axios.get(`http://localhost:5001/api/tasks/student/${user._id}`, {
+                if (!token || !studentId) {
+                    setLoading(false);
+                    return;
+                }
+
+                // 1. Fetch from /api/tasks (Original System)
+                const tasksPromise = axios.get(`http://localhost:5000/api/tasks/student/${studentId}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                // If API returns successfully
-                if (response.data.success) {
-                    setTasks(response.data.data);
+                // 2. Fetch from /api/assignments (Learning System)
+                const assignmentsPromise = axios.get(`http://localhost:5000/api/assignments/my-assignments`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                const [tasksRes, assignRes] = await Promise.all([
+                    tasksPromise.catch(e => ({ data: { success: false, data: [] } })),
+                    assignmentsPromise.catch(e => ({ data: [] }))
+                ]);
+
+                let combinedTasks = [];
+
+                if (tasksRes.data.success) {
+                    combinedTasks = [...tasksRes.data.data];
                 }
+
+                const assignments = Array.isArray(assignRes.data) ? assignRes.data : (assignRes.data.data || []);
+                const normalizedAssignments = assignments.map(a => ({
+                    _id: a._id,
+                    title: a.title,
+                    description: a.description || "In-depth learning material",
+                    status: (a.status === 'active' ? 'Pending' : a.status) || 'Pending',
+                    dueDate: a.dueDate,
+                    type: 'assignment',
+                    contentCount: a.sentences?.length || a.content?.length || 0
+                }));
+
+                console.log("ADHD StudentDashboard Combined Tasks:", [...combinedTasks, ...normalizedAssignments]);
+                setTasks([...combinedTasks, ...normalizedAssignments]);
             } catch (error) {
                 console.error("Error fetching tasks:", error);
             } finally {
@@ -28,14 +59,17 @@ const StudentDashboard = ({ user }) => {
             }
         };
 
-        if (user?._id) {
+        if (user) {
             fetchTasks();
         }
     }, [user]);
 
-    const handleStartTask = (taskId) => {
-        // Navigate to the first module with the task ID
-        navigate(`/module/entry?taskId=${taskId}`);
+    const handleStartTask = (task) => {
+        if (task.type === 'assignment') {
+            navigate(`/student/read/${task._id}`);
+        } else {
+            navigate(`/adhd/module/entry?taskId=${task._id}`);
+        }
     };
 
     return (
@@ -64,12 +98,25 @@ const StudentDashboard = ({ user }) => {
                                         </span>
                                     </div>
                                     <p className="task-desc">
-                                        {task.content.length} sentences to master.
+                                        {(task.content?.length || 0)} sentences to master.
                                     </p>
+                                    {task.attachmentUrl && (
+                                        <div className="task-attachment mt-3 p-2 bg-blue-50/50 rounded-lg border border-blue-100 flex items-center gap-2">
+                                            <span className="text-blue-500">📎</span>
+                                            <a
+                                                href={`http://localhost:5000${task.attachmentUrl}`}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="text-sm font-medium text-blue-600 hover:text-blue-700 hover:underline"
+                                            >
+                                                View Attached Resource
+                                            </a>
+                                        </div>
+                                    )}
                                 </div>
                                 <button
                                     className="start-btn"
-                                    onClick={() => handleStartTask(task._id)}
+                                    onClick={() => handleStartTask(task)}
                                     disabled={task.status === 'Completed'}
                                 >
                                     {task.status === 'Completed' ? 'Review' : 'Start Session'}

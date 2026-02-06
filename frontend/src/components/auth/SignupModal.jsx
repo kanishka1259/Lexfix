@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 // Base Schema
 const baseSchema = z.object({
-    username: z.string().min(3, { message: "Username must be at least 3 characters" }),
+    name: z.string().min(3, { message: "Name must be at least 3 characters" }),
     email: z.string().email({ message: "Please enter a valid email" }),
     password: z.string().min(6, { message: "Password must be at least 6 characters" }),
 });
@@ -32,9 +32,16 @@ const SignupModal = ({ trigger }) => {
     const [activeUserType, setActiveUserType] = useState(contextUserType || 'student');
     const userRole = activeUserType.charAt(0).toUpperCase() + activeUserType.slice(1);
 
+    // Sync local state with global context when it changes
+    React.useEffect(() => {
+        if (contextUserType) {
+            setActiveUserType(contextUserType);
+        }
+    }, [contextUserType]);
+
     const [step, setStep] = useState(1);
     const [formData, setFormData] = useState({
-        username: '',
+        name: '',
         email: '',
         password: ''
     });
@@ -43,31 +50,13 @@ const SignupModal = ({ trigger }) => {
     const [selectedDisabilities, setSelectedDisabilities] = useState([]);
 
     // Parent specific state
-    const [childIds, setChildIds] = useState(['']);
-
-    const [error, setError] = useState({});
-    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [childEmail, setChildEmail] = useState('');
 
     const handleDisabilityChange = (disability) => {
         if (selectedDisabilities.includes(disability)) {
             setSelectedDisabilities(selectedDisabilities.filter(d => d !== disability));
         } else {
             setSelectedDisabilities([...selectedDisabilities, disability]);
-        }
-    };
-
-    const handleChildIdChange = (index, value) => {
-        const newIds = [...childIds];
-        newIds[index] = value;
-        setChildIds(newIds);
-    };
-
-    const addChildIdField = () => setChildIds([...childIds, '']);
-
-    const removeChildIdField = (index) => {
-        if (childIds.length > 1) {
-            const newIds = childIds.filter((_, i) => i !== index);
-            setChildIds(newIds);
         }
     };
 
@@ -92,12 +81,16 @@ const SignupModal = ({ trigger }) => {
         if (e && e.preventDefault) e.preventDefault();
 
         // Final Validation for Step 2
-        if (userType === 'parent') {
-            const validIds = childIds.filter(id => id.trim().length > 0);
-            if (validIds.length === 0) {
-                setError({ ...error, custom: "Please enter at least one Child Student ID." });
+        if (activeUserType === 'parent') {
+            if (!childEmail || !childEmail.trim()) {
+                setError({ ...error, custom: "Please enter your child's email address." });
                 return;
             }
+        }
+
+        if (activeUserType === 'student' && selectedDisabilities.length === 0) {
+            setError({ ...error, custom: "Please select at least one disability category." });
+            return;
         }
 
         setIsSubmitting(true);
@@ -106,14 +99,14 @@ const SignupModal = ({ trigger }) => {
         try {
             const payload = {
                 ...formData,
-                userType: activeUserType,
-                disabilities: activeUserType === 'student' ? selectedDisabilities : undefined,
-                childIds: activeUserType === 'parent' ? childIds.filter(id => id.trim().length > 0) : undefined
+                role: activeUserType, // Backend expects 'role'
+                disability: activeUserType === 'student' ? selectedDisabilities : undefined,
+                childEmail: activeUserType === 'parent' ? childEmail : undefined
             };
 
             console.log("SignupModal: Sending payload:", payload);
 
-            const response = await fetch('http://localhost:5000/api/auth/signup', {
+            const response = await fetch('http://localhost:5000/api/auth/register', { // Correct endpoint
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(payload)
@@ -123,12 +116,16 @@ const SignupModal = ({ trigger }) => {
             console.log("SignupModal: Response received:", data);
 
             if (response.ok) {
-                if (userType === 'student') {
-                    alert(`Sign up successful! Your new Student ID is: ${data.studentId}`);
-                }
-                localStorage.setItem('user', JSON.stringify(data));
-                setUser(data);
-                navigate('/dashboard');
+                localStorage.setItem('user', JSON.stringify(data.data)); // Backend sends data in data.data
+                localStorage.setItem('token', data.data.token); // Store token
+                setUser(data.data);
+
+                // Redirect based on role
+                if (data.data.role === 'teacher') navigate('/teacher-hub');
+                else if (data.data.role === 'student') navigate('/student-tasks');
+                else if (data.data.role === 'parent') navigate('/parent-dashboard');
+                else navigate('/dashboard');
+
             } else {
                 setError({ ...error, custom: data.message || 'Signup failed' });
             }
@@ -151,8 +148,8 @@ const SignupModal = ({ trigger }) => {
                         type="button"
                         onClick={() => setActiveUserType(role)}
                         className={`flex-1 py-1.5 text-xs font-bold rounded-md transition-all ${activeUserType === role
-                                ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
-                                : 'text-gray-500 hover:text-gray-700'
+                            ? 'bg-white text-gray-900 shadow-sm border border-gray-200'
+                            : 'text-gray-500 hover:text-gray-700'
                             }`}
                     >
                         {role.charAt(0).toUpperCase() + role.slice(1)}
@@ -166,14 +163,15 @@ const SignupModal = ({ trigger }) => {
                 </div>
             )}
             <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-gray-900">Username</label>
+                <label className="text-sm font-semibold text-gray-900">Name</label>
                 <input
                     type="text"
-                    className={`h-10 px-3 rounded-md border ${error.username ? 'border-red-500' : 'border-gray-300'}`}
-                    value={formData.username}
-                    onChange={e => setFormData({ ...formData, username: e.target.value })}
+                    className={`h-10 px-3 rounded-md border ${error.name ? 'border-red-500' : 'border-gray-300'}`}
+                    value={formData.name}
+                    onChange={e => setFormData({ ...formData, name: e.target.value })}
+                    placeholder="Full Name"
                 />
-                {error.username && <span className="text-xs text-red-500">{error.username}</span>}
+                {error.name && <span className="text-xs text-red-500">{error.name}</span>}
             </div>
             <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-gray-900">Email</label>
@@ -231,18 +229,20 @@ const SignupModal = ({ trigger }) => {
             {/* Student Specifics */}
             {activeUserType === 'student' && (
                 <div className="flex flex-col gap-2">
-                    <label className="text-sm font-semibold text-gray-900">Do you have any known disabilities?</label>
-                    <p className="text-xs text-gray-500 mb-1">Select all that apply (optional)</p>
+                    <label className="text-sm font-semibold text-gray-900">Please select your learning preference(s):</label>
+                    <p className="text-xs text-gray-500 mb-1">You can select multiple</p>
                     <div className="grid grid-cols-2 gap-2">
-                        {disabilitiesOptions.map(option => (
-                            <label key={option} className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                        {['adhd', 'autism', 'dyslexia', 'dyscalculia', 'dysgraphia'].map(option => (
+                            <label key={option} className={`flex items-center gap-2 text-sm p-2 rounded border cursor-pointer ${selectedDisabilities.includes(option) ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
                                 <input
                                     type="checkbox"
+                                    name="disability"
+                                    value={option}
                                     checked={selectedDisabilities.includes(option)}
                                     onChange={() => handleDisabilityChange(option)}
-                                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    className="text-blue-600 focus:ring-blue-500"
                                 />
-                                {option}
+                                {option.toUpperCase()}
                             </label>
                         ))}
                     </div>
@@ -252,38 +252,17 @@ const SignupModal = ({ trigger }) => {
             {/* Parent Specifics */}
             {activeUserType === 'parent' && (
                 <div className="flex flex-col gap-2">
-                    <label className="text-sm font-semibold text-gray-900">Link Student Account(s)</label>
-                    <p className="text-xs text-gray-500 mb-1">Enter the Student ID generated from your child's account.</p>
+                    <label className="text-sm font-semibold text-gray-900">Link Child Account</label>
+                    <p className="text-xs text-gray-500 mb-1">Enter your child's email address to link accounts.</p>
 
-                    {childIds.map((id, index) => (
-                        <div key={index} className="flex gap-2">
-                            <input
-                                type="text"
-                                placeholder="e.g. STU-123456"
-                                className="flex-1 h-10 px-3 rounded-md border border-gray-300"
-                                value={id}
-                                onChange={(e) => handleChildIdChange(index, e.target.value)}
-                            />
-                            {childIds.length > 1 && (
-                                <button
-                                    type="button"
-                                    onClick={() => removeChildIdField(index)}
-                                    className="text-red-500 hover:bg-red-50 p-2 rounded-md transition-colors"
-                                    title="Remove Child ID"
-                                >
-                                    <Trash2 size={18} />
-                                </button>
-                            )}
-                        </div>
-                    ))}
+                    <input
+                        type="email"
+                        placeholder="child@example.com"
+                        className="h-10 px-3 rounded-md border border-gray-300"
+                        value={childEmail}
+                        onChange={(e) => setChildEmail(e.target.value)}
+                    />
 
-                    <button
-                        type="button"
-                        onClick={addChildIdField}
-                        className="self-start flex items-center gap-1 text-sm text-blue-600 font-medium hover:text-brand-orange"
-                    >
-                        <Plus size={16} /> Add another child
-                    </button>
                     {error.custom && <span className="text-sm text-red-500">{error.custom}</span>}
                 </div>
             )}
@@ -310,7 +289,7 @@ const SignupModal = ({ trigger }) => {
                                 Sign Up as {userRole}
                             </Dialog.Title>
                             <Dialog.Description className="text-gray-500 text-sm mt-1">
-                                {step === 1 ? "Create your account details." : "Just a few more details."}
+                                {(step === 1 || activeUserType === 'teacher') ? "Create your account details." : "Just a few more details."}
                             </Dialog.Description>
                         </div>
                         <Dialog.Close asChild>
@@ -318,7 +297,8 @@ const SignupModal = ({ trigger }) => {
                         </Dialog.Close>
                     </div>
 
-                    {step === 1 ? renderStep1() : renderStep2()}
+                    {/* Force Step 1 for Teachers to ensure direct signup (no empty Step 2) */}
+                    {(step === 1 || activeUserType === 'teacher') ? renderStep1() : renderStep2()}
 
                 </Dialog.Content>
             </Dialog.Portal>

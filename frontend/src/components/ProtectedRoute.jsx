@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAppContext } from "../context/AppContext";
 
 const ProtectedRoute = ({ role, children }) => {
-    const { user, loading } = useAuth();
+    const { user } = useAppContext();
 
-    if (loading) return <div>Loading...</div>;
+    // Loading check removed as AppContext initializes synchronously from localStorage
 
     if (!user) return <Navigate to="/" />;
 

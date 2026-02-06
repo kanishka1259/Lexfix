@@ -18,25 +18,24 @@ const DashboardPage = () => {
 
     if (!user) return null;
 
-    const userTypeString = user.userType || 'student';
-    // Normalize role string
-    const role = userTypeString.toLowerCase();
+    // Normalize role string - backend uses role
+    const role = (user.role || user.userType || 'student').toLowerCase();
 
-    console.log("DashboardPage Debug:", { user, userTypeString, role });
+    console.log("DashboardPage Debug:", { user, role });
 
     // Dispatch to specific dashboards based on role
     if (role === 'teacher') {
-        return <TeacherDashboard />;
+        return <TeacherDashboard user={user} />;
     }
 
     if (role === 'parent') {
-        return <ParentDashboard />;
+        return <ParentDashboard user={user} />;
     }
 
     if (role === 'student') {
         // If there's a specific Student Hub, use it. 
         // Otherwise, render the generic student view here or use StudentDashboard component
-        return <StudentDashboard />;
+        return <StudentDashboard user={user} />;
     }
 
     // Fallback for unknown roles (or if StudentDashboard isn't desired for base student)

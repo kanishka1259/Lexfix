@@ -13,18 +13,23 @@ export const createTask = async (req, res) => {
         }
 
         const { title, content, studentId } = req.body;
+        const attachmentUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
         if (!title || !content || !studentId) {
             return res.status(400).json({ message: "Please provide title, content and student ID" });
         }
 
+        // Multer might parse 'content' as a single string if only one item is sent
+        const contentArray = Array.isArray(content) ? content : [content];
+
         const newTask = await Task.create({
             title,
             description: "Teacher Assigned Task",
-            content: content,
+            content: contentArray,
             moduleType: 'Module2_ContentPresentation',
             assignedTo: [studentId],
             createdBy: user.id || user._id,
+            attachmentUrl: attachmentUrl,
             status: 'Published',
             difficulty: 'Medium',
             estimatedTime: 15
@@ -56,6 +61,12 @@ export const getTasksByStudent = async (req, res) => {
         }
 
         const tasks = await Task.find({ assignedTo: studentId }).sort({ createdAt: -1 });
+
+        console.log(`[TaskController] Query studentId: ${studentId} (Type: ${typeof studentId})`);
+        console.log(`[TaskController] Found ${tasks.length} tasks in total for this ID`);
+        if (tasks.length > 0) {
+            console.log(`[TaskController] Example Task AssignedTo:`, tasks[0].assignedTo);
+        }
 
         res.status(200).json({
             success: true,

@@ -9,42 +9,47 @@ const TeacherDashboard = ({ user }) => {
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const [recentTasks, setRecentTasks] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
 
-    // Fetch students on component mount
+    // Fetch students and recent tasks on component mount
     useEffect(() => {
-        const fetchStudents = async () => {
+        const fetchInitialData = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
-                console.log("Token available:", !!token); // Debug
-
+                const token = localStorage.getItem('token');
                 if (!token) {
                     setMessage("Authentication token missing. Please login again.");
                     setLoading(false);
                     return;
                 }
 
-                console.log("Fetching students from http://localhost:5000/api/auth/students");
-                const response = await axios.get('http://localhost:5000/api/auth/students', {
+                // Fetch Students
+                const studentsRes = await axios.get('http://localhost:5000/api/auth/students', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
-                console.log("Students fetched:", response.data);
+                if (studentsRes.data.success) {
+                    setStudents(studentsRes.data.data);
+                }
 
-                if (response.data.success) {
-                    setStudents(response.data.data);
-                } else {
-                    setMessage("Failed to retrieve students.");
+                // Fetch Recent Tasks
+                const teacherId = user?.id || user?._id;
+                if (teacherId) {
+                    const tasksRes = await axios.get(`http://localhost:5000/api/tasks/teacher/${teacherId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    if (tasksRes.data.success) {
+                        setRecentTasks(tasksRes.data.data);
+                    }
                 }
             } catch (error) {
-                console.error("Failed to fetch students:", error);
-                const errorMsg = error.response?.data?.message || error.message;
-                setMessage(`Error loading student list: ${errorMsg}`);
+                console.error("Failed to fetch initial data:", error);
+                setMessage("Error loading dashboard data.");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchStudents();
-    }, []);
+        fetchInitialData();
+    }, [user]);
 
     const handleCheckboxChange = (studentId) => {
         setSelectedStudents(prev => {
@@ -66,20 +71,26 @@ const TeacherDashboard = ({ user }) => {
         setMessage("Assigning tasks...");
 
         try {
-            const token = localStorage.getItem('lexfix_token');
+            const token = localStorage.getItem('token');
 
+            // We handle multiple students by sending separate requests 
             // Loop through selected students and create tasks for each
-            // Note: In production, backend should handle bulk assignment
-            const assignmentPromises = selectedStudents.map(studentId =>
-                axios.post('http://localhost:5001/api/tasks/create', {
-                    title: taskTitle,
-                    content: taskContent.split('.').filter(s => s.trim().length > 0), // Split into sentences
-                    studentId: studentId, // Send ID instead of email
-                    assignedBy: user._id
-                }, {
-                    headers: { Authorization: `Bearer ${token}` }
-                })
-            );
+            const assignmentPromises = selectedStudents.map(studentId => {
+                const formData = new FormData();
+                formData.append('title', taskTitle);
+                formData.append('content', taskContent); // Backend will split or use as is
+                formData.append('studentId', studentId);
+                if (selectedFile) {
+                    formData.append('attachment', selectedFile);
+                }
+
+                return axios.post('http://localhost:5000/api/tasks/create', formData, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+            });
 
             await Promise.all(assignmentPromises);
 
@@ -87,6 +98,16 @@ const TeacherDashboard = ({ user }) => {
             setTaskTitle('');
             setTaskContent('');
             setSelectedStudents([]);
+            setSelectedFile(null);
+
+            // Refresh recent tasks
+            const teacherId = user?.id || user?._id;
+            const tasksRes = await axios.get(`http://localhost:5000/api/tasks/teacher/${teacherId}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (tasksRes.data.success) {
+                setRecentTasks(tasksRes.data.data);
+            }
         } catch (error) {
             console.error("Assignment error:", error);
             setMessage('Failed to assign task. ' + (error.response?.data?.message || 'Server error'));
@@ -150,7 +171,7 @@ const TeacherDashboard = ({ user }) => {
                         </div>
 
                         <div className="form-group">
-                            <label>Learning Content</label>
+                            <label>Learning Content (Text)</label>
                             <div className="textarea-wrapper">
                                 <textarea
                                     value={taskContent}
@@ -161,6 +182,15 @@ const TeacherDashboard = ({ user }) => {
                                 ></textarea>
                                 <small className="helper-text">Text will be auto-formatted for ADHD-focused reading.</small>
                             </div>
+                        </div>
+
+                        <div className="form-group">
+                            <label>Attachment (Image/PDF)</label>
+                            <input
+                                type="file"
+                                onChange={(e) => setSelectedFile(e.target.files[0])}
+                                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+                            />
                         </div>
 
                         <div className="form-actions">

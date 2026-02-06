@@ -15,7 +15,7 @@ const Module1_Entry = () => {
                 // If no task ID, user might be exploring freely (or error)
                 if (!taskId) return;
 
-                const token = localStorage.getItem('lexfix_token');
+                const token = localStorage.getItem('token');
                 // We'll use the 'student related' endpoint or a direct get-by-id if we had one.
                 // For now, let's fetch all student tasks and find the one. 
                 // Optimization: Add GET /api/tasks/:id endpoint later.

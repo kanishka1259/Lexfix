@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 import axios from 'axios';
 
 const ParentDashboard = () => {
-    const { user, logout } = useAuth();
+    const { user, logout } = useAppContext();
     const navigate = useNavigate();
     const [children, setChildren] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,7 +12,7 @@ const ParentDashboard = () => {
     useEffect(() => {
         const fetchChildrenData = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
+                const token = localStorage.getItem('token');
 
                 // 1. Get children list from Main Backend (Port 5000)
                 const childrenRes = await axios.get('http://localhost:5000/api/auth/children', {
@@ -26,7 +26,7 @@ const ParentDashboard = () => {
                     const childrenWithTasks = await Promise.all(childrenList.map(async (child) => {
                         if (child.disability === 'adhd') {
                             try {
-                                const tasksRes = await axios.get(`http://localhost:5001/api/tasks/student/${child._id}`, {
+                                const tasksRes = await axios.get(`http://localhost:5000/api/tasks/student/${child._id}`, {
                                     headers: { Authorization: `Bearer ${token}` }
                                 });
                                 return { ...child, tasks: tasksRes.data.data };

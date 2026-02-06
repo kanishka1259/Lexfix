@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAppContext } from '@/context/AppContext';
 
 const StudentDashboard = () => {
     const { disability } = useParams();
-    const { logout } = useAuth();
+    const { logout } = useAppContext();
     const navigate = useNavigate();
 
     useEffect(() => {
-        const token = localStorage.getItem('lexfix_token');
+        const token = localStorage.getItem('token');
         if (disability === 'adhd' && token) {
             // Auto-redirect ADHD students to their module internally
             navigate('/adhd');

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useAppContext } from '../context/AppContext';
 import './Login.css';
 
 const Login = () => {
     const navigate = useNavigate();
-    const { login, isAuthenticated } = useAuth();
+    const { setUser } = useAppContext();
     const [formData, setFormData] = useState({
         email: '',
         password: ''
@@ -26,21 +26,52 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
 
-        const result = await login(formData);
-        if (!result.success) return setError(result.message);
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
 
-        const user = result.data;
-        const role = user.role.toLowerCase();
+            const data = await response.json();
 
-        if (role === "student") {
-            navigate(`/student/${user.disability}`);
-        } else if (role === "teacher") {
-            navigate("/teacher");
-        } else if (role === "parent") {
-            navigate("/parent");
-        } else {
-            navigate("/hub"); // Fallback
+            if (!response.ok) {
+                setLoading(false);
+                return setError(data.message || 'Login failed');
+            }
+
+            const user = data.data || data;
+
+            // Normalize user data
+            const normalizedUser = {
+                ...user,
+                userType: user.role || user.userType || 'student',
+                username: user.name || user.username || user.email.split('@')[0],
+                token: user.token || data.token
+            };
+
+            localStorage.setItem('user', JSON.stringify(normalizedUser));
+            localStorage.setItem('token', normalizedUser.token); // Often needed for requests
+            setUser(normalizedUser);
+
+            const role = normalizedUser.userType.toLowerCase();
+
+            if (role === "student") {
+                navigate('/dashboard');
+            } else if (role === "teacher") {
+                navigate("/teacher-hub");
+            } else if (role === "parent") {
+                navigate("/parent");
+            } else {
+                navigate("/hub"); // Fallback
+            }
+        } catch (err) {
+            console.error(err);
+            setError('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
         }
     };
 

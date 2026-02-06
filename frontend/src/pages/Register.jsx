@@ -1,11 +1,9 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
 import './Register.css';
 
 const Register = () => {
     const navigate = useNavigate();
-    const { register } = useAuth();
 
     // Step 1: Role Selection, Step 2: Details
     const [step, setStep] = useState(1);
@@ -54,16 +52,36 @@ const Register = () => {
         }
 
         const { confirmPassword, ...registerData } = formData;
-        const result = await register(registerData);
 
-        if (result.success) {
-            // After registration, navigate to login so they can auto-redirect
-            navigate('/');
-        } else {
-            setError(result.message);
+        // Ensure backend compatibility fields
+        const payload = {
+            ...registerData,
+            role: registerData.role,
+            disability: registerData.role === 'student' ? registerData.disability : undefined,
+            childEmail: registerData.role === 'parent' ? registerData.childEmail : undefined
+        };
+
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (response.success || response.ok) {
+                // After registration, navigate to login so they can auto-redirect
+                navigate('/');
+            } else {
+                setError(data.message || 'Registration failed');
+            }
+        } catch (err) {
+            console.error(err);
+            setError('An error occurred. Please try again.');
+        } finally {
+            setLoading(false);
         }
-
-        setLoading(false);
     };
 
     return (

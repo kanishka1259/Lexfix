@@ -1,0 +1,145 @@
+// controllers/assignmentController.js
+import Assignment from "../models/Assignment.js";
+import User from "../models/User.js";
+
+// Create new assignment (teacher only)
+export const createAssignment = async (req, res) => {
+    try {
+        const { title, description, content, disability, assignedStudents, dueDate } = req.body;
+
+        const assignment = await Assignment.create({
+            title,
+            description,
+            content,
+            disability,
+            teacher: req.user.id,
+            assignedStudents,
+            dueDate
+        });
+
+        res.status(201).json(assignment);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get all assignments by disability type (teacher view)
+export const getAssignmentsByDisability = async (req, res) => {
+    try {
+        const { disability } = req.params;
+
+        const assignments = await Assignment.find({
+            disability,
+            teacher: req.user.id,
+            status: 'active'
+        })
+            .populate('assignedStudents', 'name email')
+            .sort({ createdAt: -1 });
+
+        res.json(assignments);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get assignments for a specific student
+export const getStudentAssignments = async (req, res) => {
+    try {
+        const studentId = (req.user.role?.toLowerCase() === 'student') ? req.user.id : req.params.studentId;
+        console.log(`[Backend] Fetching assignments for studentId: ${studentId}`);
+
+        const assignments = await Assignment.find({
+            assignedStudents: studentId,
+            status: 'active'
+        })
+            .populate('teacher', 'name email')
+            .sort({ dueDate: 1 });
+
+        console.log(`[Backend] Found ${assignments.length} assignments for student ${studentId}`);
+        res.json(assignments);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get single assignment
+export const getAssignment = async (req, res) => {
+    try {
+        const assignment = await Assignment.findById(req.params.id)
+            .populate('teacher', 'name email')
+            .populate('assignedStudents', 'name email');
+
+        if (!assignment) {
+            return res.status(404).json({ message: "Assignment not found" });
+        }
+
+        res.json(assignment);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Update assignment
+export const updateAssignment = async (req, res) => {
+    try {
+        const assignment = await Assignment.findById(req.params.id);
+
+        if (!assignment) {
+            return res.status(404).json({ message: "Assignment not found" });
+        }
+
+        // Check if user is the teacher who created it
+        if (assignment.teacher.toString() !== req.user.id.toString()) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+
+        const updated = await Assignment.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+
+        res.json(updated);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Delete assignment
+export const deleteAssignment = async (req, res) => {
+    try {
+        const assignment = await Assignment.findById(req.params.id);
+
+        if (!assignment) {
+            return res.status(404).json({ message: "Assignment not found" });
+        }
+
+        // Check if user is the teacher who created it
+        if (assignment.teacher.toString() !== req.user.id.toString()) {
+            return res.status(403).json({ message: "Not authorized" });
+        }
+
+        await Assignment.findByIdAndDelete(req.params.id);
+
+        res.json({ message: "Assignment deleted" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// Get students by disability (for teacher to assign tasks)
+export const getStudentsByDisability = async (req, res) => {
+    try {
+        const { disability } = req.params;
+        const normalizedDisability = disability.toLowerCase();
+
+        const students = await User.find({
+            role: { $in: ['student', 'Student'] },
+            disability: normalizedDisability
+        }).select('name email disability');
+
+        res.json(students);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};

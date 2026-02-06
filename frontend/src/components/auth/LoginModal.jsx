@@ -92,7 +92,7 @@ const LoginModal = ({ trigger }) => {
                 } else if (normalizedUser.userType === 'parent') {
                     navigate('/dashboard'); // Or dedicated parent route
                 } else {
-                    // Student - check for disability specific route if needed, otherwise dashboard
+                    // Student - use unified dashboard
                     navigate('/dashboard');
                 }
             } else {
