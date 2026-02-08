@@ -70,15 +70,28 @@ const Register = () => {
 
             const data = await response.json();
 
-            if (response.success || response.ok) {
-                // After registration, navigate to login so they can auto-redirect
-                navigate('/');
+            if (response.ok && data.success) {
+                // Auto-login after registration
+                const user = data.data;
+                const normalizedUser = {
+                    ...user,
+                    userType: user.role || 'student',
+                    username: user.name || user.email.split('@')[0],
+                    token: user.token
+                };
+
+                localStorage.setItem('user', JSON.stringify(normalizedUser));
+                localStorage.setItem('token', normalizedUser.token);
+
+                // If context has setUser, we would call it here, but Register doesn't use it yet
+                // For now, redirecting to dashboard which will pick up from localStorage
+                window.location.href = '/dashboard';
             } else {
                 setError(data.message || 'Registration failed');
             }
         } catch (err) {
-            console.error(err);
-            setError('An error occurred. Please try again.');
+            console.error('Registration Error:', err);
+            setError('An error occurred during registration. Please check your connection and try again.');
         } finally {
             setLoading(false);
         }

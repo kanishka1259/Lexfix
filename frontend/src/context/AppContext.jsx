@@ -3,7 +3,10 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
-    const [isDyslexic, setIsDyslexic] = useState(false);
+    const [isDyslexic, setIsDyslexic] = useState(() => {
+        return localStorage.getItem('isDyslexic') === 'true';
+    });
+
     const [user, setUser] = useState(() => {
         try {
             const savedUser = localStorage.getItem('user');
@@ -18,7 +21,7 @@ export const AppProvider = ({ children }) => {
             const savedUser = localStorage.getItem('user');
             if (!savedUser) return 'student';
             const parsed = JSON.parse(savedUser);
-            return parsed && parsed.userType ? parsed.userType : 'student';
+            return parsed && (parsed.userType || parsed.role) ? (parsed.userType || parsed.role) : 'student';
         } catch (e) {
             return 'student';
         }
@@ -31,12 +34,13 @@ export const AppProvider = ({ children }) => {
         } else {
             document.body.classList.remove('font-dyslexic');
         }
+        localStorage.setItem('isDyslexic', isDyslexic);
     }, [isDyslexic]);
 
     const logout = () => {
         localStorage.removeItem('user');
+        localStorage.removeItem('token');
         setUser(null);
-        // We don't necessarily reset userType to 'student' here if we want to remember it for future landing page views
     };
 
     return (

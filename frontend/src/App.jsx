@@ -18,6 +18,7 @@ import DisabilityManagement from '@/pages/teacher/DisabilityManagement';
 import StudentDashboard from '@/pages/StudentDashboard';
 import StudentTaskList from '@/pages/student/StudentTaskList';
 import LineByLineReader from '@/pages/student/LineByLineReader';
+import Profile from '@/pages/student/Profile';
 
 // Learning Platform - Parent  
 import ParentDashboardMain from '@/pages/parent/ParentDashboardMain';
@@ -27,6 +28,7 @@ function App() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/dashboard" element={<DashboardPage />} />
+      <Route path="/profile" element={<Profile />} />
 
       {/* ADHD Module Routes */}
       <Route path="/adhd" element={<ModuleDashboard />} />
@@ -43,6 +45,7 @@ function App() {
       {/* Learning Platform - Student Routes */}
       <Route path="/student-tasks" element={<StudentDashboard />} />
       <Route path="/student/read/:assignmentId" element={<LineByLineReader />} />
+      <Route path="/student/profile" element={<Profile />} />
 
       {/* Learning Platform - Parent Routes */}
       <Route path="/parent-dashboard" element={<ParentDashboardMain />} />

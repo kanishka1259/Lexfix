@@ -144,11 +144,13 @@
     font-weight: 600;
     color: var(--color-text-main);
     font-size: 0.95rem;
+    text-transform: none !important;
 }
 
 .student-email {
     font-size: 0.8rem;
     color: var(--color-text-muted);
+    text-transform: none !important;
 }
 
 .no-students {

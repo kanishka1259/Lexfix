@@ -35,9 +35,23 @@ const Module1_Entry = () => {
         fetchTask();
     }, [taskId]);
 
-    const handleStart = () => {
-        // Navigate to Module 2 (Content)
-        navigate(`/module/content?taskId=${taskId}`);
+    const handleStart = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.post('http://localhost:5000/api/adhd/session/start', {
+                taskId: taskId
+            }, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+
+            const sessionId = response.data.data._id;
+            // Navigate to Module 2 (Content) with taskId and sessionId
+            navigate(`/adhd/module/content?taskId=${taskId}&sessionId=${sessionId}`);
+        } catch (error) {
+            console.error("Error starting session:", error);
+            // Fallback: Start without session tracking if API fails
+            navigate(`/adhd/module/content?taskId=${taskId}`);
+        }
     };
 
     return (

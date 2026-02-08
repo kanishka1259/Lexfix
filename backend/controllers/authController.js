@@ -15,7 +15,9 @@ const generateToken = (id, role) => {
 ========================= */
 export const register = async (req, res) => {
     try {
-        const { name, email, password, role, disability, parentEmail, childEmail } = req.body;
+        let { name, email, password, role, disability, parentEmail, childEmail } = req.body;
+        email = email.toLowerCase();
+        console.log(`[AuthController] Registration attempt:`, { name, email, role, disability });
 
         if (!name || !email || !password || !role) {
             return res.status(400).json({ message: "Missing required fields" });
@@ -100,7 +102,8 @@ export const register = async (req, res) => {
 ========================= */
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        let { email, password } = req.body;
+        email = email.toLowerCase();
 
         if (!email || !password) {
             return res.status(400).json({ message: "Email and password required" });

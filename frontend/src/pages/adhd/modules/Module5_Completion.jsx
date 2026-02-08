@@ -15,7 +15,7 @@ const Module5_Completion = () => {
                     +50 XP Earned
                 </div>
 
-                <button className="primary-btn" onClick={() => navigate('/')}>
+                <button className="primary-btn" onClick={() => navigate('/adhd')}>
                     Return to Dashboard
                 </button>
             </div>

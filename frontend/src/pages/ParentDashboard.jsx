@@ -9,15 +9,33 @@ const ParentDashboard = () => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        // Fetch linked students or mock data for now
-        // In a real scenario, we'd fetch from /api/users/linked-students
         const fetchProgress = async () => {
             try {
-                // Mocking data since specific endpoint might not exist yet
-                // Use actual API call when 'linked-students' endpoint is ready
-                setStudents([
-                    { id: 1, name: "Student Demo", disability: "ADHD", progress: 75, lastActive: "2 hours ago" }
-                ]);
+                const token = localStorage.getItem('token');
+                if (!token) return;
+
+                const headers = { Authorization: `Bearer ${token}` };
+
+                // 1. Get children from ADHD Backend (Port 5000)
+                const childrenRes = await axios.get('http://localhost:5000/api/parent/children', { headers });
+                const childrenList = childrenRes.data;
+
+                // 2. Fetch progress for each child
+                const childrenWithData = await Promise.all(childrenList.map(async (child) => {
+                    try {
+                        const progressRes = await axios.get(`http://localhost:5000/api/parent/child/${child._id}/progress`, { headers });
+                        return {
+                            ...child,
+                            statistics: progressRes.data.statistics,
+                            submissions: progressRes.data.submissions,
+                            lastActive: progressRes.data.submissions?.[0] ? new Date(progressRes.data.submissions[0].updatedAt).toLocaleTimeString() : 'No recent activity'
+                        };
+                    } catch (e) {
+                        return { ...child, statistics: null, submissions: [], lastActive: 'No data' };
+                    }
+                }));
+
+                setStudents(childrenWithData);
             } catch (err) {
                 console.error("Failed to fetch progress", err);
             } finally {
@@ -25,8 +43,8 @@ const ParentDashboard = () => {
             }
         };
 
-        fetchProgress();
-    }, []);
+        if (user) fetchProgress();
+    }, [user]);
 
     return (
         <div className="min-h-screen bg-gray-50 p-8">
@@ -68,17 +86,43 @@ const ParentDashboard = () => {
                                     </div>
                                 </div>
 
-                                <div className="bg-gray-50 p-4 rounded-lg">
-                                    <div className="flex justify-between text-sm mb-2">
-                                        <span>Course Completion</span>
-                                        <span className="font-bold">{student.progress}%</span>
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                    <div className="bg-green-50 p-4 rounded-lg border border-green-100">
+                                        <p className="text-xs text-green-600 uppercase font-bold mb-1">Completed</p>
+                                        <p className="text-2xl font-bold text-green-700">{student.statistics?.completedAssignments || 0}</p>
                                     </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                        <div
-                                            className="bg-blue-600 h-2.5 rounded-full"
-                                            style={{ width: `${student.progress}%` }}
-                                        ></div>
+                                    <div className="bg-amber-50 p-4 rounded-lg border border-amber-100">
+                                        <p className="text-xs text-amber-600 uppercase font-bold mb-1">In Progress</p>
+                                        <p className="text-2xl font-bold text-amber-700">{student.statistics?.inProgressAssignments || 0}</p>
                                     </div>
+                                    <div className="bg-blue-50 p-4 rounded-lg border border-blue-100">
+                                        <p className="text-xs text-blue-600 uppercase font-bold mb-1">Focus Level</p>
+                                        <p className="text-2xl font-bold text-blue-700">
+                                            {student.statistics?.totalDistractions === 0 ? 'High' : (student.statistics?.totalDistractions > 5 ? 'Low' : 'Med')}
+                                        </p>
+                                    </div>
+                                    <div className="bg-purple-50 p-4 rounded-lg border border-purple-100">
+                                        <p className="text-xs text-purple-600 uppercase font-bold mb-1">Time Spent</p>
+                                        <p className="text-2xl font-bold text-purple-700">{Math.floor((student.statistics?.totalTimeSpent || 0) / 60)}m</p>
+                                    </div>
+                                </div>
+
+                                <div className="mt-4">
+                                    <h4 className="text-sm font-bold text-gray-700 mb-3 border-b pb-2">Recent Activities</h4>
+                                    {student.submissions && student.submissions.length > 0 ? (
+                                        <div className="space-y-2">
+                                            {student.submissions.slice(0, 3).map(sub => (
+                                                <div key={sub._id} className="flex justify-between items-center text-sm p-2 hover:bg-gray-50 rounded">
+                                                    <span className="text-gray-600">{sub.assignment?.title || 'Learning Task'}</span>
+                                                    <span className={`font-semibold ${sub.status === 'completed' ? 'text-green-600' : 'text-amber-600'}`}>
+                                                        {sub.status.toUpperCase()}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm text-gray-400 italic">No recent activity detected.</p>
+                                    )}
                                 </div>
                             </div>
                         ))}

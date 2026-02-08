@@ -115,17 +115,27 @@ const SignupModal = ({ trigger }) => {
             const data = await response.json();
             console.log("SignupModal: Response received:", data);
 
-            if (response.ok) {
-                localStorage.setItem('user', JSON.stringify(data.data)); // Backend sends data in data.data
-                localStorage.setItem('token', data.data.token); // Store token
-                setUser(data.data);
+            if (response.ok && data.success) {
+                const user = data.data;
+                const normalizedUser = {
+                    ...user,
+                    userType: user.role || 'student',
+                    username: user.name || user.email.split('@')[0],
+                    token: user.token
+                };
+
+                localStorage.setItem('user', JSON.stringify(normalizedUser));
+                localStorage.setItem('token', normalizedUser.token);
+                setUser(normalizedUser);
 
                 // Redirect based on role
-                if (data.data.role === 'teacher') navigate('/teacher-hub');
-                else if (data.data.role === 'student') navigate('/student-tasks');
-                else if (data.data.role === 'parent') navigate('/parent-dashboard');
+                if (normalizedUser.userType === 'teacher') navigate('/teacher-hub');
+                else if (normalizedUser.userType === 'student') navigate('/dashboard');
+                else if (normalizedUser.userType === 'parent') navigate('/parent-dashboard');
                 else navigate('/dashboard');
 
+                // Reload to ensure context and state are fully reset with new user
+                window.location.reload();
             } else {
                 setError({ ...error, custom: data.message || 'Signup failed' });
             }

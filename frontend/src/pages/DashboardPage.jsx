@@ -1,12 +1,13 @@
 import React from 'react';
 import { useAppContext } from '@/context/AppContext';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '@/components/Navbar';
 import TeacherDashboard from './teacher/TeacherDashboard';
-import ParentDashboard from './ParentDashboard';  // Assuming this exists at root or pages
-import StudentDashboard from './StudentDashboard'; // Assuming this exists at root or pages
+import ParentDashboard from './ParentDashboard';
+import StudentDashboard from './StudentDashboard';
 
 const DashboardPage = () => {
-    const { user, logout } = useAppContext();
+    const { user } = useAppContext();
     const navigate = useNavigate();
 
     // Redirect if not logged in
@@ -18,40 +19,17 @@ const DashboardPage = () => {
 
     if (!user) return null;
 
-    // Normalize role string - backend uses role
+    // Normalize role string
     const role = (user.role || user.userType || 'student').toLowerCase();
 
-    console.log("DashboardPage Debug:", { user, role });
-
-    // Dispatch to specific dashboards based on role
-    if (role === 'teacher') {
-        return <TeacherDashboard user={user} />;
-    }
-
-    if (role === 'parent') {
-        return <ParentDashboard user={user} />;
-    }
-
-    if (role === 'student') {
-        // If there's a specific Student Hub, use it. 
-        // Otherwise, render the generic student view here or use StudentDashboard component
-        return <StudentDashboard user={user} />;
-    }
-
-    // Fallback for unknown roles (or if StudentDashboard isn't desired for base student)
     return (
-        <div className="min-h-screen bg-brand-cream p-8">
-            <header className="flex justify-between items-center mb-12">
-                {/* ... (keep existing header for fallback) ... */}
-                <div className="flex items-center gap-4">
-                    <img src="/LexFix-Logo.png" alt="LexFix Logo" className="h-12 w-auto object-contain" />
-                    <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
-                </div>
-                <button onClick={logout}>Log Out</button>
-            </header>
-            <main>
-                <h2>Unknown Role: {role}</h2>
-            </main>
+        <div className="flex flex-col min-h-screen">
+            <Navbar />
+            <div className="flex-1 mt-20">
+                {role === 'teacher' && <TeacherDashboard user={user} />}
+                {role === 'parent' && <ParentDashboard user={user} />}
+                {role === 'student' && <StudentDashboard user={user} />}
+            </div>
         </div>
     );
 };

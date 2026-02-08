@@ -10,7 +10,9 @@ const StudentDashboard = ({ user }) => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token') || localStorage.getItem('token');
                 const studentId = user?.id || user?._id;
 
                 if (!token || !studentId) {

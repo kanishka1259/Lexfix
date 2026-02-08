@@ -10,7 +10,7 @@ export const upsertSubmission = async (req, res) => {
 
         let submission = await Submission.findOne({
             assignment: assignmentId,
-            student: req.user._id
+            student: req.user.id
         });
 
         if (submission) {
@@ -35,7 +35,7 @@ export const upsertSubmission = async (req, res) => {
             // Create new submission
             submission = await Submission.create({
                 assignment: assignmentId,
-                student: req.user._id,
+                student: req.user.id,
                 currentSentenceIndex: currentSentenceIndex ?? 0,
                 timeSpent: timeSpent ?? 0,
                 distractionCount: distractionCount ?? 0,
@@ -58,7 +58,7 @@ export const getStudentSubmission = async (req, res) => {
 
         const submission = await Submission.findOne({
             assignment: assignmentId,
-            student: req.user._id
+            student: req.user.id
         }).populate('assignment');
 
         res.json(submission);
@@ -70,7 +70,7 @@ export const getStudentSubmission = async (req, res) => {
 // Get all submissions for a student
 export const getAllStudentSubmissions = async (req, res) => {
     try {
-        const studentId = req.user.role === 'student' ? req.user._id : req.params.studentId;
+        const studentId = req.user.role === 'student' ? req.user.id : req.params.studentId;
 
         const submissions = await Submission.find({
             student: studentId
@@ -107,7 +107,7 @@ export const startReadingSession = async (req, res) => {
         const { assignmentId, submissionId } = req.body;
 
         const session = await ReadingSession.create({
-            student: req.user._id,
+            student: req.user.id,
             assignment: assignmentId,
             submission: submissionId,
             startTime: new Date(),

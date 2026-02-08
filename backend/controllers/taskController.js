@@ -15,6 +15,8 @@ export const createTask = async (req, res) => {
         const { title, content, studentId } = req.body;
         const attachmentUrl = req.file ? `/uploads/${req.file.filename}` : null;
 
+        console.log(`[TaskController] Creating task for student: ${studentId}, by teacher: ${user.id || user._id}`);
+
         if (!title || !content || !studentId) {
             return res.status(400).json({ message: "Please provide title, content and student ID" });
         }
@@ -34,6 +36,8 @@ export const createTask = async (req, res) => {
             difficulty: 'Medium',
             estimatedTime: 15
         });
+
+        console.log(`[TaskController] Task created successfully: ${newTask._id}`);
 
         res.status(201).json({
             success: true,
@@ -81,9 +85,12 @@ export const getTasksByStudent = async (req, res) => {
 
 export const getTasksByTeacher = async (req, res) => {
     try {
-        const tasks = await Task.find({ createdBy: req.params.teacherId })
+        const teacherId = req.params.teacherId;
+        console.log(`[TaskController] Fetching tasks for teacher: ${teacherId}`);
+        const tasks = await Task.find({ createdBy: teacherId })
             .sort({ createdAt: -1 })
             .limit(10);
+        console.log(`[TaskController] Found ${tasks.length} tasks for teacher ${teacherId}`);
 
         res.status(200).json({
             success: true,
@@ -93,5 +100,20 @@ export const getTasksByTeacher = async (req, res) => {
     } catch (error) {
         console.error('Get teacher tasks error:', error);
         res.status(500).json({ message: 'Server error fetching teacher tasks' });
+    }
+};
+export const getTaskById = async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+        if (!task) {
+            return res.status(404).json({ message: "Task not found" });
+        }
+        res.status(200).json({
+            success: true,
+            data: task
+        });
+    } catch (error) {
+        console.error('Get task detail error:', error);
+        res.status(500).json({ message: 'Server error fetching task detail' });
     }
 };

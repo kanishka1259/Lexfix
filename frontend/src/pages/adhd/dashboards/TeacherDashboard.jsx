@@ -15,7 +15,10 @@ const TeacherDashboard = ({ user }) => {
     useEffect(() => {
         const fetchInitialData = async () => {
             try {
-                const token = localStorage.getItem('token');
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token') || localStorage.getItem('token');
+
                 if (!token) {
                     setMessage("Authentication token missing. Please login again.");
                     setLoading(false);
@@ -27,7 +30,15 @@ const TeacherDashboard = ({ user }) => {
                     headers: { Authorization: `Bearer ${token}` }
                 });
                 if (studentsRes.data.success) {
-                    setStudents(studentsRes.data.data);
+                    // Filter for ADHD students only
+                    const adhdStudents = studentsRes.data.data.filter(s => {
+                        const hasDisability = (d) => {
+                            if (Array.isArray(d)) return d.some(x => x.toLowerCase().includes('adhd'));
+                            return d && d.toLowerCase().includes('adhd');
+                        };
+                        return hasDisability(s.disability) || hasDisability(s.disabilities);
+                    });
+                    setStudents(adhdStudents);
                 }
 
                 // Fetch Recent Tasks
@@ -102,11 +113,11 @@ const TeacherDashboard = ({ user }) => {
 
             // Refresh recent tasks
             const teacherId = user?.id || user?._id;
-            const tasksRes = await axios.get(`http://localhost:5000/api/tasks/teacher/${teacherId}`, {
+            const refreshResponse = await axios.get(`http://localhost:5000/api/tasks/teacher/${teacherId}`, {
                 headers: { Authorization: `Bearer ${token}` }
             });
-            if (tasksRes.data.success) {
-                setRecentTasks(tasksRes.data.data);
+            if (refreshResponse.data.success) {
+                setRecentTasks(refreshResponse.data.data);
             }
         } catch (error) {
             console.error("Assignment error:", error);
@@ -158,7 +169,7 @@ const TeacherDashboard = ({ user }) => {
                                                 <span className="checkmark"></span>
                                                 <div className="student-info-label">
                                                     <span className="student-name">{student.name}</span>
-                                                    <span className="student-email">{student.email}</span>
+                                                    <span className="student-email">{student.email.toLowerCase()}</span>
                                                 </div>
                                             </label>
                                         </div>

@@ -5,6 +5,7 @@ const Module3_Pacing = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
+    const sessionId = searchParams.get('sessionId');
     const [timeLeft, setTimeLeft] = useState(60); // 1 minute break/pacing logic
     const [isActive, setIsActive] = useState(true);
 
@@ -22,8 +23,8 @@ const Module3_Pacing = () => {
     }, [isActive, timeLeft]);
 
     const handleContinue = () => {
-        // Go to Progress module
-        navigate(`/module/progress?taskId=${taskId}`);
+        // Go to Progress module with sessionId
+        navigate(`/adhd/module/progress?taskId=${taskId}${sessionId ? `&sessionId=${sessionId}` : ''}`);
     };
 
     const formatTime = (seconds) => {

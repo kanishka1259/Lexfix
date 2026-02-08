@@ -6,6 +6,7 @@ const Module4_Progress = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
+    const sessionId = searchParams.get('sessionId');
     const [stats, setStats] = useState({
         focusScore: 85,
         readingSpeed: 'Normal',
@@ -14,13 +15,20 @@ const Module4_Progress = () => {
 
     const handleFinish = async () => {
         try {
-            // Here we would confirm task completion with backend
-            // const token = localStorage.getItem('lexfix_token');
-            // await axios.post('/api/progress/update', ...);
+            if (sessionId) {
+                const token = localStorage.getItem('token');
+                await axios.post('http://localhost:5000/api/adhd/session/complete', {
+                    sessionId,
+                    moduleCompleted: 4
+                }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            }
 
-            navigate(`/module/completion?taskId=${taskId}`);
+            navigate(`/adhd/module/completion?taskId=${taskId}`);
         } catch (error) {
             console.error("Error saving progress", error);
+            navigate(`/adhd/module/completion?taskId=${taskId}`);
         }
     };
 

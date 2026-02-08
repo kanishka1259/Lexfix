@@ -2,7 +2,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '@/context/AppContext';
 import LoginModal from './auth/LoginModal';
 import SignupModal from './auth/SignupModal';
-import { Type, ArrowLeft } from 'lucide-react'; // Icon for font toggle
+import { Type, ArrowLeft, User } from 'lucide-react'; // Icon for font toggle
 
 const Navbar = () => {
     const { userType, setUserType, user, logout, isDyslexic, setIsDyslexic } = useAppContext();
@@ -80,10 +80,20 @@ const Navbar = () => {
                 {/* Auth Buttons */}
                 {user ? (
                     <div className="flex items-center gap-4">
-                        <div className="text-right hidden lg:block">
+                        <div
+                            onClick={() => navigate('/profile')}
+                            className="text-right hidden lg:block cursor-pointer hover:opacity-80 transition-opacity"
+                        >
                             <p className="text-sm font-semibold text-gray-900 leading-tight">{user.name}</p>
                             <p className="text-xs text-gray-500 uppercase tracking-wider">{user.role}</p>
                         </div>
+                        <button
+                            onClick={() => navigate('/profile')}
+                            className="p-2 bg-slate-50 text-slate-600 rounded-lg hover:bg-slate-100 transition-colors border border-slate-200"
+                            title="View Profile"
+                        >
+                            <User className="w-5 h-5" />
+                        </button>
                         <button
                             onClick={logout}
                             className="px-4 py-2 text-sm font-bold text-red-600 border border-red-100 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"

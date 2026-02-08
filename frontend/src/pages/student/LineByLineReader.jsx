@@ -1,6 +1,5 @@
 // pages/student/LineByLineReader.jsx
-import { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import MindGames from '../../components/MindGames';
 import './LineByLineReader.css';
 
@@ -26,11 +25,10 @@ export default function LineByLineReader() {
     const fetchAssignment = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:5000/api/assignments/${assignmentId}`, {
+            const response = await axios.get(`http://localhost:5000/api/assignments/${assignmentId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            const data = await response.json();
-            setAssignment(data);
+            setAssignment(response.data);
         } catch (error) {
             console.error('Error fetching assignment:', error);
         }
@@ -40,7 +38,7 @@ export default function LineByLineReader() {
         if ('speechSynthesis' in window) {
             setIsPlaying(true);
             const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9; // Slightly slower for clarity
+            utterance.rate = 0.9;
             utterance.pitch = 1.1;
             utterance.onend = () => {
                 setIsPlaying(false);
@@ -64,19 +62,14 @@ export default function LineByLineReader() {
     const updateProgress = async () => {
         try {
             const token = localStorage.getItem('token');
-            await fetch('http://localhost:5000/api/submissions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    assignmentId: assignment._id,
-                    currentSentenceIndex: currentIndex,
-                    timeSpent,
-                    distractionCount: distractions,
-                    status: 'in-progress'
-                })
+            await axios.post('http://localhost:5000/api/submissions', {
+                assignmentId: assignment._id,
+                currentSentenceIndex: currentIndex,
+                timeSpent,
+                distractionCount: distractions,
+                status: 'in-progress'
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
         } catch (error) {
             console.error('Error updating progress:', error);
@@ -86,23 +79,22 @@ export default function LineByLineReader() {
     const completeAssignment = async () => {
         try {
             const token = localStorage.getItem('token');
-            await fetch('http://localhost:5000/api/submissions', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify({
-                    assignmentId: assignment._id,
-                    currentSentenceIndex: currentIndex,
-                    timeSpent,
-                    distractionCount: distractions,
-                    status: 'completed'
-                })
+            await axios.post('http://localhost:5000/api/submissions', {
+                assignmentId: assignment._id,
+                currentSentenceIndex: currentIndex,
+                timeSpent,
+                distractionCount: distractions,
+                status: 'completed'
+            }, {
+                headers: { 'Authorization': `Bearer ${token}` }
             });
-            navigate('/student-dashboard');
+
+            // Navigate back to the main dashboard
+            navigate('/dashboard');
         } catch (error) {
             console.error('Error completing assignment:', error);
+            // Fallback navigation
+            navigate('/dashboard');
         }
     };
 
@@ -116,11 +108,23 @@ export default function LineByLineReader() {
     };
 
     if (!assignment) {
-        return <div className="loading-container">Loading...</div>;
+        return <div className="loading-container">Loading assignment details...</div>;
     }
 
     if (showMindGames) {
         return <MindGames onClose={closeMindGames} />;
+    }
+
+    if (!assignment.sentences || assignment.sentences.length === 0) {
+        return (
+            <div className="error-container">
+                <h2>No content found</h2>
+                <p>This assignment doesn't seem to have any readable content yet.</p>
+                <button onClick={() => navigate('/dashboard')} className="back-btn">
+                    Back to Dashboard
+                </button>
+            </div>
+        );
     }
 
     const progress = ((currentIndex + 1) / assignment.sentences.length) * 100;

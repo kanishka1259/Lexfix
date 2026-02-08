@@ -1,38 +1,92 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import axios from 'axios';
+import { useAppContext } from '../../context/AppContext';
 
 const Module2_Content = () => {
+    const { user } = useAppContext();
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
+    const sessionId = searchParams.get('sessionId');
     const [currentSentenceIndex, setCurrentSentenceIndex] = useState(0);
     const [sentences, setSentences] = useState([]);
     const [loading, setLoading] = useState(true);
-
-    // Mock Content if fetching fails (so user sees something working)
-    const mockSentences = [
-        "Welcome to your focused reading session.",
-        "This interface is designed to reduce visual clutter.",
-        "You will read one sentence at a time.",
-        "Take a deep breath and focus on the words.",
-        "You are doing great, keep going!"
-    ];
+    const [startTime, setStartTime] = useState(Date.now());
 
     useEffect(() => {
-        // Fetch task content (Mocking for now to ensure "fast" working state)
-        // In real impl, we fetch logic from API
-        // For now, let's use mock data if ID is present
-        setSentences(mockSentences);
-        setLoading(false);
-    }, [taskId]);
+        // Reset start time whenever sentence changes
+        setStartTime(Date.now());
+    }, [currentSentenceIndex]);
 
-    const handleNext = () => {
+    useEffect(() => {
+        const fetchContent = async () => {
+            if (!taskId) {
+                setLoading(false);
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                // Try fetching as an Assignment first, then as a Task
+                let response;
+                try {
+                    response = await axios.get(`http://localhost:5000/api/assignments/${taskId}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                } catch (e) {
+                    response = await axios.get(`http://localhost:5000/api/tasks/student/${user?.id || user?._id}`, {
+                        headers: { Authorization: `Bearer ${token}` }
+                    });
+                    // If it was a generic task list, find the specific one
+                    if (response.data.success) {
+                        const specificTask = response.data.data.find(t => t._id === taskId);
+                        response = { data: specificTask };
+                    }
+                }
+
+                const data = response.data;
+                const fetchedSentences = data.sentences || (Array.isArray(data.content) ? data.content : [data.content]);
+
+                if (fetchedSentences && fetchedSentences.length > 0) {
+                    setSentences(fetchedSentences);
+                } else {
+                    setSentences(["No content available for this task."]);
+                }
+            } catch (error) {
+                console.error("Error fetching module content:", error);
+                setSentences(["Error loading content. Please try again."]);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchContent();
+    }, [taskId, user]);
+
+    const handleNext = async () => {
+        // Track progress if sessionId exists
+        if (sessionId) {
+            try {
+                const token = localStorage.getItem('token');
+                const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+                await axios.post('http://localhost:5000/api/adhd/session/sentence', {
+                    sessionId,
+                    sentenceIndex: currentSentenceIndex,
+                    timeSpent
+                }, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+            } catch (e) {
+                console.error("Error tracking sentence:", e);
+            }
+        }
+
         if (currentSentenceIndex < sentences.length - 1) {
             setCurrentSentenceIndex(prev => prev + 1);
         } else {
-            // Navigate to next module
-            navigate(`/module/pacing?taskId=${taskId}`);
+            // Navigate to next module with sessionId
+            navigate(`/adhd/module/pacing?taskId=${taskId}${sessionId ? `&sessionId=${sessionId}` : ''}`);
         }
     };
 

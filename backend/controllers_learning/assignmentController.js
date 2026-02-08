@@ -46,7 +46,7 @@ export const getAssignmentsByDisability = async (req, res) => {
 export const getStudentAssignments = async (req, res) => {
     try {
         const studentId = (req.user.role?.toLowerCase() === 'student') ? req.user.id : req.params.studentId;
-        console.log(`[Backend] Fetching assignments for studentId: ${studentId}`);
+        console.log(`[AssignmentController] Fetching assignments for studentId: ${studentId} (UserRole: ${req.user.role})`);
 
         const assignments = await Assignment.find({
             assignedStudents: studentId,
