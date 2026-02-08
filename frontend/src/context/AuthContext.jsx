@@ -47,7 +47,8 @@ export const AuthProvider = ({ children }) => {
             setUser(data);
 
             // Navigate based on role
-            switch (data.role) {
+            const role = data.role.toLowerCase();
+            switch (role) {
                 case 'teacher':
                     navigate('/teacher-hub');
                     break;
@@ -86,7 +87,8 @@ export const AuthProvider = ({ children }) => {
             setUser(data);
 
             // Navigate based on role
-            switch (data.role) {
+            const role = data.role.toLowerCase();
+            switch (role) {
                 case 'teacher':
                     navigate('/teacher-hub');
                     break;

@@ -12,7 +12,7 @@ const generateToken = (id) => {
 // Register user
 export const register = async (req, res) => {
     try {
-        const { name, email, password, role, parentEmail, disability } = req.body;
+        const { name, email, password, role, parentEmail, childEmail, disability } = req.body;
 
         // Check if user exists
         const userExists = await User.findOne({ email });
@@ -21,14 +21,14 @@ export const register = async (req, res) => {
         }
 
         let parentId = null;
+        const normalizedRole = role.toLowerCase();
 
-        // If student, find parent by email
-        if (role === 'Student' && parentEmail) {
-            const parent = await User.findOne({ email: parentEmail, role: 'Parent' });
-            if (!parent) {
-                return res.status(400).json({ message: "Parent not found with that email" });
+        // Handle Parent-Child linking during Student registration
+        if (normalizedRole === 'student' && parentEmail) {
+            const parent = await User.findOne({ email: parentEmail.toLowerCase(), role: 'parent' });
+            if (parent) {
+                parentId = parent._id;
             }
-            parentId = parent._id;
         }
 
         // Create user
@@ -36,16 +36,30 @@ export const register = async (req, res) => {
             name,
             email,
             password,
-            role,
-            disability: role === 'student' ? disability : undefined,
-            parentId
+            role: normalizedRole,
+            disability: normalizedRole === 'student' ? disability : undefined,
+            parentId,
+            childEmail: normalizedRole === 'parent' ? childEmail : undefined
         });
 
         // If student, add to parent's children array
-        if (role === 'Student' && parentId) {
+        if (normalizedRole === 'student' && parentId) {
             await User.findByIdAndUpdate(parentId, {
                 $push: { children: user._id }
             });
+        }
+
+        // If parent, check if child already exists and link them
+        if (normalizedRole === 'parent' && childEmail) {
+            const child = await User.findOne({ email: childEmail.toLowerCase(), role: 'student' });
+            if (child) {
+                await User.findByIdAndUpdate(user._id, {
+                    $push: { children: child._id }
+                });
+                await User.findByIdAndUpdate(child._id, {
+                    parentId: user._id
+                });
+            }
         }
 
         const token = generateToken(user._id);

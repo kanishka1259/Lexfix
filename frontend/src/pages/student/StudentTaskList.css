@@ -133,6 +133,46 @@
     font-size: 1.3rem;
 }
 
+.no-assignments.mini {
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.task-section {
+    margin-bottom: 60px;
+}
+
+.section-title {
+    color: white;
+    font-size: 1.8rem;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.task-card.completed {
+    background: rgba(255, 255, 255, 0.85);
+    border-left: 8px solid #48bb78;
+}
+
+.badge.completed-badge {
+    background: #48bb78;
+    color: white;
+}
+
+.review-btn {
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+}
+
+.review-btn:hover {
+    box-shadow: 0 8px 15px rgba(72, 187, 120, 0.3);
+}
+
 @media (max-width: 768px) {
     .task-grid {
         grid-template-columns: 1fr;

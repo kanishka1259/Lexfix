@@ -11,6 +11,7 @@ export default function Register() {
         password: '',
         role: 'student',
         parentEmail: '',
+        childEmail: '',
         disability: 'adhd'
     });
     const [error, setError] = useState('');
@@ -162,18 +163,35 @@ export default function Register() {
                             </div>
 
                             <div className="form-group">
-                                <label htmlFor="parentEmail">Parent's Email (Optional)</label>
+                                <label htmlFor="parentEmail">Parent's Email (Required for monitoring)</label>
                                 <input
                                     type="email"
                                     id="parentEmail"
                                     name="parentEmail"
                                     className="form-input"
-                                    placeholder="Enter parent's email for monitoring"
+                                    placeholder="Enter parent's email"
                                     value={formData.parentEmail}
                                     onChange={handleChange}
+                                    required
                                 />
                             </div>
                         </>
+                    )}
+
+                    {formData.role === 'parent' && (
+                        <div className="form-group">
+                            <label htmlFor="childEmail">Child's Email (Required for linking)</label>
+                            <input
+                                type="email"
+                                id="childEmail"
+                                name="childEmail"
+                                className="form-input"
+                                placeholder="Enter student's email"
+                                value={formData.childEmail}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
                     )}
 
                     <button

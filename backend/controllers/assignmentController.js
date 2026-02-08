@@ -1,6 +1,7 @@
 // controllers/assignmentController.js
 import Assignment from "../models/Assignment.js";
 import User from "../models/User.js";
+import Submission from "../models/Submission.js";
 
 // Create new assignment (teacher only)
 export const createAssignment = async (req, res) => {
@@ -47,6 +48,7 @@ export const getStudentAssignments = async (req, res) => {
     try {
         const studentId = req.user.role === 'student' ? req.user._id : req.params.studentId;
 
+        // Fetch all assignments assigned to this student
         const assignments = await Assignment.find({
             assignedStudents: studentId,
             status: 'active'
@@ -54,7 +56,20 @@ export const getStudentAssignments = async (req, res) => {
             .populate('teacher', 'name email')
             .sort({ dueDate: 1 });
 
-        res.json(assignments);
+        // Fetch submissions for this student to determine status
+        const submissions = await Submission.find({ student: studentId });
+
+        // Map status to assignments
+        const assignmentsWithStatus = assignments.map(assignment => {
+            const submission = submissions.find(s => s.assignment.toString() === assignment._id.toString());
+            return {
+                ...assignment.toObject(),
+                submissionStatus: submission ? submission.status : 'not-started',
+                completedAt: submission ? submission.completedAt : null
+            };
+        });
+
+        res.json(assignmentsWithStatus);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

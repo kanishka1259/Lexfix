@@ -44,53 +44,79 @@ export default function StudentTaskList() {
         navigate(`/student/read/${assignment._id}`);
     };
 
+    const pendingAssignments = assignments.filter(a => a.submissionStatus !== 'completed');
+    const completedAssignments = assignments.filter(a => a.submissionStatus === 'completed');
+
     return (
         <div className="student-task-list">
             <header className="task-header">
                 <div>
                     <h1>👋 Hi, {user?.name}!</h1>
-                    <p>Your {user?.disability?.toUpperCase()} learning assignments</p>
+                    <p>Your {user?.disability?.toUpperCase()} learning hub</p>
                 </div>
             </header>
 
             <div className="task-container">
                 {loading ? (
-                    <div className="loading">Loading your assignments...</div>
-                ) : assignments.length === 0 ? (
-                    <div className="no-assignments">
-                        <p>🎉 No assignments yet! Check back later.</p>
-                    </div>
+                    <div className="loading">Syncing your progress...</div>
                 ) : (
-                    <div className="task-grid">
-                        {assignments.map(assignment => (
-                            <div key={assignment._id} className="task-card">
-                                <div className="card-header">
-                                    <h3>{assignment.title}</h3>
-                                    {getStatusBadge(assignment.dueDate)}
+                    <>
+                        {/* Pending Assignments */}
+                        <section className="task-section">
+                            <h2 className="section-title">🕒 Pending Tasks</h2>
+                            {pendingAssignments.length === 0 ? (
+                                <div className="no-assignments mini">
+                                    <p>🎉 All caught up! No pending tasks.</p>
                                 </div>
-
-                                <p className="task-description">
-                                    {assignment.description || 'No description provided'}
-                                </p>
-
-                                <div className="card-footer">
-                                    <div className="task-info">
-                                        <span>📚 {assignment.sentences?.length || 0} sentences</span>
-                                        {assignment.dueDate && (
-                                            <span>📅 Due: {new Date(assignment.dueDate).toLocaleDateString()}</span>
-                                        )}
-                                    </div>
-
-                                    <button
-                                        className="start-btn"
-                                        onClick={() => startAssignment(assignment)}
-                                    >
-                                        Start Reading →
-                                    </button>
+                            ) : (
+                                <div className="task-grid">
+                                    {pendingAssignments.map(assignment => (
+                                        <div key={assignment._id} className="task-card">
+                                            <div className="card-header">
+                                                <h3>{assignment.title}</h3>
+                                                {getStatusBadge(assignment.dueDate)}
+                                            </div>
+                                            <p className="task-description">{assignment.description || 'No description provided'}</p>
+                                            <div className="card-footer">
+                                                <div className="task-info">
+                                                    <span>📚 {assignment.sentences?.length || 0} sentences</span>
+                                                </div>
+                                                <button className="start-btn" onClick={() => startAssignment(assignment)}>
+                                                    {assignment.submissionStatus === 'in-progress' ? 'Continue →' : 'Start Reading →'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
                                 </div>
-                            </div>
-                        ))}
-                    </div>
+                            )}
+                        </section>
+
+                        {/* Completed Assignments */}
+                        {completedAssignments.length > 0 && (
+                            <section className="task-section completed-section">
+                                <h2 className="section-title">✅ Completed Activities</h2>
+                                <div className="task-grid">
+                                    {completedAssignments.map(assignment => (
+                                        <div key={assignment._id} className="task-card completed">
+                                            <div className="card-header">
+                                                <h3>{assignment.title}</h3>
+                                                <span className="badge completed-badge">Completed ✓</span>
+                                            </div>
+                                            <p className="task-description">{assignment.description || 'No description provided'}</p>
+                                            <div className="card-footer">
+                                                <div className="task-info">
+                                                    <span>📅 Finished: {assignment.completedAt ? new Date(assignment.completedAt).toLocaleDateString() : 'Recently'}</span>
+                                                </div>
+                                                <button className="start-btn review-btn" onClick={() => startAssignment(assignment)}>
+                                                    Read Again
+                                                </button>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+                    </>
                 )}
             </div>
         </div>

@@ -10,10 +10,13 @@ const StudentDashboard = ({ user }) => {
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token');
+
                 if (!token) return;
 
-                const response = await axios.get(`http://localhost:5001/api/tasks/student/${user._id}`, {
+                const response = await axios.get(`http://localhost:5000/api/tasks/student/${user._id || user.id}`, {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
@@ -28,14 +31,14 @@ const StudentDashboard = ({ user }) => {
             }
         };
 
-        if (user?._id) {
+        if (user?._id || user?.id) {
             fetchTasks();
         }
     }, [user]);
 
     const handleStartTask = (taskId) => {
         // Navigate to the first module with the task ID
-        navigate(`/module/entry?taskId=${taskId}`);
+        navigate(`/adhd/module/entry?taskId=${taskId}`);
     };
 
     return (
@@ -60,7 +63,7 @@ const StudentDashboard = ({ user }) => {
                                             {task.status}
                                         </span>
                                         <span className="task-date">
-                                            Due: {new Date(task.dueDate).toLocaleDateString()}
+                                            {task.dueDate ? `Due: ${new Date(task.dueDate).toLocaleDateString()}` : 'No due date'}
                                         </span>
                                     </div>
                                     <p className="task-desc">
@@ -69,7 +72,7 @@ const StudentDashboard = ({ user }) => {
                                     {task.attachmentUrl && (
                                         <div className="task-attachment">
                                             <a
-                                                href={`http://localhost:5001${task.attachmentUrl}`}
+                                                href={`http://localhost:5000${task.attachmentUrl}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="attachment-link"

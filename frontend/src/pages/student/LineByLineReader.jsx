@@ -36,6 +36,13 @@ export default function LineByLineReader() {
         }
     };
 
+    // Auto-read sentence when it changes
+    useEffect(() => {
+        if (assignment && assignment.sentences && assignment.sentences[currentIndex]) {
+            speakSentence(assignment.sentences[currentIndex]);
+        }
+    }, [currentIndex, assignment]);
+
     const speakSentence = (text) => {
         if ('speechSynthesis' in window) {
             setIsPlaying(true);
@@ -149,14 +156,14 @@ export default function LineByLineReader() {
                         onClick={() => speakSentence(currentSentence)}
                         disabled={isPlaying}
                     >
-                        {isPlaying ? '🔊 Playing...' : '🔊 Listen'}
+                        {isPlaying ? '🔊 Playing...' : '🔊 Listen Again'}
                     </button>
 
                     <button
                         className="control-btn next-btn"
                         onClick={handleNext}
                     >
-                        {currentIndex === assignment.sentences.length - 1 ? '✓ Complete' : 'Next →'}
+                        {currentIndex === assignment.sentences.length - 1 ? '✓ I\'ve finished reading' : 'Next Sentence →'}
                     </button>
 
                     <button

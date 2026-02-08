@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from '@/context/AppContext';
+import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 
 const ParentDashboard = () => {
-    const { user, logout } = useAppContext();
+    const { user, logout } = useAuth();
     const navigate = useNavigate();
     const [children, setChildren] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -12,34 +12,33 @@ const ParentDashboard = () => {
     useEffect(() => {
         const fetchChildrenData = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
+                const token = localStorage.getItem('token');
 
-                // 1. Get children list from Main Backend (Port 5000)
-                const childrenRes = await axios.get('http://localhost:5000/api/auth/children', {
+                // 1. Get children list from ADHD Backend (Port 5001)
+                const childrenRes = await axios.get('http://localhost:5001/api/parent/children', {
                     headers: { Authorization: `Bearer ${token}` }
                 });
 
-                if (childrenRes.data.success) {
-                    const childrenList = childrenRes.data.data;
+                const childrenList = childrenRes.data;
 
-                    // 2. For each child with ADHD, fetch tasks from ADHD Backend (Port 5001)
-                    const childrenWithTasks = await Promise.all(childrenList.map(async (child) => {
-                        if (child.disability === 'adhd') {
-                            try {
-                                const tasksRes = await axios.get(`http://localhost:5001/api/tasks/student/${child._id}`, {
-                                    headers: { Authorization: `Bearer ${token}` }
-                                });
-                                return { ...child, tasks: tasksRes.data.data };
-                            } catch (e) {
-                                console.error(`Failed to fetch tasks for ${child.name}`, e);
-                                return { ...child, tasks: [] };
-                            }
-                        }
-                        return { ...child, tasks: [] };
-                    }));
+                // 2. Fetch progress and assignments for each child
+                const childrenWithData = await Promise.all(childrenList.map(async (child) => {
+                    try {
+                        const progressRes = await axios.get(`http://localhost:5001/api/parent/child/${child._id}/progress`, {
+                            headers: { Authorization: `Bearer ${token}` }
+                        });
+                        return {
+                            ...child,
+                            statistics: progressRes.data.statistics,
+                            submissions: progressRes.data.submissions
+                        };
+                    } catch (e) {
+                        console.error(`Failed to fetch tasks for ${child.name}`, e);
+                        return { ...child, statistics: null, submissions: [] };
+                    }
+                }));
 
-                    setChildren(childrenWithTasks);
-                }
+                setChildren(childrenWithData);
             } catch (error) {
                 console.error("Error fetching children's data:", error);
             } finally {
@@ -81,20 +80,44 @@ const ParentDashboard = () => {
                                 </div>
 
                                 <div className="tasks-summary">
-                                    <h4 style={{ fontSize: '1rem', borderTop: '1px solid #f0f0f0', paddingTop: '15px', marginTop: '15px' }}>Assigned Learning Activities</h4>
-                                    {child.tasks && child.tasks.length > 0 ? (
-                                        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
-                                            {child.tasks.map(task => (
-                                                <div key={task._id} style={{ display: 'flex', justifyContent: 'space-between', padding: '10px 0', borderBottom: '1px solid #fafafa' }}>
-                                                    <span style={{ fontSize: '0.9rem' }}>{task.title}</span>
-                                                    <span style={{ fontSize: '0.8rem', color: task.status === 'Completed' ? '#2ecc71' : '#f39c12', fontWeight: 600 }}>
-                                                        {task.status || 'Active'}
+                                    <h4 style={{ fontSize: '1rem', borderTop: '1px solid #f0f0f0', paddingTop: '15px', marginTop: '15px' }}>Progress Statistics</h4>
+                                    {child.statistics ? (
+                                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px', marginBottom: '15px' }}>
+                                            <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '8px' }}>
+                                                <div style={{ fontSize: '0.75rem', color: '#666' }}>Completed</div>
+                                                <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#2ecc71' }}>{child.statistics.completedAssignments}</div>
+                                            </div>
+                                            <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '8px' }}>
+                                                <div style={{ fontSize: '0.75rem', color: '#666' }}>In Progress</div>
+                                                <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#f39c12' }}>{child.statistics.inProgressAssignments}</div>
+                                            </div>
+                                            <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '8px' }}>
+                                                <div style={{ fontSize: '0.75rem', color: '#666' }}>Avg. Focus</div>
+                                                <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#3498db' }}>{child.statistics.totalDistractions === 0 ? 'High' : child.statistics.totalDistractions > 5 ? 'Low' : 'Med'}</div>
+                                            </div>
+                                            <div style={{ background: '#f8f9fa', padding: '10px', borderRadius: '8px' }}>
+                                                <div style={{ fontSize: '0.75rem', color: '#666' }}>Time Spent</div>
+                                                <div style={{ fontSize: '1.2rem', fontWeight: 'bold', color: '#9b59b6' }}>{Math.floor(child.statistics.totalTimeSpent / 60)}m</div>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p style={{ color: '#999', fontStyle: 'italic', fontSize: '0.8rem' }}>No session data yet.</p>
+                                    )}
+
+                                    <h4 style={{ fontSize: '0.9rem', color: '#444' }}>Recent Submissions</h4>
+                                    {child.submissions && child.submissions.length > 0 ? (
+                                        <div style={{ maxHeight: '150px', overflowY: 'auto' }}>
+                                            {child.submissions.slice(0, 5).map(sub => (
+                                                <div key={sub._id} style={{ display: 'flex', justifyContent: 'space-between', padding: '8px 0', borderBottom: '1px solid #fafafa' }}>
+                                                    <span style={{ fontSize: '0.85rem' }}>{sub.assignment?.title || 'Unknown Task'}</span>
+                                                    <span style={{ fontSize: '0.75rem', color: sub.status === 'completed' ? '#2ecc71' : '#f39c12', fontWeight: 600 }}>
+                                                        {sub.status.toUpperCase()}
                                                     </span>
                                                 </div>
                                             ))}
                                         </div>
                                     ) : (
-                                        <p style={{ color: '#999', fontStyle: 'italic', fontSize: '0.9rem' }}>No activities recorded in the {child.disability} module yet.</p>
+                                        <p style={{ color: '#999', fontStyle: 'italic', fontSize: '0.8rem' }}>No recent activity.</p>
                                     )}
                                 </div>
                             </div>

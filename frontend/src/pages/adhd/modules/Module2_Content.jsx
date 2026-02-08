@@ -21,9 +21,12 @@ const Module2_Content = () => {
     useEffect(() => {
         const fetchTask = async () => {
             try {
-                const token = localStorage.getItem('lexfix_token');
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token');
+
                 if (taskId) {
-                    const response = await axios.get(`http://localhost:5001/api/tasks/detail/${taskId}`, {
+                    const response = await axios.get(`http://localhost:5000/api/tasks/detail/${taskId}`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     if (response.data.success && response.data.data.content) {

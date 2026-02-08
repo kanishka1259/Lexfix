@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const TeacherDashboard = ({ user }) => {
+    console.log("TeacherDashboard rendered for user:", user);
     const [taskTitle, setTaskTitle] = useState('');
     const [taskContent, setTaskContent] = useState('');
     const [selectedStudents, setSelectedStudents] = useState([]);
@@ -56,8 +57,29 @@ const TeacherDashboard = ({ user }) => {
             }
         };
 
+        const fetchRecentTasks = async () => {
+            try {
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token');
+
+                if (!token || !user) return;
+
+                const response = await axios.get(`http://localhost:5000/api/tasks/teacher/${user._id || user.id}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.data.success) {
+                    setRecentTasks(response.data.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch recent tasks:", error);
+            }
+        };
+
         fetchStudents();
-    }, []);
+        fetchRecentTasks();
+    }, [user]);
 
     const handleCheckboxChange = (studentId) => {
         setSelectedStudents(prev => {
@@ -80,24 +102,29 @@ const TeacherDashboard = ({ user }) => {
 
         try {
             const storedUser = localStorage.getItem('user');
-            const token = storedUser ? JSON.parse(storedUser).token : null;
+            const userData = storedUser ? JSON.parse(storedUser) : null;
+            const token = userData?.token || localStorage.getItem('lexfix_token');
 
-            // Loop through selected students and create tasks for each
+            if (!token) {
+                setMessage("Authentication token missing. Please login again.");
+                return;
+            }
+
+            // Use FormData for multipart support
             const assignmentPromises = selectedStudents.map(studentId => {
-                const payload = {
-                    title: taskTitle,
-                    content: taskContent, // Send raw content or formatted array if backend expects it
-                    studentId: studentId,
-                    assignedBy: user._id || user.id
-                };
+                const formData = new FormData();
+                formData.append('title', taskTitle);
+                formData.append('content', taskContent);
+                formData.append('studentId', studentId);
+                formData.append('assignedBy', user._id || user.id);
+                if (selectedFile) {
+                    formData.append('attachment', selectedFile);
+                }
 
-                // Note: File upload temporarily disabled as backend needs Multer configuration
-                // if (selectedFile) { ... }
-
-                return axios.post('http://localhost:5000/api/tasks/create', payload, {
+                return axios.post('http://localhost:5000/api/tasks/create', formData, {
                     headers: {
                         Authorization: `Bearer ${token}`,
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'multipart/form-data'
                     }
                 });
             });
@@ -109,9 +136,16 @@ const TeacherDashboard = ({ user }) => {
             setTaskContent('');
             setSelectedStudents([]);
             setSelectedFile(null);
-            // Clear file input manually if needed
             const fileInput = document.getElementById('file-upload');
             if (fileInput) fileInput.value = '';
+
+            // Refresh recent tasks list
+            const refreshResponse = await axios.get(`http://localhost:5000/api/tasks/teacher/${user._id || user.id}`, {
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            if (refreshResponse.data.success) {
+                setRecentTasks(refreshResponse.data.data);
+            }
         } catch (error) {
             console.error("Assignment error:", error);
             const errorDetail = error.response?.data?.message || error.message;
@@ -195,10 +229,10 @@ const TeacherDashboard = ({ user }) => {
                                 <input
                                     type="file"
                                     id="file-upload"
-                                    disabled
-                                    className="file-input opacity-50 cursor-not-allowed"
+                                    onChange={(e) => setSelectedFile(e.target.files[0])}
+                                    className="file-input"
                                 />
-                                <p className="file-help">File uploads coming soon. Please paste content above.</p>
+                                <p className="file-help">Upload images or documents to accompany this lesson.</p>
                             </div>
                         </div>
 
