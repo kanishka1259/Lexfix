@@ -12,7 +12,7 @@ const Module4_Progress = () => {
     };
 
     return (
-        <div className="module-container font-dyslexic study-4">
+        <div className="module-container study-4">
             <header className="progress-header">
                 <h1>Focus Summary</h1>
                 <p>Visible progress drives focus stability. Here's how you did today.</p>

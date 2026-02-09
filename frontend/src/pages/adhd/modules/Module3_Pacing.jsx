@@ -40,7 +40,7 @@ const Module3_Pacing = () => {
     const formatTime = (s) => `${Math.floor(s / 60)}:${(s % 60).toString().padStart(2, '0')}`;
 
     return (
-        <div className="module-container font-dyslexic study-3">
+        <div className="module-container study-3">
             <header className="fixed-timer">
                 <div className="timer-pill">
                     <span className="dot"></span>

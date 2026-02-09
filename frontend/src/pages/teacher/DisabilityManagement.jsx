@@ -16,11 +16,6 @@ export default function DisabilityManagement() {
         dueDate: ''
     });
 
-    useEffect(() => {
-        fetchStudents();
-        fetchAssignments();
-    }, [disabilityId]);
-
     const fetchStudents = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -46,6 +41,11 @@ export default function DisabilityManagement() {
             console.error('Error fetching assignments:', error);
         }
     };
+
+    useEffect(() => {
+        fetchStudents();
+        fetchAssignments();
+    }, [disabilityId]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

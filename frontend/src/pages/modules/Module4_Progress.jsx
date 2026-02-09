@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import axios from 'axios';
 
 const Module4_Progress = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const taskId = searchParams.get('taskId');
-    const [stats, setStats] = useState({
+    const [stats] = useState({
         focusScore: 85,
         readingSpeed: 'Normal',
         assertions: ['Good Focus', 'Steady Pace']

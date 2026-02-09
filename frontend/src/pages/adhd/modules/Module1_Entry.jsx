@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAppContext } from '@/context/AppContext';
+import axios from 'axios';
 
 const Module1_Entry = () => {
     const navigate = useNavigate();
@@ -8,12 +9,35 @@ const Module1_Entry = () => {
     const taskId = searchParams.get('taskId');
     const { user } = useAppContext();
     const [isInitialized, setIsInitialized] = useState(false);
+    const [taskData, setTaskData] = useState(null);
 
     useEffect(() => {
+        const fetchTask = async () => {
+            try {
+                if (!taskId) return;
+                const storedUser = localStorage.getItem('user');
+                const userData = storedUser ? JSON.parse(storedUser) : null;
+                const token = userData?.token || localStorage.getItem('lexfix_token') || localStorage.getItem('token');
+
+                if (!token) return;
+
+                const response = await axios.get(`http://localhost:5000/api/tasks/detail/${taskId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+
+                if (response.data.success) {
+                    setTaskData(response.data.data);
+                }
+            } catch (error) {
+                console.error("Error fetching task details:", error);
+            }
+        };
+
+        fetchTask();
+
         // Simulate ADHD session initialization
         const timer = setTimeout(() => {
             setIsInitialized(true);
-            console.log("ADHD Session Initialized for task:", taskId);
         }, 1500);
         return () => clearTimeout(timer);
     }, [taskId]);
@@ -23,13 +47,19 @@ const Module1_Entry = () => {
     };
 
     return (
-        <div className="module-container font-dyslexic full-screen-focus">
+        <div className="module-container full-screen-focus">
             <div className="entry-content-box animate-in">
                 <div className="session-badge">🧠 ADHD Focus Mode</div>
 
                 <header className="entry-header">
-                    <h1>Ready to Focus?</h1>
-                    <p>We've prepared your environment for maximum concentration.</p>
+                    <h1>{taskData?.title || 'Ready to Focus?'}</h1>
+                    <p>
+                        {taskData ? (
+                            Array.isArray(taskData.content) ? taskData.content.join(' ') : taskData.description
+                        ) : (
+                            "We've prepared your environment for maximum concentration."
+                        )}
+                    </p>
                 </header>
 
                 <div className="setup-status">

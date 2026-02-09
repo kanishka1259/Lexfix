@@ -60,7 +60,7 @@ const Module2_Content = () => {
     if (loading) return <div className="loading">Preparing sentences...</div>;
 
     return (
-        <div className="module-container font-dyslexic study-2">
+        <div className="module-container study-2">
             <div className="top-progress">
                 <div className="fill" style={{ width: `${progress}%` }}></div>
             </div>

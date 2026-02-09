@@ -36,13 +36,6 @@ export default function LineByLineReader() {
         }
     };
 
-    // Auto-read sentence when it changes
-    useEffect(() => {
-        if (assignment && assignment.sentences && assignment.sentences[currentIndex]) {
-            speakSentence(assignment.sentences[currentIndex]);
-        }
-    }, [currentIndex, assignment]);
-
     const speakSentence = (text) => {
         if ('speechSynthesis' in window) {
             setIsPlaying(true);
@@ -57,6 +50,13 @@ export default function LineByLineReader() {
             alert('Text-to-speech not supported in this browser');
         }
     };
+
+    // Auto-read sentence when it changes
+    useEffect(() => {
+        if (assignment && assignment.sentences && assignment.sentences[currentIndex]) {
+            speakSentence(assignment.sentences[currentIndex]);
+        }
+    }, [currentIndex, assignment]);
 
     const handleNext = async () => {
         if (currentIndex < assignment.sentences.length - 1) {

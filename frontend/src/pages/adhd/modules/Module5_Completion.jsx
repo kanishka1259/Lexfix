@@ -22,7 +22,7 @@ const Module5_Completion = () => {
     };
 
     return (
-        <div className="module-container font-dyslexic study-5">
+        <div className="module-container study-5">
             <div className="completion-card animate-pop">
                 <div className="trophy-icon">🎓</div>
                 <h1>Lesson Mastered!</h1>
