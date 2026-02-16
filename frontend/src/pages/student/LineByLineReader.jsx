@@ -1,4 +1,6 @@
 // pages/student/LineByLineReader.jsx
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import MindGames from '../../components/MindGames';
 import './LineByLineReader.css';
@@ -24,13 +26,46 @@ export default function LineByLineReader() {
 
     const fetchAssignment = async () => {
         try {
-            const token = localStorage.getItem('token');
+            let token = localStorage.getItem('token');
+            if (!token || token === 'null' || token === 'undefined') {
+                const userStr = localStorage.getItem('user');
+                if (userStr) token = JSON.parse(userStr).token || JSON.parse(userStr).data?.token;
+            }
+
             const response = await axios.get(`http://localhost:5000/api/assignments/${assignmentId}`, {
                 headers: { 'Authorization': `Bearer ${token}` }
             });
-            setAssignment(response.data);
+            if (!response.data) {
+                console.error("Assignment not found");
+                // Create a mock assignment for testing if real ID not found (since we navigated with 'L3' which might not exist)
+                if (assignmentId.startsWith('L')) {
+                    setAssignment({
+                        _id: assignmentId,
+                        title: `Mock Lesson ${assignmentId}`,
+                        sentences: [
+                            "This is a mock sentence for the prototype.",
+                            "You are reading lesson content.",
+                            "Great job continuing your learning path!"
+                        ]
+                    });
+                }
+            } else {
+                setAssignment(response.data);
+            }
         } catch (error) {
             console.error('Error fetching assignment:', error);
+            // Fallback for prototype demo
+            if (assignmentId.startsWith('L')) {
+                setAssignment({
+                    _id: assignmentId,
+                    title: `Mock Lesson ${assignmentId}`,
+                    sentences: [
+                        "This is a mock sentence for the prototype.",
+                        "You are reading lesson content.",
+                        "Great job continuing your learning path!"
+                    ]
+                });
+            }
         }
     };
 
