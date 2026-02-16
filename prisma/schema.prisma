@@ -1,0 +1,82 @@
+// This generator block is configured for Prisma 7 compatibility in a 
+// Next.js environment with a custom output path.
+
+generator client {
+  provider      = "prisma-client-js"
+  output        = "../src/generated/prisma"
+  engineType    = "library"
+  binaryTargets = ["native"]
+}
+
+datasource db {
+  provider = "postgresql"
+  // Even with prisma.config.ts, the CLI requires this for validation.
+}
+
+// --- CORE IDENTITY MODELS ---
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(STUDENT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Profile Relations
+  educatorProfile  EducatorProfile?
+  homeschoolFamily HomeschoolFamily?
+}
+
+enum Role {
+  STUDENT
+  EDUCATOR
+  PARENT_EDUCATOR
+  ADMIN
+}
+
+// --- EDUCATOR DOMAIN ---
+
+model EducatorProfile {
+  id          String  @id @default(cuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  institution String?
+  bio         String? @db.Text
+
+  // Relations
+  students EducatorStudent[]
+}
+
+model EducatorStudent {
+  id         String          @id @default(cuid())
+  educatorId String
+  educator   EducatorProfile @relation(fields: [educatorId], references: [id])
+  studentId  String // Links to a User.id via application logic
+  assignedAt DateTime        @default(now())
+
+  // Scaffolding Metadata for LexFix Adaptive Logic
+  lastCompetency NICompetency? @relation(fields: [competencyId], references: [id])
+  competencyId   String?
+
+  @@unique([educatorId, studentId])
+}
+
+// --- ACCESSIBILITY & COMPETENCY MODELS ---
+
+model HomeschoolFamily {
+  id      String   @id @default(cuid())
+  userId  String   @unique
+  user    User     @relation(fields: [userId], references: [id])
+  members String[] // Simplified list of family member IDs
+}
+
+model NICompetency {
+  id        String   @id @default(cuid())
+  label     String // e.g., "Visual Processing", "Focus Duration"
+  score     Float    @default(0.0)
+  updatedAt DateTime @updatedAt
+
+  // Relation
+  linkedStudents EducatorStudent[]
+}
