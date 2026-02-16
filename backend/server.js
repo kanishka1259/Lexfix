@@ -1,10 +1,13 @@
 import express from "express";
 import cors from "cors";
+import { startSocketServer } from "./intelligent-recommendation-collaboration/realtime/socket.server.js";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import authRoutes from "./routes/authRoutes.js";
 import adhdRoutes from "./routes/adhdRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
+import module4Routes from "./intelligent-recommendation-collaboration/routes/index.js";
+
 
 // Learning Platform Routes
 import assignmentRoutes from "./routes_learning/assignments.js";
@@ -33,6 +36,7 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+console.log("ENV URI =", process.env.MONGODB_URI);
 
 // Connect to MongoDB
 connectDB();
@@ -41,6 +45,8 @@ connectDB();
 app.use("/api/auth", authRoutes);
 app.use("/api/adhd", adhdRoutes);
 app.use("/api/tasks", taskRoutes);
+app.use("/api/module4", module4Routes);
+
 
 // Learning Platform Routes
 app.use("/api/assignments", assignmentRoutes);
@@ -63,4 +69,6 @@ app.get("/", (req, res) => {
 
 app.listen(PORT, () => {
     console.log(`🚀 Lexfix Auth Server running on port ${PORT}`);
+    startSocketServer();
 });
+
