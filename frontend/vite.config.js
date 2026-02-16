@@ -9,6 +9,14 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
       "@adhd": path.resolve(__dirname, "../adhd_learning_lexfix/frontend/src"),
+      "@module4": path.resolve(__dirname, "../module4/frontend"),
+      "socket.io-client": path.resolve(__dirname, "./node_modules/socket.io-client"),
+      "react": path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
+      "react-router-dom": path.resolve(__dirname, "./node_modules/react-router-dom"),
+      "axios": path.resolve(__dirname, "./node_modules/axios"),
+
+
     },
   },
 })
