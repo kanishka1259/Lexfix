@@ -42,14 +42,15 @@ function MonitoringPanel() {
         <h1>📊 System Monitoring</h1>
         <p className="page-subtitle">Track service health and uptime metrics</p>
       </div>
-      
+
       <div className="monitoring-grid">
         <div className="monitoring-card">
           <h2>Add Service Monitor</h2>
           <form onSubmit={handleSubmit} className="monitoring-form">
             <div className="form-group">
-              <label>Service Name</label>
+              <label htmlFor="service-input">Service Name</label>
               <input
+                id="service-input"
                 type="text"
                 placeholder="e.g., API Server"
                 value={service}
@@ -59,8 +60,9 @@ function MonitoringPanel() {
             </div>
 
             <div className="form-group">
-              <label>Uptime (%)</label>
+              <label htmlFor="uptime-input">Uptime (%)</label>
               <input
+                id="uptime-input"
                 type="number"
                 step="0.01"
                 min="0"
@@ -98,7 +100,7 @@ function MonitoringPanel() {
                       <span className="uptime-label">Uptime</span>
                     </div>
                     <div className="progress-bar">
-                      <div 
+                      <div
                         className={`progress-fill ${uptimeColor}`}
                         style={{ width: `${Math.min(uptimeNum, 100)}%` }}
                       ></div>

@@ -43,7 +43,7 @@ function PerformancePanel() {
   const getMetricColor = (metricName, value) => {
     const numValue = parseFloat(value);
     const lower = metricName.toLowerCase();
-    
+
     // CPU/Memory usage - lower is better
     if (lower.includes("cpu") || lower.includes("memory")) {
       if (numValue < 50) return "metric-excellent";
@@ -51,7 +51,7 @@ function PerformancePanel() {
       if (numValue < 85) return "metric-warning";
       return "metric-critical";
     }
-    
+
     // Response time - lower is better
     if (lower.includes("response") || lower.includes("latency")) {
       if (numValue < 100) return "metric-excellent";
@@ -59,7 +59,7 @@ function PerformancePanel() {
       if (numValue < 500) return "metric-warning";
       return "metric-critical";
     }
-    
+
     // Default - higher is better
     if (numValue > 90) return "metric-excellent";
     if (numValue > 70) return "metric-good";
@@ -73,14 +73,15 @@ function PerformancePanel() {
         <h1>⚡ Performance Metrics</h1>
         <p className="page-subtitle">Monitor system performance and resource usage</p>
       </div>
-      
+
       <div className="performance-grid">
         <div className="performance-card">
           <h2>Add Performance Metric</h2>
           <form onSubmit={handleSubmit} className="performance-form">
             <div className="form-group">
-              <label>Metric Name</label>
+              <label htmlFor="metric-input">Metric Name</label>
               <input
+                id="metric-input"
                 type="text"
                 placeholder="e.g., CPU Usage, Response Time"
                 value={metric}
@@ -90,8 +91,9 @@ function PerformancePanel() {
             </div>
 
             <div className="form-group">
-              <label>Value</label>
+              <label htmlFor="value-input">Value</label>
               <input
+                id="value-input"
                 type="number"
                 step="0.01"
                 placeholder="e.g., 45.5"

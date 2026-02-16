@@ -92,8 +92,9 @@ function QAPanel() {
           <h2>Add Test Result</h2>
           <form onSubmit={handleSubmit} className="qa-form">
             <div className="form-group">
-              <label>Test Name</label>
+              <label htmlFor="test-name-input">Test Name</label>
               <input
+                id="test-name-input"
                 type="text"
                 placeholder="e.g., User Authentication Test"
                 value={testName}
@@ -103,8 +104,9 @@ function QAPanel() {
             </div>
 
             <div className="form-group">
-              <label>Result</label>
+              <label htmlFor="result-select">Result</label>
               <select
+                id="result-select"
                 value={result}
                 onChange={(e) => setResult(e.target.value)}
                 className="form-select"

@@ -47,8 +47,9 @@ function DeploymentForm({ refreshList }) {
         </div>
 
         <div className="form-group">
-          <label>Status</label>
+          <label htmlFor="status-select">Status</label>
           <select
+            id="status-select"
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             className="form-select"
