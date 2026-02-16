@@ -2,7 +2,7 @@ import React from 'react';
 import type { Metadata } from 'next';
 import prisma from '../../../lib/prisma'; 
 // Import types from the specific client file
-import type { EducatorStudent } from '../../../src/generated/prisma/client';
+import type { EducatorStudent } from '@prisma/client';
 
 export const metadata: Metadata = {
   title: 'Educator Dashboard | LexFix',

@@ -2,13 +2,17 @@ import { render, screen } from '@testing-library/react';
 import { describe, it, expect, vi } from 'vitest';
 import EducatorDashboard from './page';
 
-// Mocking Prisma to isolate the UI test
-vi.mock('../../../src/generated/prisma/client', () => ({
-  PrismaClient: vi.fn().mockImplementation(() => ({
+import prisma from '../../../lib/prisma';
+
+// Mock the prisma singleton from lib/prisma
+vi.mock('../../../lib/prisma', () => ({
+  default: {
     educatorStudent: {
-      findMany: vi.fn().mockResolvedValue([]),
+      findMany: vi.fn().mockResolvedValue([
+        { id: '1', studentId: 'student123', assignedAt: new Date(), competencyId: 'comp1' }
+      ]),
     },
-  })),
+  },
 }));
 
 describe('EducatorDashboard', () => {

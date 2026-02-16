@@ -1,4 +1,4 @@
-import { PrismaClient } from '../src/generated/prisma/client';
+import { PrismaClient } from '@prisma/client';
 
 /**
  * LexFix Prisma 7.3.0 Singleton:
