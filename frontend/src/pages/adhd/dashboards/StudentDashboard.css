@@ -1,0 +1,115 @@
+/* Teacher Dashboard specific styles are above in this file (Dashboards.css) */
+/* Adding Student Dashboard Styles */
+
+.dashboard-grid.single-column {
+    grid-template-columns: 1fr;
+    max-width: 1000px;
+}
+
+.tasks-grid {
+    display: flex;
+    /* Changed from grid to flex column for 'long' list */
+    flex-direction: column;
+    gap: 20px;
+    max-width: 900px;
+    /* Limit width for readability */
+}
+
+.task-card {
+    background: white;
+    padding: 24px 32px;
+    /* Less vertical padding, more horizontal */
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-sm);
+    transition: all 0.2s ease;
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: row;
+    /* Horizontal layout */
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+}
+
+.task-icon {
+    font-size: 2rem;
+    background: #FAF5F4;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+.task-content {
+    flex: 1;
+    /* Take remaining space */
+}
+
+.task-content h3 {
+    color: var(--color-secondary);
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    font-weight: 700;
+}
+
+.task-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+}
+
+.task-desc {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 0;
+}
+
+.start-btn {
+    width: auto;
+    /* Auto width button */
+    padding: 12px 24px;
+    white-space: nowrap;
+}
+
+.start-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-dark);
+}
+
+.start-btn:disabled {
+    background-color: #CBD5E0;
+    cursor: default;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 60px;
+    background: white;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+}
+
+.empty-state h3 {
+    color: var(--color-secondary);
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+.empty-state p {
+    color: var(--color-text-muted);
+}
+
+.loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--color-text-muted);
+    font-size: 1.1rem;
+}

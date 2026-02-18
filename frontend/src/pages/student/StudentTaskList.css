@@ -1,0 +1,140 @@
+/* pages/student/StudentTaskList.css */
+.student-task-list {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 40px 20px;
+}
+
+.task-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+}
+
+.task-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.task-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.task-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.task-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 25px;
+}
+
+.task-card {
+    background: white;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+.task-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 15px;
+}
+
+.card-header h3 {
+    flex: 1;
+    font-size: 1.4rem;
+    color: #2d3748;
+    margin-right: 10px;
+}
+
+.badge {
+    padding: 5px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.badge.active {
+    background: #48bb78;
+    color: white;
+}
+
+.badge.urgent {
+    background: #f56565;
+    color: white;
+}
+
+.badge.overdue {
+    background: #e53e3e;
+    color: white;
+}
+
+.badge.neutral {
+    background: #cbd5e0;
+    color: #4a5568;
+}
+
+.task-description {
+    color: #718096;
+    margin-bottom: 20px;
+    line-height: 1.6;
+}
+
+.card-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 15px;
+}
+
+.task-info {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    font-size: 0.9rem;
+    color: #718096;
+}
+
+.start-btn {
+    width: 100%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.start-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+}
+
+.loading,
+.no-assignments {
+    text-align: center;
+    padding: 60px 20px;
+    color: white;
+    font-size: 1.3rem;
+}
+
+@media (max-width: 768px) {
+    .task-grid {
+        grid-template-columns: 1fr;
+    }
+}

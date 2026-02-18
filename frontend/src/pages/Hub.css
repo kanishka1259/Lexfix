@@ -1,0 +1,128 @@
+/* Hub.css */
+.hub-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.hub-header {
+    text-align: center;
+    margin-bottom: 50px;
+    color: #2d3748;
+}
+
+.hub-header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    background: linear-gradient(to right, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hub-header p {
+    font-size: 1.2rem;
+    color: #718096;
+}
+
+.modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.module-card {
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    position: relative;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.module-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+
+.card-content {
+    padding: 30px;
+    text-align: center;
+}
+
+.icon-wrapper {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: inline-block;
+    padding: 20px;
+    background: #f7fafc;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.module-card:hover .icon-wrapper {
+    transform: scale(1.1) rotate(5deg);
+    background: #ebf4ff;
+}
+
+.module-card h2 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+    color: #2d3748;
+}
+
+.module-card p {
+    color: #718096;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.feature-tags {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tag {
+    padding: 5px 12px;
+    background: #edf2f7;
+    border-radius: 15px;
+    font-size: 0.85rem;
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* Specific Card Colors */
+.module-card.adhd:hover {
+    border-color: #667eea;
+}
+
+.module-card.adhd:hover h2 {
+    color: #5a67d8;
+}
+
+.module-card.coming-soon {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+.module-card.coming-soon:hover {
+    transform: none;
+    box-shadow: none;
+}
+
+@media (max-width: 768px) {
+    .hub-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .modules-grid {
+        grid-template-columns: 1fr;
+    }
+}

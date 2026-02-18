@@ -1,0 +1,232 @@
+/* TeacherHub.css */
+.teacher-hub-container {
+    min-height: 100vh;
+    background: #f8fafc;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.teacher-hub-header {
+    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+    color: white;
+    padding: 60px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.teacher-hub-header::after {
+    content: '';
+    position: absolute;
+    bottom: -50px;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: white;
+    transform: skewY(-3deg);
+}
+
+.teacher-hub-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    letter-spacing: -0.02em;
+    position: relative;
+    z-index: 10;
+}
+
+.teacher-hub-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 10;
+}
+
+.teacher-modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: -40px auto 60px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 20;
+}
+
+.module-card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 280px;
+    position: relative;
+    overflow: hidden;
+}
+
+.module-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+    border-color: #6366f1;
+}
+
+.module-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: transparent;
+    transition: background 0.3s;
+}
+
+/* Specific Card Accents */
+.module-card:nth-child(1):hover {
+    border-color: #f472b6;
+}
+
+.module-card:nth-child(1)::before {
+    background: #f472b6;
+}
+
+.module-card:nth-child(2):hover {
+    border-color: #3b82f6;
+}
+
+.module-card:nth-child(2)::before {
+    background: #3b82f6;
+}
+
+.module-card:nth-child(3):hover {
+    border-color: #10b981;
+}
+
+.module-card:nth-child(3)::before {
+    background: #10b981;
+}
+
+.module-card:nth-child(4):hover {
+    border-color: #f59e0b;
+}
+
+.module-card:nth-child(4)::before {
+    background: #f59e0b;
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.icon-wrapper {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 16px;
+    font-size: 1.8rem;
+    background: #f1f5f9;
+    color: #475569;
+    transition: all 0.3s ease;
+}
+
+.module-card:hover .icon-wrapper {
+    background: #e0e7ff;
+    color: #4338ca;
+    transform: scale(1.1) rotate(5deg);
+}
+
+.module-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+.status-badge {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-left: auto;
+}
+
+.status-badge.active {
+    background: #dcfce7;
+    color: #166534;
+}
+
+.status-badge.soon {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+.module-card p {
+    color: #64748b;
+    line-height: 1.6;
+    font-size: 1rem;
+    margin-bottom: 25px;
+    flex-grow: 1;
+}
+
+.action-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: none;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.module-card.active .action-btn {
+    background: #4f46e5;
+    color: white;
+}
+
+.module-card.active .action-btn:hover {
+    background: #4338ca;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.module-card.locked {
+    opacity: 0.7;
+}
+
+.logout-container {
+    padding: 30px;
+    text-align: center;
+}
+
+.logout-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.logout-btn:hover {
+    background: #fef2f2;
+    color: #ef4444;
+    border-color: #fee2e2;
+}

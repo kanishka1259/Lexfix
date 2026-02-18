@@ -1,0 +1,184 @@
+/* components/MindGames.css */
+.mind-games {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.games-header {
+    text-align: center;
+    color: white;
+    margin-bottom: 30px;
+}
+
+.games-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.games-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.timer {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-top: 15px;
+    background: rgba(255, 255, 255, 0.3);
+    padding: 10px 25px;
+    border-radius: 20px;
+    display: inline-block;
+    backdrop-filter: blur(10px);
+}
+
+.game-container {
+    flex: 1;
+    max-width: 700px;
+    width: 100%;
+    margin: 0 auto;
+    background: white;
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.game-container h2 {
+    text-align: center;
+    color: #2d3748;
+    margin-bottom: 10px;
+    font-size: 2rem;
+}
+
+.instructions {
+    text-align: center;
+    color: #718096;
+    margin-bottom: 30px;
+    font-size: 1.1rem;
+}
+
+.memory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.memory-card {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 2.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.memory-card:hover:not(.matched) {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.memory-card.flipped {
+    background: white;
+    border: 3px solid #667eea;
+}
+
+.memory-card.matched {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    cursor: default;
+    animation: matchPulse 0.5s ease;
+}
+
+@keyframes matchPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+.card-back {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+}
+
+.card-emoji {
+    font-size: 3rem;
+}
+
+.game-complete {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.game-complete h2 {
+    font-size: 2.5rem;
+    color: #48bb78;
+    margin-bottom: 20px;
+}
+
+.game-complete p {
+    font-size: 1.3rem;
+    color: #4a5568;
+    margin-bottom: 30px;
+}
+
+.return-btn {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.return-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(72, 187, 120, 0.4);
+}
+
+.close-btn {
+    background: rgba(255, 255, 255, 0.3);
+    color: white;
+    border: 2px solid white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 20px auto 0;
+    display: block;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.close-btn:hover {
+    background: white;
+    color: #f5576c;
+}
+
+@media (max-width: 768px) {
+    .memory-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .card-emoji,
+    .card-back {
+        font-size: 2rem;
+    }
+}
