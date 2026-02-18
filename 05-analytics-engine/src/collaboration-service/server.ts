@@ -91,6 +91,15 @@ io.on('connection', (socket) => {
    * @param {string} userName - Display name of the user
    */
   socket.on('join-room', async ({ roomId, userId, userName }) => {
+    // Basic Room Capacity Validation (Commit 10)
+    const currentUsers = await pubClient.hgetall(`room:${roomId}:users`);
+    const MAX_ROOM_CAPACITY = parseInt(process.env.MAX_ROOM_CAPACITY || '10');
+
+    if (Object.keys(currentUsers).length >= MAX_ROOM_CAPACITY) {
+      socket.emit('room-full', { roomId, message: 'Room has reached its maximum capacity.' });
+      return;
+    }
+
     socket.join(roomId);
     console.log(`${userName} (${userId}) joined room ${roomId}`);
 
@@ -101,8 +110,7 @@ io.on('connection', (socket) => {
     socket.to(roomId).emit('user-joined', { userId, userName });
 
     // Send current users list to the new user
-    const users = await pubClient.hgetall(`room:${roomId}:users`);
-    socket.emit('room-users', users);
+    socket.emit('room-users', currentUsers);
   });
 
   /**
