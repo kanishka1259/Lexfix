@@ -62,7 +62,23 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please open an issue on GitHub describing the problem or idea in detail.
+## Reporting Issues
+
+### Bug Reports
+
+If you find a bug, please create a new issue using the **Bug Report** template. Be sure to include:
+-   A clear description of the issue
+-   Steps to reproduce
+-   Expected behavior
+-   Screenshots (if applicable)
+
+### Feature Requests
+
+If you have an idea for a new feature, please create a new issue using the **Feature Request** template. Describe:
+-   The problem you are trying to solve
+-   Your proposed solution
+-   Any alternatives you considered
+
 
 ## Code of Conduct
 
