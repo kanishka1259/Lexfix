@@ -1,12 +1,19 @@
 {
-  "name": "lexfix-root",
+  "name": "@linguaaccess/core-engine",
   "version": "1.0.0",
-  "description": "Root script to run all Lexfix services",
+  "private": true,
   "scripts": {
-    "dev": "concurrently \"npm start --prefix backend\" \"npm run dev --prefix frontend\" \"npm run dev --prefix adhd_learning_lexfix/backend\" \"npm run dev --prefix adhd_learning_lexfix/frontend\"",
-    "install:all": "npm install && npm install --prefix backend && npm install --prefix frontend && npm install --prefix adhd_learning_lexfix/backend && npm install --prefix adhd_learning_lexfix/frontend"
+    "test": "vitest"
+  },
+  "dependencies": {
+    "next": "14.2.3",
+    "react": "^18",
+    "react-dom": "^18",
+    "next-auth": "^4.24.7",
+    "@prisma/client": "^5.14.0"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "vitest": "^1.6.0",
+    "typescript": "^5"
   }
 }
