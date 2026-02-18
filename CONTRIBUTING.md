@@ -50,3 +50,8 @@ Thank you for your interest in contributing to Lexfix! We welcome contributions 
 ## Reporting Issues
 
 If you find a bug or have a feature request, please open an issue on GitHub describing the problem or idea in detail.
+
+## Code of Conduct
+
+This project and everyone participating in it is governed by the [Code of Conduct](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code.
+
