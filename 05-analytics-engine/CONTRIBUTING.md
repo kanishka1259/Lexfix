@@ -50,3 +50,9 @@ You are assigned to this specific folder (`0X-epic-name`).
 - **DO NOT** modify files outside your folder without asking.
 - **DO NOT** change the root `.github` workflows.
 - Run `npm test` inside your folder to verify your changes.
+
+## 3. ML Setup Tips
+
+- **Models**: The ML service caches models locally. Ensure you have ~2GB disk space for the initial download.
+- **Python**: Use a virtual environment (`python -m venv venv`) to avoid dependency conflicts.
+- **Testing**: Run `pytest` from the `src/ml-service` root to verify logic changes.
