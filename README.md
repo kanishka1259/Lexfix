@@ -9,3 +9,8 @@
 - Session Management
 - Content API (Lessons, Categories)
 - Progress Tracking Schema
+
+## Modules
+
+- **Auth**: `src/auth` (Types, Validation)
+- **Content**: `src/content` (Calls, Validation, Types)
