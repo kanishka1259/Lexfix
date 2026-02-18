@@ -1,3 +1,7 @@
+/**
+ * Context and Provider for managing dyslexia-friendly fonts.
+ * Currently supports 'default' and 'opendyslexic'.
+ */
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import './OpenDyslexic.css';
 
