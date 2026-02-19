@@ -146,7 +146,7 @@ const StudentDashboard = () => {
                             {task.dueDate ? `Due: ${new Date(task.dueDate).toLocaleDateString()}` : 'Recommended Activity'}
                         </p>
                     </div>
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${isCompleted ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'}`}>
+                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${isCompleted ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-800'}`}>
                         {task.status || 'Pending'}
                     </span>
                 </div>
@@ -191,18 +191,18 @@ const StudentDashboard = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#f8fafc] pb-12">
+        <main className="min-h-screen bg-[#f8fafc] pb-12">
             <div className="max-w-6xl mx-auto px-4">
                 {/* Dashboard Welcome */}
-                <div className="mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
+                <header className="mb-10 animate-in fade-in slide-in-from-top-4 duration-700">
                     <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight mb-2">
                         Student Dashboard
                     </h1>
-                    <div className="flex items-center gap-2 text-slate-500 font-medium">
+                    <div className="flex items-center gap-2 text-slate-700 font-medium">
                         <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                         Welcome back, {user?.name || 'Student'}
                     </div>
-                </div>
+                </header>
 
                 {loading ? (
                     <div className="flex flex-col justify-center items-center h-80 bg-white rounded-3xl shadow-sm border border-slate-100">
@@ -218,7 +218,7 @@ const StudentDashboard = () => {
                                     <Clock className="w-5 h-5 text-amber-600" />
                                 </div>
                                 Pending Assignments
-                                <span className="ml-2 px-2 py-0.5 bg-slate-100 text-slate-500 text-xs rounded-full">
+                                <span className="ml-2 px-2 py-0.5 bg-slate-100 text-slate-800 text-xs rounded-full">
                                     {pendingTasks.length}
                                 </span>
                             </h2>
@@ -264,7 +264,7 @@ const StudentDashboard = () => {
                 @keyframes slide-in-from-top { from { transform: translateY(-1rem); } to { transform: translateY(0); } }
                 .animate-in { animation-name: fade-in, slide-in-from-top; animation-fill-mode: forwards; }
             `}</style>
-        </div>
+        </main>
     );
 };
 

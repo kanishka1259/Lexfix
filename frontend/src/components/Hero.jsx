@@ -78,30 +78,30 @@ const Hero = () => {
     const content = contentData[userType] || contentData.student;
 
     return (
-        <div className="flex-1 flex flex-col w-full relative">
+        <main className="flex-1 flex flex-col w-full relative">
             {/* Hero Section */}
-            <div className="flex flex-col items-center justify-center py-20 px-6 text-center relative overflow-hidden bg-brand-cream">
+            <section className="flex flex-col items-center justify-center py-20 px-6 text-center relative overflow-hidden bg-brand-cream" aria-labelledby="hero-title">
                 <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] [mask-image:radial-gradient(ellipse_50%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-50 pointer-events-none"></div>
 
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 relative z-10 max-w-3xl">
+                <h1 id="hero-title" className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 relative z-10 max-w-3xl">
                     {content.title}
                 </h1>
-                <p className="text-xl text-gray-600 mb-8 max-w-2xl relative z-10">
+                <p className="text-xl text-gray-800 mb-8 max-w-2xl relative z-10">
                     {content.subtitle}
                 </p>
                 <SignupModal
                     trigger={
-                        <button className="px-8 py-3 bg-brand-orange text-gray-900 border border-brand-orange rounded-full font-semibold hover:opacity-90 transition relative z-10 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
+                        <button className="px-8 py-3 bg-brand-orange text-gray-950 border border-brand-orange rounded-full font-semibold hover:opacity-90 transition relative z-10 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5">
                             Get Started Free
                         </button>
                     }
                 />
-            </div>
+            </section>
 
             {/* Features Section */}
-            <div className="py-16 px-6 md:px-12 bg-white">
+            <section className="py-16 px-6 md:px-12 bg-white" aria-labelledby="features-title">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-2xl font-bold text-center mb-12 text-gray-800">Why efficient for {userType}s?</h2>
+                    <h2 id="features-title" className="text-2xl font-bold text-center mb-12 text-gray-800">Why efficient for {userType}s?</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {content.features.map((feature, index) => (
                             <div key={index} className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
@@ -109,13 +109,13 @@ const Hero = () => {
                                     {feature.icon}
                                 </div>
                                 <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                                <p className="text-gray-600">{feature.description}</p>
+                                <p className="text-gray-800">{feature.description}</p>
                             </div>
                         ))}
                     </div>
                 </div>
-            </div>
-        </div>
+            </section>
+        </main>
     );
 };
 

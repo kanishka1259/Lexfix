@@ -2,13 +2,15 @@ import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LandingPage from '@/pages/LandingPage';
 import DashboardPage from '@/pages/DashboardPage';
+import Login from '@/pages/Login';
+import Register from '@/pages/Register';
 
-import ModuleDashboard from '@adhd/pages/adhd/ModuleDashboard';
-import Module1_Entry from '@adhd/pages/adhd/modules/Module1_Entry';
-import Module2_Content from '@adhd/pages/adhd/modules/Module2_Content';
-import Module3_Pacing from '@adhd/pages/adhd/modules/Module3_Pacing';
-import Module4_Progress from '@adhd/pages/adhd/modules/Module4_Progress';
-import Module5_Completion from '@adhd/pages/adhd/modules/Module5_Completion';
+import ModuleDashboard from '@/pages/adhd/ModuleDashboard';
+import Module1_Entry from '@/pages/adhd/modules/Module1_Entry';
+import Module2_Content from '@/pages/adhd/modules/Module2_Content';
+import Module3_Pacing from '@/pages/adhd/modules/Module3_Pacing';
+import Module4_Progress from '@/pages/adhd/modules/Module4_Progress';
+import Module5_Completion from '@/pages/adhd/modules/Module5_Completion';
 
 // Learning Platform - Teacher
 import TeacherHub from '@/pages/teacher/TeacherHub';
@@ -27,6 +29,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
       <Route path="/dashboard" element={<DashboardPage />} />
       <Route path="/profile" element={<Profile />} />
 

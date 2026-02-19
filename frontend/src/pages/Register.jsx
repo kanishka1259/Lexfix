@@ -98,7 +98,7 @@ const Register = () => {
     };
 
     return (
-        <div className="register-container">
+        <main className="register-container">
             <div className={`register-card ${step === 1 ? 'wide-card' : ''}`}>
                 <div className="register-header">
                     <h1>Create Your Account</h1>
@@ -172,7 +172,6 @@ const Register = () => {
                                 value={formData.name}
                                 onChange={handleChange}
                                 placeholder="Enter your full name"
-                                required
                             />
                         </div>
 
@@ -185,7 +184,6 @@ const Register = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="Enter your email"
-                                required
                             />
                         </div>
 
@@ -199,7 +197,6 @@ const Register = () => {
                                     value={formData.password}
                                     onChange={handleChange}
                                     placeholder="Min. 6 characters"
-                                    required
                                     minLength={6}
                                 />
                             </div>
@@ -213,7 +210,6 @@ const Register = () => {
                                     value={formData.confirmPassword}
                                     onChange={handleChange}
                                     placeholder="Re-enter password"
-                                    required
                                     minLength={6}
                                 />
                             </div>
@@ -227,7 +223,6 @@ const Register = () => {
                                     name="disability"
                                     value={formData.disability}
                                     onChange={handleChange}
-                                    required
                                 >
                                     <option value="" disabled>Select your learning path</option>
                                     <option value="adhd">ADHD</option>
@@ -264,7 +259,7 @@ const Register = () => {
                     </form>
                 )}
             </div>
-        </div>
+        </main>
     );
 };
 

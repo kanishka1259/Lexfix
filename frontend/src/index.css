@@ -24,11 +24,11 @@
 }
 
 :root {
-    --color-primary: #9E7B70;
-    --color-primary-dark: #7D5F54;
+    --color-primary: #825E52;
+    --color-primary-dark: #63473D;
     --color-secondary: #2D3748;
     --color-text-main: #1A202C;
-    --color-text-muted: #718096;
+    --color-text-muted: #4A5568;
     --color-bg-cream: #FAF7F2;
     --radius-sm: 8px;
     --radius-md: 12px;

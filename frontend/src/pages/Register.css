@@ -38,7 +38,7 @@
 }
 
 .register-header p {
-    color: var(--color-text-muted);
+    color: var(--color-text-main);
     font-size: 1.1rem;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .role-card p {
-    color: var(--color-text-muted);
+    color: var(--color-text-main);
     font-size: 0.95rem;
     line-height: 1.5;
 }
@@ -235,7 +235,7 @@
 .register-footer {
     text-align: center;
     margin-top: 32px;
-    color: var(--color-text-muted);
+    color: var(--color-text-main);
 }
 
 .register-footer a {

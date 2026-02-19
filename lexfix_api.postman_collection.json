@@ -1,0 +1,243 @@
+{
+    "info": {
+        "_postman_id": "7f8b9e8a-8c7d-4e5f-b6a5-3d2c1b0a9f8e",
+        "name": "Lexfix API Integration Tests",
+        "description": "Comprehensive integration tests for Lexfix Backend API.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Auth",
+            "item": [
+                {
+                    "name": "Register - New User",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "var jsonData = pm.response.json();",
+                                    "if (pm.response.code === 201) {",
+                                    "    pm.test(\"Registration Successful\", function () {",
+                                    "        pm.expect(jsonData.success).to.be.true;",
+                                    "        pm.environment.set(\"token\", jsonData.data.token);",
+                                    "        pm.environment.set(\"student_id\", jsonData.data.id);",
+                                    "    });",
+                                    "} else if (pm.response.code === 400 && jsonData.message === \"User already exists\") {",
+                                    "    pm.test(\"User already exists - skipping registration\", function () {",
+                                    "        pm.expect(true).to.be.true;",
+                                    "    });",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"name\": \"Postman Test Student\",\n    \"email\": \"student@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"student\",\n    \"disability\": \"adhd\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/register",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "register"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Login - Student",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 200\", function () {",
+                                    "    pm.response.to.have.status(200);",
+                                    "});",
+                                    "",
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data.token) {",
+                                    "    pm.environment.set(\"token\", jsonData.data.token);",
+                                    "    pm.environment.set(\"student_id\", jsonData.data.id);",
+                                    "    console.log(\"Token and Student ID saved to environment\");",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"email\": \"student@example.com\",\n    \"password\": \"password123\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/auth/login",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "login"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Get Me",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{base_url}}/auth/me",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "auth",
+                                "me"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        },
+        {
+            "name": "ADHD Training",
+            "item": [
+                {
+                    "name": "Start Session",
+                    "event": [
+                        {
+                            "listen": "test",
+                            "script": {
+                                "exec": [
+                                    "pm.test(\"Status code is 201\", function () {",
+                                    "    pm.response.to.have.status(201);",
+                                    "});",
+                                    "",
+                                    "var jsonData = pm.response.json();",
+                                    "if (jsonData.success && jsonData.data && jsonData.data._id) {",
+                                    "    pm.environment.set(\"session_id\", jsonData.data._id);",
+                                    "    console.log(\"Session ID saved to environment: \" + jsonData.data._id);",
+                                    "}"
+                                ],
+                                "type": "text/javascript"
+                            }
+                        }
+                    ],
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"taskId\": \"{{task_id}}\"\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/adhd/session/start",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "adhd",
+                                "session",
+                                "start"
+                            ]
+                        }
+                    },
+                    "response": []
+                },
+                {
+                    "name": "Track Sentence",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\n    \"sessionId\": \"{{session_id}}\",\n    \"sentenceIndex\": 0,\n    \"timeSpent\": 1500\n}",
+                            "options": {
+                                "raw": {
+                                    "language": "json"
+                                }
+                            }
+                        },
+                        "url": {
+                            "raw": "{{base_url}}/adhd/session/sentence",
+                            "host": [
+                                "{{base_url}}"
+                            ],
+                            "path": [
+                                "adhd",
+                                "session",
+                                "sentence"
+                            ]
+                        }
+                    },
+                    "response": []
+                }
+            ]
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "{{token}}",
+                "type": "string"
+            }
+        ]
+    },
+    "event": [
+        {
+            "listen": "prerequest",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "pm.request.headers.add({key: 'Content-Type', value: 'application/json' });"
+                ]
+            }
+        },
+        {
+            "listen": "test",
+            "script": {
+                "type": "text/javascript",
+                "exec": [
+                    "pm.test(\"Successful Status Code\", function () {",
+                    "    if (!pm.info.requestName.startsWith(\"Register\")) {",
+                    "        pm.expect(pm.response.code).to.be.oneOf([200, 201]);",
+                    "    }",
+                    "});"
+                ]
+            }
+        }
+    ]
+}

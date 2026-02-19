@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppContext } from '../../context/AppContext';
+import { useAppContext } from '@/context/AppContext';
 import TeacherDashboard from './dashboards/TeacherDashboard';
 import StudentDashboard from './dashboards/StudentDashboard';
 import ParentDashboard from './dashboards/ParentDashboard';

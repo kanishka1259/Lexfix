@@ -42,7 +42,7 @@
 }
 
 .login-header p {
-    color: var(--color-text-muted);
+    color: var(--color-text-main);
 }
 
 .login-form {
@@ -121,7 +121,7 @@
     margin-top: 24px;
     padding-top: 20px;
     border-top: 1px solid #E2E8F0;
-    color: var(--color-text-muted);
+    color: var(--color-text-main);
 }
 
 .login-footer a {

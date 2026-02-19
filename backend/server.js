@@ -38,8 +38,11 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 connectDB();
 
 // Routes
+console.log("Mounting /api/auth...");
 app.use("/api/auth", authRoutes);
+console.log("Mounting /api/adhd...");
 app.use("/api/adhd", adhdRoutes);
+console.log("Mounting /api/tasks...");
 app.use("/api/tasks", taskRoutes);
 
 // Learning Platform Routes

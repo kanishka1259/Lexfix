@@ -85,7 +85,7 @@ const Navbar = () => {
                             className="text-right hidden lg:block cursor-pointer hover:opacity-80 transition-opacity"
                         >
                             <p className="text-sm font-semibold text-gray-900 leading-tight">{user.name}</p>
-                            <p className="text-xs text-gray-500 uppercase tracking-wider">{user.role}</p>
+                            <p className="text-xs text-gray-600 uppercase tracking-wider">{user.role}</p>
                         </div>
                         <button
                             onClick={() => navigate('/profile')}
@@ -96,7 +96,7 @@ const Navbar = () => {
                         </button>
                         <button
                             onClick={logout}
-                            className="px-4 py-2 text-sm font-bold text-red-600 border border-red-100 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
+                            className="px-4 py-2 text-sm font-bold text-red-700 border border-red-100 bg-red-50 rounded-lg hover:bg-red-100 transition-colors"
                         >
                             Sign Out
                         </button>

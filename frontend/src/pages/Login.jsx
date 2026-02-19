@@ -78,7 +78,7 @@ const Login = () => {
 
 
     return (
-        <div className="login-container">
+        <main className="login-container">
             <div className="login-card">
                 <div className="login-header">
                     <h1>Welcome Back</h1>
@@ -133,7 +133,7 @@ const Login = () => {
                     <p>New here? <Link to="/register">Create an account</Link></p>
                 </div>
             </div>
-        </div>
+        </main>
     );
 };
 
