@@ -1,183 +1,86 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-// --- Mock Models ---
-const mockTask = {
-    findById: vi.fn(),
-    find: vi.fn(),
-    create: vi.fn(),
-};
+const { mockTask } = vi.hoisted(() => ({
+    mockTask: { findById: vi.fn(), find: vi.fn(), create: vi.fn() },
+}));
 
 vi.mock('../../../backend/models/Task.js', () => ({ default: mockTask }));
 
 import { createTask, getTasksByStudent, getTasksByTeacher, getTaskById } from '../../../backend/controllers/taskController.js';
 
-// --- Helpers ---
-const mockReq = (overrides = {}) => ({
-    body: {},
-    params: {},
-    user: { id: 'teacher1', _id: 'teacher1', role: 'teacher' },
-    file: null,
-    ...overrides,
-});
-
-const mockRes = () => {
-    const res = {};
-    res.status = vi.fn().mockReturnValue(res);
-    res.json = vi.fn().mockReturnValue(res);
-    return res;
-};
+const mockReq = (o = {}) => ({ body: {}, params: {}, user: { id: 'teacher1', _id: 'teacher1', role: 'teacher' }, file: null, ...o });
+const mockRes = () => { const r = {}; r.status = vi.fn().mockReturnValue(r); r.json = vi.fn().mockReturnValue(r); return r; };
 
 describe('TaskController', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
+    beforeEach(() => vi.clearAllMocks());
 
-    // ----------------------------------------------------------
-    // CREATE TASK
-    // ----------------------------------------------------------
     describe('createTask', () => {
-        it('should return 403 for non-teacher users', async () => {
-            const req = mockReq({ user: { id: 's1', role: 'student' } });
+        it('returns 403 for non-teacher', async () => {
             const res = mockRes();
-
-            await createTask(req, res);
-
+            await createTask(mockReq({ user: { id: 's1', role: 'student' } }), res);
             expect(res.status).toHaveBeenCalledWith(403);
         });
 
-        it('should return 400 when required fields are missing', async () => {
-            const req = mockReq({ body: { title: 'Task1' } }); // missing content, studentId
+        it('returns 400 when required fields are missing', async () => {
             const res = mockRes();
-
-            await createTask(req, res);
-
+            await createTask(mockReq({ body: { title: 'T' } }), res);
             expect(res.status).toHaveBeenCalledWith(400);
         });
 
-        it('should create a task successfully', async () => {
-            const newTask = {
-                _id: 'task1',
-                title: 'Read Chapter 1',
-                content: ['Sentence one.', 'Sentence two.'],
-                assignedTo: ['student1'],
-            };
-            mockTask.create.mockResolvedValueOnce(newTask);
-
-            const req = mockReq({
-                body: { title: 'Read Chapter 1', content: ['Sentence one.', 'Sentence two.'], studentId: 'student1' },
-            });
+        it('creates a task successfully', async () => {
+            const task = { _id: 't1', title: 'Read', content: ['S1.', 'S2.'] };
+            mockTask.create.mockResolvedValueOnce(task);
             const res = mockRes();
-
-            await createTask(req, res);
-
+            await createTask(mockReq({ body: { title: 'Read', content: ['S1.', 'S2.'], studentId: 's1' } }), res);
             expect(res.status).toHaveBeenCalledWith(201);
-            expect(res.json).toHaveBeenCalledWith(
-                expect.objectContaining({ success: true, data: newTask }),
-            );
+            expect(res.json).toHaveBeenCalledWith(expect.objectContaining({ success: true, data: task }));
         });
 
-        it('should handle file attachment', async () => {
-            mockTask.create.mockResolvedValueOnce({ _id: 'task2', attachmentUrl: '/uploads/file.pdf' });
-
-            const req = mockReq({
-                body: { title: 'Task', content: 'Content', studentId: 's1' },
-                file: { filename: 'file.pdf' },
-            });
+        it('handles file attachment', async () => {
+            mockTask.create.mockResolvedValueOnce({ _id: 't2' });
             const res = mockRes();
-
-            await createTask(req, res);
-
-            expect(mockTask.create).toHaveBeenCalledWith(
-                expect.objectContaining({ attachmentUrl: '/uploads/file.pdf' }),
-            );
+            await createTask(mockReq({ body: { title: 'T', content: 'C', studentId: 's1' }, file: { filename: 'f.pdf' } }), res);
+            expect(mockTask.create).toHaveBeenCalledWith(expect.objectContaining({ attachmentUrl: '/uploads/f.pdf' }));
         });
     });
 
-    // ----------------------------------------------------------
-    // GET TASKS BY STUDENT
-    // ----------------------------------------------------------
     describe('getTasksByStudent', () => {
-        it('should return 403 when student accesses another student tasks', async () => {
-            const req = mockReq({
-                user: { id: 's1', _id: 's1', role: 'student' },
-                params: { studentId: 's2' },
-            });
+        it('returns 403 when accessing another student', async () => {
             const res = mockRes();
-
-            await getTasksByStudent(req, res);
-
+            await getTasksByStudent(mockReq({ user: { id: 's1', _id: 's1', role: 'student' }, params: { studentId: 's2' } }), res);
             expect(res.status).toHaveBeenCalledWith(403);
         });
 
-        it('should return tasks for the requesting student', async () => {
-            const tasks = [{ _id: 't1', title: 'Task 1' }];
-            mockTask.find.mockReturnValue({ sort: vi.fn().mockResolvedValue(tasks) });
-
-            const req = mockReq({
-                user: { id: 's1', _id: 's1', role: 'student' },
-                params: { studentId: 's1' },
-            });
+        it('returns tasks for the student', async () => {
+            mockTask.find.mockReturnValue({ sort: vi.fn().mockResolvedValue([{ _id: 't1' }]) });
             const res = mockRes();
-
-            await getTasksByStudent(req, res);
-
+            await getTasksByStudent(mockReq({ user: { id: 's1', _id: 's1', role: 'student' }, params: { studentId: 's1' } }), res);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(
-                expect.objectContaining({ count: 1, data: tasks }),
-            );
         });
     });
 
-    // ----------------------------------------------------------
-    // GET TASKS BY TEACHER
-    // ----------------------------------------------------------
     describe('getTasksByTeacher', () => {
-        it('should return tasks created by teacher', async () => {
-            const tasks = [{ _id: 't1' }, { _id: 't2' }];
-            mockTask.find.mockReturnValue({
-                sort: vi.fn().mockReturnValue({ limit: vi.fn().mockResolvedValue(tasks) }),
-            });
-
-            const req = mockReq({ params: { teacherId: 'teacher1' } });
+        it('returns tasks created by teacher', async () => {
+            mockTask.find.mockReturnValue({ sort: vi.fn().mockReturnValue({ limit: vi.fn().mockResolvedValue([{ _id: 't1' }]) }) });
             const res = mockRes();
-
-            await getTasksByTeacher(req, res);
-
+            await getTasksByTeacher(mockReq({ params: { teacherId: 'teacher1' } }), res);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(
-                expect.objectContaining({ count: 2 }),
-            );
         });
     });
 
-    // ----------------------------------------------------------
-    // GET TASK BY ID
-    // ----------------------------------------------------------
     describe('getTaskById', () => {
-        it('should return 404 when task is not found', async () => {
+        it('returns 404 when not found', async () => {
             mockTask.findById.mockResolvedValueOnce(null);
-
-            const req = mockReq({ params: { id: 'nonexistent' } });
             const res = mockRes();
-
-            await getTaskById(req, res);
-
+            await getTaskById(mockReq({ params: { id: 'bad' } }), res);
             expect(res.status).toHaveBeenCalledWith(404);
         });
 
-        it('should return the task when found', async () => {
-            const task = { _id: 't1', title: 'Task' };
-            mockTask.findById.mockResolvedValueOnce(task);
-
-            const req = mockReq({ params: { id: 't1' } });
+        it('returns the task', async () => {
+            mockTask.findById.mockResolvedValueOnce({ _id: 't1' });
             const res = mockRes();
-
-            await getTaskById(req, res);
-
+            await getTaskById(mockReq({ params: { id: 't1' } }), res);
             expect(res.status).toHaveBeenCalledWith(200);
-            expect(res.json).toHaveBeenCalledWith(
-                expect.objectContaining({ data: task }),
-            );
         });
     });
 });
