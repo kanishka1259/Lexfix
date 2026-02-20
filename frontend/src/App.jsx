@@ -14,10 +14,10 @@ import Module5_Completion from '@adhd/pages/adhd/modules/Module5_Completion';
 import TeacherHub from '@/pages/teacher/TeacherHub';
 import DisabilityManagement from '@/pages/teacher/DisabilityManagement';
 
-// Learning Platform - Student
 import StudentDashboard from '@/pages/StudentDashboard';
 import StudentTaskList from '@/pages/student/StudentTaskList';
 import LineByLineReader from '@/pages/student/LineByLineReader';
+import DisabilityHub from '@/pages/student/DisabilityHub';
 import Profile from '@/pages/student/Profile';
 
 // Learning Platform - Parent  
@@ -46,6 +46,12 @@ function App() {
       <Route path="/student-tasks" element={<StudentDashboard />} />
       <Route path="/student/read/:assignmentId" element={<LineByLineReader />} />
       <Route path="/student/profile" element={<Profile />} />
+
+      {/* Disability Hubs */}
+      <Route path="/dyslexia" element={<DisabilityHub type="dyslexia" />} />
+      <Route path="/dysgraphia" element={<DisabilityHub type="dysgraphia" />} />
+      <Route path="/dyscalculia" element={<DisabilityHub type="dyscalculia" />} />
+      <Route path="/autism" element={<DisabilityHub type="autism" />} />
 
       {/* Learning Platform - Parent Routes */}
       <Route path="/parent-dashboard" element={<ParentDashboardMain />} />

@@ -1,6 +1,8 @@
-// pages/student/LineByLineReader.jsx
 import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import MindGames from '../../components/MindGames';
+import { useTTS } from '@reading-support/components/tts/TTSProvider';
 import './LineByLineReader.css';
 
 export default function LineByLineReader() {
@@ -8,7 +10,7 @@ export default function LineByLineReader() {
     const navigate = useNavigate();
     const [assignment, setAssignment] = useState(null);
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [isPlaying, setIsPlaying] = useState(false);
+    const { speak, stop, isSpeaking } = useTTS();
     const [showMindGames, setShowMindGames] = useState(false);
     const [timeSpent, setTimeSpent] = useState(0);
     const [distractions, setDistractions] = useState(0);
@@ -19,7 +21,10 @@ export default function LineByLineReader() {
             setTimeSpent(prev => prev + 1);
         }, 1000);
 
-        return () => clearInterval(timer);
+        return () => {
+            clearInterval(timer);
+            stop(); // Stop speech on unmount
+        };
     }, [assignmentId]);
 
     const fetchAssignment = async () => {
@@ -35,18 +40,7 @@ export default function LineByLineReader() {
     };
 
     const speakSentence = (text) => {
-        if ('speechSynthesis' in window) {
-            setIsPlaying(true);
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.rate = 0.9;
-            utterance.pitch = 1.1;
-            utterance.onend = () => {
-                setIsPlaying(false);
-            };
-            window.speechSynthesis.speak(utterance);
-        } else {
-            alert('Text-to-speech not supported in this browser');
-        }
+        speak(text);
     };
 
     const handleNext = async () => {
@@ -151,9 +145,9 @@ export default function LineByLineReader() {
                     <button
                         className="control-btn listen-btn"
                         onClick={() => speakSentence(currentSentence)}
-                        disabled={isPlaying}
+                        disabled={isSpeaking}
                     >
-                        {isPlaying ? '🔊 Playing...' : '🔊 Listen'}
+                        {isSpeaking ? '🔊 Playing...' : '🔊 Listen'}
                     </button>
 
                     <button

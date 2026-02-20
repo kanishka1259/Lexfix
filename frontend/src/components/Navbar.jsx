@@ -1,11 +1,13 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAppContext } from '@/context/AppContext';
+import { useDyslexiaFontContext } from '@reading-support/components/dyslexia-font/DyslexiaFontProvider'
 import LoginModal from './auth/LoginModal';
 import SignupModal from './auth/SignupModal';
 import { Type, ArrowLeft, User } from 'lucide-react'; // Icon for font toggle
 
 const Navbar = () => {
-    const { userType, setUserType, user, logout, isDyslexic, setIsDyslexic } = useAppContext();
+    const { userType, setUserType, user, logout } = useAppContext();
+    const { font, toggleFont } = useDyslexiaFontContext();
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -66,8 +68,8 @@ const Navbar = () => {
             <div className="flex items-center gap-6">
                 {/* Font Toggle */}
                 <button
-                    onClick={() => setIsDyslexic(!isDyslexic)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${isDyslexic
+                    onClick={toggleFont}
+                    className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors ${font === 'opendyslexic'
                         ? 'bg-yellow-100 text-yellow-800 border border-yellow-200'
                         : 'text-gray-600 hover:bg-gray-100 border border-transparent'
                         }`}

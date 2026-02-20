@@ -211,6 +211,53 @@ const StudentDashboard = () => {
                     </div>
                 ) : (
                     <div className="space-y-12">
+                        {/* Learning Modules Section */}
+                        <section>
+                            <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">
+                                <div className="p-2 bg-indigo-100 rounded-lg">
+                                    <BookOpen className="w-5 h-5 text-indigo-600" />
+                                </div>
+                                Your Learning Modules
+                            </h2>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                                {/* ADHD Module */}
+                                <div onClick={() => navigate('/adhd')} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group">
+                                    <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mb-4 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                                        <div className="font-bold text-xl">🧠</div>
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 text-lg mb-1">ADHD Focus</h3>
+                                    <p className="text-slate-500 text-sm">Pacing & focus tools</p>
+                                </div>
+
+                                {/* Dyslexia Module */}
+                                <div onClick={() => navigate('/dyslexia')} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group">
+                                    <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4 text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                                        <BookOpen className="w-6 h-6" />
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 text-lg mb-1">Dyslexia Support</h3>
+                                    <p className="text-slate-500 text-sm">Reading assistant</p>
+                                </div>
+
+                                {/* Dysgraphia Module */}
+                                <div onClick={() => navigate('/dysgraphia')} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group">
+                                    <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center mb-4 text-pink-600 group-hover:bg-pink-600 group-hover:text-white transition-colors">
+                                        <div className="font-bold text-xl">✍️</div>
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 text-lg mb-1">Dysgraphia Tools</h3>
+                                    <p className="text-slate-500 text-sm">Writing helpers</p>
+                                </div>
+
+                                {/* Dyscalculia Module */}
+                                <div onClick={() => navigate('/dyscalculia')} className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:-translate-y-1 transition-all cursor-pointer group">
+                                    <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4 text-green-600 group-hover:bg-green-600 group-hover:text-white transition-colors">
+                                        <div className="font-bold text-xl">🔢</div>
+                                    </div>
+                                    <h3 className="font-bold text-slate-800 text-lg mb-1">Dyscalculia Aid</h3>
+                                    <p className="text-slate-500 text-sm">Math puzzles</p>
+                                </div>
+                            </div>
+                        </section>
+
                         {/* Pending Section */}
                         <section>
                             <h2 className="text-xl font-bold text-slate-800 mb-6 flex items-center gap-3">

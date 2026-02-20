@@ -8,7 +8,13 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
-      "@adhd": path.resolve(__dirname, "../adhd_learning_lexfix/frontend/src"),
+      "@adhd": path.resolve(__dirname, "./src"),
+      "@reading-support": path.resolve(__dirname, "../03-reading-support/src"),
     },
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: './src/test/setup.js',
   },
 })

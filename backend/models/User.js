@@ -31,8 +31,10 @@ const userSchema = new mongoose.Schema(
 
         // ONLY for students
         disability: {
-            type: [String], // Changed to Array
-            enum: ["adhd", "autism", "dyslexia", "dysgraphia", "dyscalculia"],
+            type: [{
+                type: String,
+                enum: ["adhd", "autism", "dyslexia", "dysgraphia", "dyscalculia"]
+            }],
             required: function () {
                 return this.role === "student";
             }

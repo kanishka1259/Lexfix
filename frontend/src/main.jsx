@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import App from './App.jsx'
 import { AppProvider } from './context/AppContext'
+import { ReadingSupportProvider } from '@reading-support/components/ReadingSupportProvider'
 import './index.css'
 
 class ErrorBoundary extends React.Component {
@@ -42,9 +43,11 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <ErrorBoundary>
       <AppProvider>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
+        <ReadingSupportProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ReadingSupportProvider>
       </AppProvider>
     </ErrorBoundary>
   </React.StrictMode>,

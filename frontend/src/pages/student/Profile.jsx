@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../../context/AppContext';
+import { useDyslexiaFontContext } from '@reading-support/components/dyslexia-font/DyslexiaFontProvider'
+import { useTTS } from '@reading-support/components/tts/TTSProvider'
 import Navbar from '../../components/Navbar';
 import { User, Mail, Shield, Copy, Check, Settings, Eye, EyeOff, Layout, Bell } from 'lucide-react';
 
 const Profile = () => {
-    const { user, isDyslexic, setIsDyslexic } = useAppContext();
+    const { user } = useAppContext();
+    const { font, toggleFont } = useDyslexiaFontContext();
+    const { rate, setRate } = useTTS();
     const [copied, setCopied] = useState(false);
     const [activeTab, setActiveTab] = useState('account');
 
@@ -149,12 +153,12 @@ const Profile = () => {
                                                 </p>
                                             </div>
                                             <button
-                                                onClick={() => setIsDyslexic(!isDyslexic)}
-                                                className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none ${isDyslexic ? 'bg-amber-600' : 'bg-amber-200'
+                                                onClick={toggleFont}
+                                                className={`relative inline-flex h-8 w-16 items-center rounded-full transition-colors duration-300 focus:outline-none ${font === 'opendyslexic' ? 'bg-amber-600' : 'bg-amber-200'
                                                     }`}
                                             >
                                                 <span
-                                                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 ${isDyslexic ? 'translate-x-9' : 'translate-x-1'
+                                                    className={`inline-block h-6 w-6 transform rounded-full bg-white transition-transform duration-300 ${font === 'opendyslexic' ? 'translate-x-9' : 'translate-x-1'
                                                         }`}
                                                 />
                                             </button>
@@ -166,9 +170,20 @@ const Profile = () => {
                                             <span className="text-slate-700 font-semibold">High Contrast Mode</span>
                                             <div className="w-10 h-5 bg-slate-200 rounded-full"></div>
                                         </div>
-                                        <div className="p-4 border border-slate-100 rounded-xl flex items-center justify-between opacity-50 cursor-not-allowed">
-                                            <span className="text-slate-700 font-semibold">Text-to-Speech Speed</span>
-                                            <span className="text-slate-400 font-mono text-xs">1.0x</span>
+                                        <div className="p-4 border border-slate-100 rounded-xl flex flex-col gap-2">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-slate-700 font-semibold">Text-to-Speech Speed</span>
+                                                <span className="text-slate-500 font-mono text-xs">{rate.toFixed(1)}x</span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0.5"
+                                                max="2.0"
+                                                step="0.1"
+                                                value={rate}
+                                                onChange={(e) => setRate(parseFloat(e.target.value))}
+                                                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                                            />
                                         </div>
                                     </div>
                                 </div>

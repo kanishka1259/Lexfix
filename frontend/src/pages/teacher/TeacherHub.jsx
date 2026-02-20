@@ -23,7 +23,7 @@ export default function TeacherHub() {
             color: "bg-blue-100 text-blue-600",
             border: "border-blue-200",
             description: 'Specialized fonts, text-to-speech, and reading assistants.',
-            status: 'coming-soon'
+            status: 'active'
         },
         {
             id: 'dysgraphia',
@@ -32,7 +32,7 @@ export default function TeacherHub() {
             color: "bg-pink-100 text-pink-600",
             border: "border-pink-200",
             description: 'Speech-to-text, writing guides, and motor skill aids.',
-            status: 'coming-soon'
+            status: 'active'
         },
         {
             id: 'dyscalculia',
@@ -41,7 +41,7 @@ export default function TeacherHub() {
             color: "bg-green-100 text-green-600",
             border: "border-green-200",
             description: 'Visual math aids, gamified numbers, and logic puzzles.',
-            status: 'coming-soon'
+            status: 'active'
         },
         {
             id: 'autism',
@@ -50,7 +50,7 @@ export default function TeacherHub() {
             color: "bg-orange-100 text-orange-600",
             border: "border-orange-200",
             description: 'Predictable routines, sensory-friendly UI, and social stories.',
-            status: 'coming-soon'
+            status: 'active'
         }
     ];
 

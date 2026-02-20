@@ -24,7 +24,14 @@ describe('syllable-utils', () => {
         it('should apply breakdown to every word', () => {
             const sentence = 'hello world';
             const result = breakSentenceIntoSyllables(sentence, '-');
+            expect(result).toBe('hell-o world');
+        });
+
+        it('should handle complex sentences', () => {
+            const sentence = 'The quick brown fox jumps over the lazy dog';
+            const result = breakSentenceIntoSyllables(sentence, '-');
             expect(result).toContain('-');
+            expect(result).toContain('jumps');
         });
     });
 });

@@ -27,7 +27,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(cors({
-    origin: ['http://localhost:5173'], // Only main frontend now
+    origin: true, // Allow any origin in dev
     credentials: true
 }));
 app.use(express.json());
