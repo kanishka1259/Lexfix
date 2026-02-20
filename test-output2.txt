@@ -1,0 +1,1027 @@
+﻿
+> lexfix-root@1.0.0 npx
+> vitest run --reporter=verbose
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mD:/Lexfix[39m
+
+node.exe : [90mstderr[2m | 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22m[2mAppContext[2m > [22m[2minitializes with 
+default values when localStorage is empty[22m[39m
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Users\kanis\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([90mstder 
+   r[2m...empty[22m[39m:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22m[2mAppContext[2m > [22m[2minitializes user 
+from localStorage[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22m[2mAppContext[2m > [22m[2minitializes 
+isDyslexic from localStorage[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22m[2mAppContext[2m > [22m[2mclears user state on 
+logout[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22m[2mAppContext[2m > [22m[2mupdates userType 
+when setUserType is called[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+ [31m├ù[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes with default values when localStorage is empty
+[31m   ΓåÆ Cannot read properties of null (reading 'useState')[39m
+ [31m├ù[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes user from localStorage
+[31m   ΓåÆ Cannot read properties of null (reading 'useState')[39m
+ [31m├ù[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes isDyslexic from localStorage
+[31m   ΓåÆ Cannot read properties of null (reading 'useState')[39m
+ [31m├ù[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22mclears user state on logout
+[31m   ΓåÆ Cannot read properties of null (reading 'useState')[39m
+ [31m├ù[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22mupdates userType when setUserType is called
+[31m   ΓåÆ Cannot read properties of null (reading 'useState')[39m
+[90mstderr[2m | 
+tests/frontend/pages/Login.test.jsx[2m > 
+[22m[2mLogin Page[2m > [22m[2mrenders email and 
+password fields[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Login.test.jsx[2m > 
+[22m[2mLogin Page[2m > [22m[2mrenders Sign In 
+button[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Login.test.jsx[2m > 
+[22m[2mLogin Page[2m > [22m[2mrenders link to 
+registration[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Login.test.jsx[2m > 
+[22m[2mLogin Page[2m > [22m[2mupdates form data on 
+input change[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Login.test.jsx[2m > 
+[22m[2mLogin Page[2m > [22m[2mrenders heading 
+text[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+ [31m├ù[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders email and password fields
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders Sign In button
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders link to registration
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mupdates form data on input change
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders heading text
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mrenders role 
+selection on step 1[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2madvances to step 
+2 when a role is selected[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mshows disability 
+field for student role[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mshows child email 
+field for parent role[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mdoes not show 
+disability/child fields for teacher[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mhas a back button 
+to return to role selection[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22m[2mRegister Page[2m > [22m[2mrenders heading 
+text[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mrenders role selection on step 1
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22madvances to step 2 when a role is selected
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mshows disability field for student role
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mshows child email field for parent role
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mdoes not show disability/child fields for teacher
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mhas a back button to return to role selection
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mrenders heading text
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mredirects to / when no user is logged in
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [31m├ù[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mredirects when user role does not match required role
+[31m   ΓåÆ Cannot read properties of null (reading 'useContext')[39m
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mrenders children when user is authorized
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mrenders children when no specific role is required
+[90mstderr[2m | 
+tests/frontend/components/ProtectedRoute.test.jsx[2m > 
+[22m[2mProtectedRoute[2m > [22m[2mredirects to / 
+when no user is logged in[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+[90mstderr[2m | 
+tests/frontend/components/ProtectedRoute.test.jsx[2m > 
+[22m[2mProtectedRoute[2m > [22m[2mredirects when 
+user role does not match required role[22m[39m
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+Invalid hook call. Hooks can only be called inside of 
+the body of a function component. This could happen for 
+one of the following reasons:
+1. You might have mismatching versions of React and the 
+renderer (such as React DOM)
+2. You might be breaking the Rules of Hooks
+3. You might have more than one copy of React in the 
+same app
+See https://react.dev/link/invalid-hook-call for tips 
+about how to debug and fix this problem.
+
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders student content by default
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders teacher content when userType is teacher
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders parent content when userType is parent
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mfalls back to student content for unknown userType
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders Get Started button
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1m[7m Failed Suites 8 
+[27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/adhdController.test.js [2m[ 
+tests/backend/controllers/adhdController.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m 
+backend/controllers/adhdController.js:[2m1:1[22m[39m
+    [90m  1| [39m[35mimport[39m 
+[33mADHDSession[39m [35mfrom[39m 
+[32m"../models/ADHDSession.js"[39m[33m;[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m [33mTask[39m 
+[35mfrom[39m [32m"../models/Task.js"[39m[33m;[39m
+    [90m  3| [39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockADHDSession' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/adhdControl
+ler.test.js:[2m2:69[22m[39m
+[90m [2mΓ¥»[22m 
+backend/controllers/adhdController.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/assignmentController.test.js 
+[2m[ 
+tests/backend/controllers/assignmentController.test.js 
+][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m backend/controllers_learning/assignme
+ntController.js:[2m1:1[22m[39m
+    [90m  1| [39m[90m// 
+controllers/assignmentController.js[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m 
+[33mAssignment[39m [35mfrom[39m 
+[32m"../models/Assignment.js"[39m[33m;[39m
+    [90m  3| [39m[35mimport[39m [33mUser[39m 
+[35mfrom[39m [32m"../models/User.js"[39m[33m;[39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockAssignment' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/assignmentC
+ontroller.test.js:[2m2:68[22m[39m
+[90m [2mΓ¥»[22m backend/controllers_learning/assignme
+ntController.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[2/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/authController.test.js [2m[ 
+tests/backend/controllers/authController.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m 
+backend/controllers/authController.js:[2m1:1[22m[39m
+    [90m  1| [39m[35mimport[39m [33mUser[39m 
+[35mfrom[39m [32m"../models/User.js"[39m[33m;[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m jwt [35mfrom[39m 
+[32m"jsonwebtoken"[39m[33m;[39m
+    [90m  3| [39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockUser' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/authControl
+ler.test.js:[2m2:62[22m[39m
+[90m [2mΓ¥»[22m 
+backend/controllers/authController.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[3/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/parentController.test.js 
+[2m[ 
+tests/backend/controllers/parentController.test.js 
+][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m backend/controllers_learning/parentCo
+ntroller.js:[2m1:1[22m[39m
+    [90m  1| [39m[90m// 
+controllers/parentController.js[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m [33mUser[39m 
+[35mfrom[39m [32m"../models/User.js"[39m[33m;[39m
+    [90m  3| [39m[35mimport[39m 
+[33mSubmission[39m [35mfrom[39m 
+[32m"../models/Submission.js"[39m[33m;[39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockUser' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/parentContr
+oller.test.js:[2m2:62[22m[39m
+[90m [2mΓ¥»[22m backend/controllers_learning/parentCo
+ntroller.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[4/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/progressController.test.js 
+[2m[ 
+tests/backend/controllers/progressController.test.js 
+][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m backend/controllers_learning/progress
+Controller.js:[2m1:1[22m[39m
+    [90m  1| [39m[90m// 
+controllers/progressController.js[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m [33mProgress[39m 
+[35mfrom[39m 
+[32m"../models/Progress.js"[39m[33m;[39m
+    [90m  3| [39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockProgress' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/progressCon
+troller.test.js:[2m2:66[22m[39m
+[90m [2mΓ¥»[22m backend/controllers_learning/progress
+Controller.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[5/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/sessionController.test.js 
+[2m[ 
+tests/backend/controllers/sessionController.test.js 
+][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m backend/controllers_learning/sessionC
+ontroller.js:[2m1:1[22m[39m
+    [90m  1| [39m[90m// 
+controllers/sessionController.js[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m [33mSession[39m 
+[35mfrom[39m 
+[32m"../models/Session.js"[39m[33m;[39m
+    [90m  3| [39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockSession' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/sessionCont
+roller.test.js:[2m2:65[22m[39m
+[90m [2mΓ¥»[22m backend/controllers_learning/sessionC
+ontroller.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[6/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/submissionController.test.js 
+[2m[ 
+tests/backend/controllers/submissionController.test.js 
+][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m backend/controllers_learning/submissi
+onController.js:[2m1:1[22m[39m
+    [90m  1| [39m[90m// 
+controllers/submissionController.js[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m[35mimport[39m 
+[33mSubmission[39m [35mfrom[39m 
+[32m"../models/Submission.js"[39m[33m;[39m
+    [90m  3| [39m[35mimport[39m 
+[33mAssignment[39m [35mfrom[39m 
+[32m"../models/Assignment.js"[39m[33m;[39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockSubmission' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/submissionC
+ontroller.test.js:[2m2:68[22m[39m
+[90m [2mΓ¥»[22m backend/controllers_learning/submissi
+onController.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[7/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/taskController.test.js [2m[ 
+tests/backend/controllers/taskController.test.js ][22m
+[31m[1mError[22m: [vitest] There was an error when 
+mocking a module. If you are using "vi.mock" factory, 
+make sure there are no top level variables inside, 
+since this call is hoisted to top of the file. Read 
+more: https://vitest.dev/api/vi.html#vi-mock[39m
+[36m [2mΓ¥»[22m 
+backend/controllers/taskController.js:[2m1:1[22m[39m
+    [90m  1| [39m[35mimport[39m [33mTask[39m 
+[35mfrom[39m [32m'../models/Task.js'[39m[33m;[39m
+    [90m   | [39m[31m^[39m
+    [90m  2| [39m
+    [90m  3| [39m[90m// @desc    Create a new 
+learning task[39m
+
+[31m[1mCaused by: ReferenceError[22m: Cannot access 
+'mockTask' before initialization[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/taskControl
+ler.test.js:[2m2:62[22m[39m
+[90m [2mΓ¥»[22m 
+backend/controllers/taskController.js:[2m1:1[22m[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[8/27]ΓÄ»[22m[39m
+
+[31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1m[7m Failed Tests 19 
+[27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/components/ProtectedRoute.test.jsx[2m > 
+[22mProtectedRoute[2m > [22mredirects to / when no 
+user is logged in
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/components/ProtectedRoute.test.jsx[2m > 
+[22mProtectedRoute[2m > [22mredirects when user role 
+does not match required role
+[31m[1mTypeError[22m: Cannot read properties of null 
+(reading 'useContext')[39m
+[90m [2mΓ¥»[22m 
+Module.process.env.NODE_ENV.exports.useContext frontend/
+node_modules/react/cjs/react.development.js:[2m1212:25
+[22m[39m
+[90m [2mΓ¥»[22m useInRouterContext frontend/node_modu
+les/react-router/dist/development/chunk-JZWAC4HX.mjs:[2
+m5517:17[22m[39m
+[90m [2mΓ¥»[22m Navigate frontend/node_modules/react-
+router/dist/development/chunk-JZWAC4HX.mjs:[2m6559:5[2
+2m[39m
+[90m [2mΓ¥»[22m Object.react_stack_bottom_frame node_
+modules/react-dom/cjs/react-dom-client.development.js:[
+2m25904:20[22m[39m
+[90m [2mΓ¥»[22m renderWithHooks node_modules/react-do
+m/cjs/react-dom-client.development.js:[2m7662:22[22m[
+39m
+[90m [2mΓ¥»[22m updateFunctionComponent node_modules/
+react-dom/cjs/react-dom-client.development.js:[2m10166:
+19[22m[39m
+[90m [2mΓ¥»[22m beginWork node_modules/react-dom/cjs/
+react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2mΓ¥»[22m runWithFiberInDEV node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m874:13[22m
+[39m
+[90m [2mΓ¥»[22m performUnitOfWork node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m17641:22[22
+m[39m
+[90m [2mΓ¥»[22m workLoopSync node_modules/react-dom/c
+js/react-dom-client.development.js:[2m17469:41[22m[39
+m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[9/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22mAppContext[2m > [22minitializes with default 
+values when localStorage is empty
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22mAppContext[2m > [22minitializes user from 
+localStorage
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22mAppContext[2m > [22minitializes isDyslexic from 
+localStorage
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22mAppContext[2m > [22mclears user state on logout
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/context/AppContext.test.jsx[2m > 
+[22mAppContext[2m > [22mupdates userType when 
+setUserType is called
+[31m[1mTypeError[22m: Cannot read properties of null 
+(reading 'useState')[39m
+[90m [2mΓ¥»[22m 
+Proxy.process.env.NODE_ENV.exports.useState frontend/nod
+e_modules/react/cjs/react.development.js:[2m1263:33[22
+m[39m
+[36m [2mΓ¥»[22m AppProvider 
+frontend/src/context/AppContext.jsx:[2m6:41[22m[39m
+    [90m  4| [39m
+    [90m  5| [39m[35mexport[39m [35mconst[39m 
+[33mAppProvider[39m [33m=[39m ({ children }) 
+[33m=>[39m {
+    [90m  6| [39m    [35mconst[39m 
+[isDyslexic[33m,[39m setIsDyslexic] [33m=[39m 
+[34museState[39m(() [33m=>[39m {
+    [90m   | [39m                                     
+   [31m^[39m
+    [90m  7| [39m        [35mreturn[39m localStorage
+[33m.[39m[34mgetItem[39m([32m'isDyslexic'[39m) 
+[33m===[39m [32m'true'[39m[33m;[39m
+    [90m  8| [39m    })[33m;[39m
+[90m [2mΓ¥»[22m Object.react_stack_bottom_frame node_
+modules/react-dom/cjs/react-dom-client.development.js:[
+2m25904:20[22m[39m
+[90m [2mΓ¥»[22m renderWithHooks node_modules/react-do
+m/cjs/react-dom-client.development.js:[2m7662:22[22m[
+39m
+[90m [2mΓ¥»[22m updateFunctionComponent node_modules/
+react-dom/cjs/react-dom-client.development.js:[2m10166:
+19[22m[39m
+[90m [2mΓ¥»[22m beginWork node_modules/react-dom/cjs/
+react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2mΓ¥»[22m runWithFiberInDEV node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m874:13[22m
+[39m
+[90m [2mΓ¥»[22m performUnitOfWork node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m17641:22[22
+m[39m
+[90m [2mΓ¥»[22m workLoopSync node_modules/react-dom/c
+js/react-dom-client.development.js:[2m17469:41[22m[39
+m
+[90m [2mΓ¥»[22m renderRootSync node_modules/react-dom
+/cjs/react-dom-client.development.js:[2m17450:11[22m[
+39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[10/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Login.test.jsx[2m > [22mLogin 
+Page[2m > [22mrenders email and password fields
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Login.test.jsx[2m > [22mLogin 
+Page[2m > [22mrenders Sign In button
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Login.test.jsx[2m > [22mLogin 
+Page[2m > [22mrenders link to registration
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Login.test.jsx[2m > [22mLogin 
+Page[2m > [22mupdates form data on input change
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Login.test.jsx[2m > [22mLogin 
+Page[2m > [22mrenders heading text
+[31m[1mTypeError[22m: Cannot read properties of null 
+(reading 'useContext')[39m
+[90m [2mΓ¥»[22m 
+Module.process.env.NODE_ENV.exports.useContext frontend/
+node_modules/react/cjs/react.development.js:[2m1212:25
+[22m[39m
+[90m [2mΓ¥»[22m Proxy.useNavigate frontend/node_modul
+es/react-router/dist/development/chunk-JZWAC4HX.mjs:[2m
+5552:32[22m[39m
+[36m [2mΓ¥»[22m Login 
+frontend/src/pages/Login.jsx:[2m7:22[22m[39m
+    [90m  5| [39m
+    [90m  6| [39m[35mconst[39m [33mLogin[39m 
+[33m=[39m () [33m=>[39m {
+    [90m  7| [39m    [35mconst[39m navigate 
+[33m=[39m [34museNavigate[39m()[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m  8| [39m    [35mconst[39m { setUser } 
+[33m=[39m [34museAppContext[39m()[33m;[39m
+    [90m  9| [39m    [35mconst[39m 
+[formData[33m,[39m setFormData] [33m=[39m 
+[34museState[39m({
+[90m [2mΓ¥»[22m Object.react_stack_bottom_frame node_
+modules/react-dom/cjs/react-dom-client.development.js:[
+2m25904:20[22m[39m
+[90m [2mΓ¥»[22m renderWithHooks node_modules/react-do
+m/cjs/react-dom-client.development.js:[2m7662:22[22m[
+39m
+[90m [2mΓ¥»[22m updateFunctionComponent node_modules/
+react-dom/cjs/react-dom-client.development.js:[2m10166:
+19[22m[39m
+[90m [2mΓ¥»[22m beginWork node_modules/react-dom/cjs/
+react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2mΓ¥»[22m runWithFiberInDEV node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m874:13[22m
+[39m
+[90m [2mΓ¥»[22m performUnitOfWork node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m17641:22[22
+m[39m
+[90m [2mΓ¥»[22m workLoopSync node_modules/react-dom/c
+js/react-dom-client.development.js:[2m17469:41[22m[39
+m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[11/27]ΓÄ»[22m[39m
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mrenders role selection on 
+step 1
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22madvances to step 2 when a 
+role is selected
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mshows disability field 
+for student role
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mshows child email field 
+for parent role
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mdoes not show 
+disability/child fields for teacher
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mhas a back button to 
+return to role selection
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/frontend/pages/Register.test.jsx[2m > 
+[22mRegister Page[2m > [22mrenders heading text
+[31m[1mTypeError[22m: Cannot read properties of null 
+(reading 'useContext')[39m
+[90m [2mΓ¥»[22m 
+Module.process.env.NODE_ENV.exports.useContext frontend/
+node_modules/react/cjs/react.development.js:[2m1212:25
+[22m[39m
+[90m [2mΓ¥»[22m Proxy.useNavigate frontend/node_modul
+es/react-router/dist/development/chunk-JZWAC4HX.mjs:[2m
+5552:32[22m[39m
+[36m [2mΓ¥»[22m Register 
+frontend/src/pages/Register.jsx:[2m6:22[22m[39m
+    [90m  4| [39m
+    [90m  5| [39m[35mconst[39m [33mRegister[39m 
+[33m=[39m () [33m=>[39m {
+    [90m  6| [39m    [35mconst[39m navigate 
+[33m=[39m [34museNavigate[39m()[33m;[39m
+    [90m   | [39m                     [31m^[39m
+    [90m  7| [39m
+    [90m  8| [39m    [90m// Step 1: Role Selection, 
+Step 2: Details[39m
+[90m [2mΓ¥»[22m Object.react_stack_bottom_frame node_
+modules/react-dom/cjs/react-dom-client.development.js:[
+2m25904:20[22m[39m
+[90m [2mΓ¥»[22m renderWithHooks node_modules/react-do
+m/cjs/react-dom-client.development.js:[2m7662:22[22m[
+39m
+[90m [2mΓ¥»[22m updateFunctionComponent node_modules/
+react-dom/cjs/react-dom-client.development.js:[2m10166:
+19[22m[39m
+[90m [2mΓ¥»[22m beginWork node_modules/react-dom/cjs/
+react-dom-client.development.js:[2m11778:18[22m[39m
+[90m [2mΓ¥»[22m runWithFiberInDEV node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m874:13[22m
+[39m
+[90m [2mΓ¥»[22m performUnitOfWork node_modules/react-
+dom/cjs/react-dom-client.development.js:[2m17641:22[22
+m[39m
+[90m [2mΓ¥»[22m workLoopSync node_modules/react-dom/c
+js/react-dom-client.development.js:[2m17469:41[22m[39
+m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[12/27]ΓÄ»[22m[39m
+
+[2m Test Files [22m [1m[31m12 failed[39m[22m[2m | [22m[1m[32m1 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[31m19 failed[39m[22m[2m | [22m[1m[32m7 passed[39m[22m[90m (26)[39m
+[2m   Start at [22m 11:03:30
+[2m   Duration [22m 7.16s[2m (transform 2.87s, setup 9.77s, collect 2.36s, tests 734ms, environment 45.90s, prepare 8.19s)[22m
+
