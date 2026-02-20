@@ -1,8 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
-const mockUser = { findById: vi.fn(), findOne: vi.fn() };
-const mockSubmission = { find: vi.fn() };
-const mockAssignment = { find: vi.fn() };
+const { mockUser, mockSubmission, mockAssignment } = vi.hoisted(() => ({
+    mockUser: { findById: vi.fn(), findOne: vi.fn() },
+    mockSubmission: { find: vi.fn() },
+    mockAssignment: { find: vi.fn() },
+}));
 
 vi.mock('../../../backend/models/User.js', () => ({ default: mockUser }));
 vi.mock('../../../backend/models/Submission.js', () => ({ default: mockSubmission }));
@@ -25,8 +27,7 @@ describe('ParentController', () => {
         });
 
         it('links child successfully', async () => {
-            const child = { _id: 'c1', name: 'C', email: 'c@m.com', disability: ['adhd'], save: vi.fn() };
-            mockUser.findOne.mockResolvedValueOnce(child);
+            mockUser.findOne.mockResolvedValueOnce({ _id: 'c1', name: 'C', email: 'c@m.com', disability: ['adhd'], save: vi.fn() });
             mockUser.findById.mockResolvedValueOnce({ children: [], save: vi.fn() });
             const res = mockRes();
             await linkChild(mockReq({ body: { childEmail: 'c@m.com' } }), res);

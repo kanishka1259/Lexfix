@@ -1,0 +1,210 @@
+﻿
+> lexfix-root@1.0.0 npx
+> vitest run --reporter=verbose
+
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mD:/Lexfix[39m
+
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mupsertSubmission[2m > [22mcreates new submission when none exists
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mupsertSubmission[2m > [22mupdates existing submission
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mupsertSubmission[2m > [22msets completedAt when completed
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mgetStudentSubmission[2m > [22mreturns submission
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mgetAllStudentSubmissions[2m > [22mreturns all submissions
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mgetAssignmentSubmissions[2m > [22mreturns submissions for an assignment
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mstartReadingSession[2m > [22mcreates a reading session
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mupdateReadingSession[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/submissionController.test.js[2m > [22mSubmissionController[2m > [22mupdateReadingSession[2m > [22mupdates session
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mlinkChild[2m > [22mreturns 404 when child not found
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mlinkChild[2m > [22mlinks child successfully
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mgetChildren[2m > [22mreturns children
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mgetChildProgress[2m > [22mreturns 403 for unauthorized parent
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mgetChildProgress[2m > [22mreturns progress stats
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mgetChildAssignments[2m > [22mreturns 403 for unauthorized parent
+ [32mΓ£ô[39m tests/backend/controllers/parentController.test.js[2m > [22mParentController[2m > [22mgetChildAssignments[2m > [22mreturns assignments
+[90mstdout[2m | tests/backend/controllers/taskController.test.js[2m > [22m[2mTaskController[2m > [22m[2mcreateTask[2m > [22m[2mreturns 400 when required fields are missing[22m[39m
+[TaskController] Creating task for student: undefined, by teacher: teacher1
+
+[90mstdout[2m | tests/backend/controllers/taskController.test.js[2m > [22m[2mTaskController[2m > [22m[2mcreateTask[2m > [22m[2mcreates a task successfully[22m[39m
+[TaskController] Creating task for student: s1, by teacher: teacher1
+[TaskController] Task created successfully: t1
+
+[90mstdout[2m | tests/backend/controllers/taskController.test.js[2m > [22m[2mTaskController[2m > [22m[2mcreateTask[2m > [22m[2mhandles file attachment[22m[39m
+[TaskController] Creating task for student: s1, by teacher: teacher1
+[TaskController] Task created successfully: t2
+
+[90mstdout[2m | tests/backend/controllers/taskController.test.js[2m > [22m[2mTaskController[2m > [22m[2mgetTasksByStudent[2m > [22m[2mreturns tasks for the student[22m[39m
+[TaskController] Query studentId: s1 (Type: string)
+[TaskController] Found 1 tasks in total for this ID
+[TaskController] Example Task AssignedTo: [90mundefined[39m
+
+[90mstdout[2m | tests/backend/controllers/taskController.test.js[2m > [22m[2mTaskController[2m > [22m[2mgetTasksByTeacher[2m > [22m[2mreturns tasks created by teacher[22m[39m
+[TaskController] Fetching tasks for teacher: teacher1
+[TaskController] Found 1 tasks for teacher teacher1
+
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mcreateTask[2m > [22mreturns 403 for non-teacher
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mcreateTask[2m > [22mreturns 400 when required fields are missing
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mcreateTask[2m > [22mcreates a task successfully
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mcreateTask[2m > [22mhandles file attachment
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mgetTasksByStudent[2m > [22mreturns 403 when accessing another student
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mgetTasksByStudent[2m > [22mreturns tasks for the student
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mgetTasksByTeacher[2m > [22mreturns tasks created by teacher
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mgetTaskById[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/taskController.test.js[2m > [22mTaskController[2m > [22mgetTaskById[2m > [22mreturns the task
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mredirects when no user is logged in
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mredirects when user role does not match
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mrenders children when authorized
+ [32mΓ£ô[39m tests/frontend/components/ProtectedRoute.test.jsx[2m > [22mProtectedRoute[2m > [22mrenders children when no specific role required
+ [32mΓ£ô[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes with default values when localStorage is empty
+ [32mΓ£ô[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes user from localStorage
+ [32mΓ£ô[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22minitializes isDyslexic from localStorage
+ [32mΓ£ô[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22mclears user state on logout
+ [32mΓ£ô[39m tests/frontend/context/AppContext.test.jsx[2m > [22mAppContext[2m > [22mupdates userType when setUserType is called
+ [32mΓ£ô[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders email and password fields
+ [32mΓ£ô[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders Sign In button
+ [32mΓ£ô[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders link to registration
+ [32mΓ£ô[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mupdates form data on input change
+ [32mΓ£ô[39m tests/frontend/pages/Login.test.jsx[2m > [22mLogin Page[2m > [22mrenders heading text
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mreturns 400 when only email and name provided (no password/role)[22m[39m
+[AuthController] Registration attempt: {
+  name: [32m'Test'[39m,
+  email: [32m'test@m.com'[39m,
+  role: [90mundefined[39m,
+  disability: [90mundefined[39m
+}
+
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mreturns 400 for an invalid role[22m[39m
+[AuthController] Registration attempt: { name: [32m'T'[39m, email: [32m't@m.com'[39m, role: [32m'admin'[39m, disability: [90mundefined[39m }
+
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mreturns 400 when student registers without disability[22m[39m
+[AuthController] Registration attempt: { name: [32m'S'[39m, email: [32m's@m.com'[39m, role: [32m'student'[39m, disability: [90mundefined[39m }
+
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mreturns 400 when user already exists[22m[39m
+[AuthController] Registration attempt: { name: [32m'S'[39m, email: [32m's@m.com'[39m, role: [32m'student'[39m, disability: [32m'adhd'[39m }
+
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mcreates a student successfully[22m[39m
+[AuthController] Registration attempt: {
+  name: [32m'Student'[39m,
+  email: [32m's@m.com'[39m,
+  role: [32m'student'[39m,
+  disability: [32m'adhd'[39m
+}
+
+[90mstdout[2m | tests/backend/controllers/authController.test.js[2m > [22m[2mAuthController[2m > [22m[2mregister[2m > [22m[2mcreates a teacher without disability[22m[39m
+[AuthController] Registration attempt: {
+  name: [32m'Teacher'[39m,
+  email: [32m't@m.com'[39m,
+  role: [32m'teacher'[39m,
+  disability: [90mundefined[39m
+}
+
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mreturns 500 when required fields missing (email undefined causes crash)
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mreturns 400 when only email and name provided (no password/role)
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mreturns 400 for an invalid role
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mreturns 400 when student registers without disability
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mreturns 400 when user already exists
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mcreates a student successfully
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mregister[2m > [22mcreates a teacher without disability
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mlogin[2m > [22mreturns 400 when email or password is missing
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mlogin[2m > [22mreturns 401 for non-existent user
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mlogin[2m > [22mreturns 401 when password does not match
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mlogin[2m > [22mreturns user data and token on success
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mgetMe[2m > [22mreturns current user without password
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mgetAllStudents[2m > [22mreturns all students
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mgetChildren[2m > [22mreturns 403 for non-parent
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mgetChildren[2m > [22mreturns children for parent
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mprotect[2m > [22mreturns 401 when no token is provided
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mprotect[2m > [22mreturns 401 for invalid token
+ [31m├ù[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mprotect[2m > [22mcalls next for valid token
+[31m   ΓåÆ expected "spy" to be called at least once[39m
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mauthorize[2m > [22mreturns 403 when role is not allowed
+ [32mΓ£ô[39m tests/backend/controllers/authController.test.js[2m > [22mAuthController[2m > [22mauthorize[2m > [22mcalls next when role is allowed
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mrenders role selection on step 1
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22madvances to step 2 when a role is selected
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mshows disability field for student role
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mshows child email field for parent role
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mdoes not show disability/child fields for teacher
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mhas a back button to return to role selection
+ [32mΓ£ô[39m tests/frontend/pages/Register.test.jsx[2m > [22mRegister Page[2m > [22mrenders heading text
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders student content by default
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders teacher content when userType is teacher
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders parent content when userType is parent
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mfalls back to student content for unknown userType
+ [32mΓ£ô[39m tests/frontend/components/Hero.test.jsx[2m > [22mHero Component[2m > [22mrenders Get Started button
+ [32mΓ£ô[39m tests/backend/controllers/progressController.test.js[2m > [22mProgressController[2m > [22mgetProgress[2m > [22mreturns all progress records
+ [32mΓ£ô[39m tests/backend/controllers/progressController.test.js[2m > [22mProgressController[2m > [22mupdateProgress[2m > [22mcreates new progress when none exists
+ [32mΓ£ô[39m tests/backend/controllers/progressController.test.js[2m > [22mProgressController[2m > [22mupdateProgress[2m > [22mupdates existing progress
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mcreateAssignment[2m > [22mcreates a new assignment
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mcreateAssignment[2m > [22mhandles server errors
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mgetAssignmentsByDisability[2m > [22mfilters by disability and teacher
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mgetStudentAssignments[2m > [22mreturns assignments for student
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mgetAssignment[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mgetAssignment[2m > [22mreturns the assignment
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mupdateAssignment[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mupdateAssignment[2m > [22mreturns 403 for non-owner
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mupdateAssignment[2m > [22mupdates when authorized
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mdeleteAssignment[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mdeleteAssignment[2m > [22mdeletes when authorized
+ [32mΓ£ô[39m tests/backend/controllers/assignmentController.test.js[2m > [22mAssignmentController[2m > [22mgetStudentsByDisability[2m > [22mreturns filtered students
+[90mstdout[2m | tests/backend/controllers/assignmentController.test.js[2m > [22m[2mAssignmentController[2m > [22m[2mgetStudentAssignments[2m > [22m[2mreturns assignments for student[22m[39m
+[AssignmentController] Fetching assignments for studentId: s1 (UserRole: student)
+[Backend] Found 1 assignments for student s1
+
+ [32mΓ£ô[39m tests/backend/controllers/sessionController.test.js[2m > [22mSessionController[2m > [22mstartSession[2m > [22mcreates a session
+ [32mΓ£ô[39m tests/backend/controllers/sessionController.test.js[2m > [22mSessionController[2m > [22mendSession[2m > [22mreturns 404 when not found
+ [32mΓ£ô[39m tests/backend/controllers/sessionController.test.js[2m > [22mSessionController[2m > [22mendSession[2m > [22mcalculates total time
+ [32mΓ£ô[39m tests/backend/controllers/sessionController.test.js[2m > [22mSessionController[2m > [22mgetAllSessions[2m > [22mreturns sorted sessions
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mstartSession[2m > [22mreturns 404 when task not found
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mstartSession[2m > [22mcreates a session
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mtrackSentence[2m > [22mreturns 404 when session not found
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mtrackSentence[2m > [22mupdates sentence completion
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mrecordBreak[2m > [22mreturns 404 when session not found
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mrecordBreak[2m > [22mincrements break count
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mcompleteSession[2m > [22mreturns 404 when session not found
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mcompleteSession[2m > [22mmarks session as completed
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mgetProgress[2m > [22mreturns sessions and stats
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mgetActiveSession[2m > [22mreturns active session
+ [32mΓ£ô[39m tests/backend/controllers/adhdController.test.js[2m > [22mADHDController[2m > [22mgetActiveSession[2m > [22mreturns null when no active session
+
+node.exe : [31mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1m[7m Failed 
+Tests 1 [27m[22mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[39m
+At line:1 char:1
++ & "C:\Program Files\nodejs/node.exe" 
+"C:\Users\kanis\AppData\Roaming\ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: ([31mΓÄ»ΓÄ 
+   »ΓÄ»Γ...»ΓÄ»ΓÄ»ΓÄ»[39m:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+
+[31m[1m[7m FAIL [27m[22m[39m 
+tests/backend/controllers/authController.test.js[2m > 
+[22mAuthController[2m > [22mprotect[2m > [22mcalls 
+next for valid token
+[31m[1mAssertionError[22m: expected "spy" to be 
+called at least once[39m
+[36m [2mΓ¥»[22m tests/backend/controllers/authControl
+ler.test.js:[2m174:26[22m[39m
+    [90m172| [39m            [35mconst[39m req 
+[33m=[39m [34mmockReq[39m({ headers[33m:[39m { 
+authorization[33m:[39m [32m'Bearer va[39mΓÇª
+    [90m173| [39m            [35mawait[39m 
+[34mprotect[39m(req[33m,[39m 
+[34mmockRes[39m()[33m,[39m next)[33m;[39m
+    [90m174| [39m            [34mexpect[39m(next)[3
+3m.[39m[34mtoHaveBeenCalled[39m()[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m175| [39m            [34mexpect[39m(req[33m
+.[39muser)[33m.[39m[34mtoEqual[39m({ id[33m:[39m 
+[32m'user123'[39m[33m,[39m role[33m:[39m 
+[32m'student'[39m ΓÇª
+    [90m176| [39m        })[33m;[39m
+
+[31m[2mΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ
+»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»ΓÄ»[1/1]ΓÄ»[22m[39m
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m12 passed[39m[22m[90m (13)[39m
+[2m      Tests [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m100 passed[39m[22m[90m (101)[39m
+[2m   Start at [22m 11:12:05
+[2m   Duration [22m 7.69s[2m (transform 3.15s, setup 13.30s, collect 6.42s, tests 2.47s, environment 52.14s, prepare 8.70s)[22m
+

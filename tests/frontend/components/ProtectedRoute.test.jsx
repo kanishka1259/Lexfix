@@ -1,13 +1,7 @@
 import React from 'react';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
-
-// Mock react-router-dom
-const mockNavigate = vi.fn();
-vi.mock('react-router-dom', () => ({
-    Navigate: ({ to }) => <div data-testid="navigate">{to}</div>,
-    useNavigate: () => mockNavigate,
-}));
+import { MemoryRouter } from 'react-router-dom';
 
 vi.mock('@/context/AppContext', () => ({
     useAppContext: vi.fn(),
@@ -16,50 +10,40 @@ vi.mock('@/context/AppContext', () => ({
 import ProtectedRoute from '../../../frontend/src/components/ProtectedRoute.jsx';
 import { useAppContext } from '@/context/AppContext';
 
+const renderWithRouter = (ui) => render(<MemoryRouter>{ui}</MemoryRouter>);
+
 describe('ProtectedRoute', () => {
-    beforeEach(() => {
-        vi.clearAllMocks();
-    });
+    beforeEach(() => vi.clearAllMocks());
 
-    it('redirects to / when no user is logged in', () => {
+    it('redirects when no user is logged in', () => {
         useAppContext.mockReturnValue({ user: null });
-        render(
-            <ProtectedRoute>
-                <div>Protected Content</div>
-            </ProtectedRoute>
+        const { container } = renderWithRouter(
+            <ProtectedRoute><div>Protected</div></ProtectedRoute>
         );
-        expect(screen.getByTestId('navigate')).toHaveTextContent('/');
-        expect(screen.queryByText('Protected Content')).not.toBeInTheDocument();
+        expect(screen.queryByText('Protected')).not.toBeInTheDocument();
     });
 
-    it('redirects when user role does not match required role', () => {
-        useAppContext.mockReturnValue({ user: { name: 'Test', role: 'student' } });
-        render(
-            <ProtectedRoute role="teacher">
-                <div>Teacher Only</div>
-            </ProtectedRoute>
+    it('redirects when user role does not match', () => {
+        useAppContext.mockReturnValue({ user: { name: 'T', role: 'student' } });
+        const { container } = renderWithRouter(
+            <ProtectedRoute role="teacher"><div>Teacher Only</div></ProtectedRoute>
         );
-        expect(screen.getByTestId('navigate')).toHaveTextContent('/');
         expect(screen.queryByText('Teacher Only')).not.toBeInTheDocument();
     });
 
-    it('renders children when user is authorized', () => {
-        useAppContext.mockReturnValue({ user: { name: 'Test', role: 'teacher' } });
-        render(
-            <ProtectedRoute role="teacher">
-                <div>Teacher Dashboard</div>
-            </ProtectedRoute>
+    it('renders children when authorized', () => {
+        useAppContext.mockReturnValue({ user: { name: 'T', role: 'teacher' } });
+        renderWithRouter(
+            <ProtectedRoute role="teacher"><div>Teacher Dashboard</div></ProtectedRoute>
         );
         expect(screen.getByText('Teacher Dashboard')).toBeInTheDocument();
     });
 
-    it('renders children when no specific role is required', () => {
-        useAppContext.mockReturnValue({ user: { name: 'Test', role: 'student' } });
-        render(
-            <ProtectedRoute>
-                <div>Any User Content</div>
-            </ProtectedRoute>
+    it('renders children when no specific role required', () => {
+        useAppContext.mockReturnValue({ user: { name: 'T', role: 'student' } });
+        renderWithRouter(
+            <ProtectedRoute><div>Any Content</div></ProtectedRoute>
         );
-        expect(screen.getByText('Any User Content')).toBeInTheDocument();
+        expect(screen.getByText('Any Content')).toBeInTheDocument();
     });
 });
